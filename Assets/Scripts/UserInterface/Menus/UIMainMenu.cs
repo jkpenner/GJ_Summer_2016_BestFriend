@@ -8,6 +8,8 @@ public class UIMainMenu : MonoBehaviour {
     public Button btnOptions;
     public Button btnExitGame;
 
+    public UIOptionMenu optionMenu;
+
 	void Start () {
         btnFindGame.onClick.AddListener(OnFindGameClick);
         btnOptions.onClick.AddListener(OnOptionsClick);
@@ -20,7 +22,7 @@ public class UIMainMenu : MonoBehaviour {
     }
 
     private void OnOptionsClick() {
-        
+        optionMenu.Display(this.gameObject);
     }
 
     private void OnExitGameClick() {

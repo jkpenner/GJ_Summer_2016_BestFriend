@@ -11,10 +11,13 @@ public class UIPauseMenu : MonoBehaviour {
     public Button btnOptions;
     public Button btnMainMenu;
 
+    public UIOptionMenu optionMenu;
+
     public KeyCode pauseKeyCode = KeyCode.Escape;
 
     private void Start() {
         canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;
         canvasGroup.alpha = 0;
 
@@ -39,10 +42,12 @@ public class UIPauseMenu : MonoBehaviour {
             if (GameManager.ActiveState == GameManager.State.Active ||
                 GameManager.ActiveState == GameManager.State.None) {
                 GameManager.SetState(GameManager.State.Pause);
+                canvasGroup.blocksRaycasts = true;
                 canvasGroup.interactable = true;
                 canvasGroup.alpha = 1;
             } else if (GameManager.ActiveState == GameManager.State.Pause) {
                 GameManager.SetState(GameManager.State.Active);
+                canvasGroup.blocksRaycasts = false;
                 canvasGroup.interactable = false;
                 canvasGroup.alpha = 0;
             }
@@ -54,11 +59,12 @@ public class UIPauseMenu : MonoBehaviour {
     }
 
     private void OnOptionsClick() {
-        
+        optionMenu.Display(this.gameObject);
     }
 
     private void OnResumeClick() {
         GameManager.SetState(GameManager.State.Active);
+        canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;
         canvasGroup.alpha = 0;
     }
