@@ -11,10 +11,12 @@ public class GameManager : Singleton<GameManager> {
     private GameStateEvent OnGameStateExit;
 
     private State _activeState = State.None;
+    public State initialState = State.None;
 
     private void Awake() {
         if (Instance == this) {
             DontDestroyOnLoad(this.gameObject);
+            ActiveState = initialState;
         } else {
             Destroy(this.gameObject);
         }
@@ -28,7 +30,7 @@ public class GameManager : Singleton<GameManager> {
     static public void SetState(State newState) {
         if (Instance._activeState != newState) {
             Debug.LogFormat("[{0}]: State assigned to {1}", 
-                "GameManager", ActiveState.ToString());
+                "GameManager", newState.ToString());
 
             // Call State Exit for previous ActiveState
             if (Instance.OnGameStateExit != null) {
