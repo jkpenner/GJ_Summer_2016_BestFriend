@@ -11,4 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9e776e3c678c34a990084ca1242f8b, type: 3}
   m_Name: SpawnDatabase
   m_EditorClassIdentifier: 
-  _objects: []
+  _objects:
+  - _id: 1
+    _prefab: {fileID: 0}
+    _poolCount: 0
+    _poolRestricted: 0
