@@ -37,11 +37,19 @@ public class UIPauseMenu : MonoBehaviour {
     }
 
     private void OnStateExit(GameManager.State state) {
-        Debug.Log("On State Enter: " + state.ToString());
+        if (state == GameManager.State.Pause) {
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.interactable = false;
+            canvasGroup.alpha = 0;
+        }
     }
 
     private void OnStateEnter(GameManager.State state) {
-        Debug.Log("On State Exit: " + state.ToString());
+        if (state == GameManager.State.Pause) {
+            canvasGroup.blocksRaycasts = true;
+            canvasGroup.interactable = true;
+            canvasGroup.alpha = 1;
+        }
     }
 
     private void Update() {
@@ -49,14 +57,9 @@ public class UIPauseMenu : MonoBehaviour {
             if (GameManager.ActiveState == GameManager.State.Active ||
                 GameManager.ActiveState == GameManager.State.None) {
                 GameManager.SetState(GameManager.State.Pause);
-                canvasGroup.blocksRaycasts = true;
-                canvasGroup.interactable = true;
-                canvasGroup.alpha = 1;
+                
             } else if (GameManager.ActiveState == GameManager.State.Pause) {
                 GameManager.SetState(GameManager.State.Active);
-                canvasGroup.blocksRaycasts = false;
-                canvasGroup.interactable = false;
-                canvasGroup.alpha = 0;
             }
         }
     }

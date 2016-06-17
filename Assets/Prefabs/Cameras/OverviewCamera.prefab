@@ -11,7 +11,6 @@ GameObject:
   - 20: {fileID: 2011194}
   - 124: {fileID: 12470050}
   - 92: {fileID: 9258430}
-  - 81: {fileID: 8100914}
   m_Layer: 0
   m_Name: OverviewCamera
   m_TagString: Untagged
@@ -66,13 +65,6 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!81 &8100914
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 150842}
-  m_Enabled: 1
 --- !u!92 &9258430
 Behaviour:
   m_ObjectHideFlags: 1
