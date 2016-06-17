@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class GameManager : Singleton<GameManager> {
-    public enum State { None, Active, Pause, Win, GameOver }
+    public enum State { None, Active, Pause, GameWin, GameOver }
 
     public enum EventType { StateEnter, StateExit }
 

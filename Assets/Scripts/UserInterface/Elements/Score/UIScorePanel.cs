@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class UIScorePanel : MonoBehaviour {
     public GameObject userScorePrefab;
     public Transform userScoreParent;
+
+    private CanvasGroup canvasGroup;
 
     private Dictionary<int, UIUserScore>  _userScores;
     public Dictionary<int, UIUserScore> UserScores {
@@ -24,7 +27,14 @@ public class UIScorePanel : MonoBehaviour {
         ScoreManager.AddListener(ScoreManager.EventType.PlayerAdd, OnPlayerAdd);
         ScoreManager.AddListener(ScoreManager.EventType.PlayerRemove, OnPlayerRemove);
         ScoreManager.AddListener(ScoreManager.EventType.ScoreChange, OnScoreChange);
+
+        ScoreManager.AddPlayer(1);
+        ScoreManager.AddPlayer(2);
+        ScoreManager.AddPlayer(3);
+        ScoreManager.AddPlayer(4);
     }
+
+    
 
     private void OnScoreChange(int playerId) {
         if (UserScores.ContainsKey(playerId)) {

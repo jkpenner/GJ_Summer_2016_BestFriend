@@ -139,6 +139,7 @@ GameObject:
   - 114: {fileID: 11481270}
   - 225: {fileID: 22540946}
   - 114: {fileID: 11470238}
+  - 114: {fileID: 11478582}
   m_Layer: 5
   m_Name: UIPauseMenu
   m_TagString: Untagged
@@ -545,6 +546,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Options
+--- !u!114 &11478582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3429a74598b7546b4509df3a676001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeFadeValue: 1
+  pauseFadeValue: 0.3
+  gameOverFadeValue: 0
+  gameWinFadeValue: 0
 --- !u!114 &11481270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -821,7 +837,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -322.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22477326

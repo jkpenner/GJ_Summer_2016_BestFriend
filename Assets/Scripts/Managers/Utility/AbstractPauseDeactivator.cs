@@ -5,7 +5,7 @@ using System;
 public abstract class AbstractPauseDeactivator : MonoBehaviour {
     public void Start() {
         GameManager.AddListener(GameManager.EventType.StateEnter, StateEnter);
-        GameManager.RemoveListener(GameManager.EventType.StateExit, StateExit);
+        GameManager.AddListener(GameManager.EventType.StateExit, StateExit);
     }
 
     private void StateExit(GameManager.State state) {

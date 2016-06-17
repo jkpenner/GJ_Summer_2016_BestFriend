@@ -24,9 +24,16 @@ public class UIPauseMenu : MonoBehaviour {
         btnResume.onClick.AddListener(OnResumeClick);
         btnOptions.onClick.AddListener(OnOptionsClick);
         btnMainMenu.onClick.AddListener(OnMainMenuClick);
+    }
 
+    private void OnEnable() {
         GameManager.AddListener(GameManager.EventType.StateEnter, OnStateEnter);
         GameManager.AddListener(GameManager.EventType.StateExit, OnStateExit);
+    }
+
+    private void OnDisable() {
+        GameManager.RemoveListener(GameManager.EventType.StateEnter, OnStateEnter);
+        GameManager.RemoveListener(GameManager.EventType.StateExit, OnStateExit);
     }
 
     private void OnStateExit(GameManager.State state) {
