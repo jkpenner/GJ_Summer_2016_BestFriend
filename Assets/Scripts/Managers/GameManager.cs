@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class GameManager : Singleton<GameManager> {
-    public enum State { None, Active, Pause, GameWin, GameOver }
+    public enum State { None, Active, Reset, RoundOver, Pause, GameWin, GameOver }
 
     public enum EventType { StateEnter, StateExit }
 
@@ -13,6 +14,22 @@ public class GameManager : Singleton<GameManager> {
     private State _activeState = State.None;
     public State initialState = State.None;
 
+    public UICharacterSelector selector;
+
+    [SerializeField]
+    private int _roundsPerGame = 3;
+    public int RoundsPerGame {
+        get { return _roundsPerGame; }
+        set { _roundsPerGame = value; }
+    }
+
+    [SerializeField]
+    private int _roundsToWin = 2;
+    public int RoundsToWin {
+        get { return _roundsToWin; }
+        set { _roundsToWin = value; }
+    }
+
     private void Awake() {
         if (Instance == this) {
             DontDestroyOnLoad(this.gameObject);
@@ -20,6 +37,33 @@ public class GameManager : Singleton<GameManager> {
         } else {
             Destroy(this.gameObject);
         }
+    }
+
+    private void OnEnable() {
+        OnGameStateEnter += GameStateEnter;
+        OnGameStateExit += GameStateExit;
+    }
+
+    private void OnDisable() {
+        OnGameStateEnter -= GameStateEnter;
+        OnGameStateExit -= GameStateExit;
+    }
+
+    private void GameStateExit(State state) {
+        
+    }
+
+    private void GameStateEnter(State state) {
+        switch (state) {
+            case State.Reset:
+                StartCoroutine("OnResetEnter");
+                break;
+        }
+    }
+
+    private IEnumerator OnResetEnter() {
+        yield return new WaitForEndOfFrame();
+        SetState(State.Active);
     }
 
     static public State ActiveState {

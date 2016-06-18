@@ -1,7 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class ScoreManager : Singleton<ScoreManager> {
+    public float roundLength = 30f;
+    public float roundDecayRate = 1f;
+    public int roundScoreReward = 1;
+
+    private float _roundCounter = 0f;
+    public float RoundCounter {
+        get { return _roundCounter; }
+    }
+
     Dictionary<int, int> _scores = new Dictionary<int, int>();
 
     public delegate void ScoreEvent(int playerId);
@@ -10,6 +20,34 @@ public class ScoreManager : Singleton<ScoreManager> {
     private ScoreEvent OnPlayerRemove;
 
     public enum EventType { ScoreChange, PlayerAdd, PlayerRemove }
+
+    private void OnEnable() {
+        GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
+        GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
+    }    
+
+    private void OnDisable() {
+        GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);
+        GameManager.RemoveListener(GameManager.EventType.StateExit, OnGameStateExit);
+    }
+
+    private void Update() {
+        if (_roundCounter > 0) {
+            _roundCounter -= Time.deltaTime * roundDecayRate;
+        } else if(_roundCounter < 0) {
+            _roundCounter = 0;
+        }
+    }
+
+    private void OnGameStateExit(GameManager.State state) {
+        if (state == GameManager.State.Reset) {
+            _roundCounter = roundLength;
+        }
+    }
+
+    private void OnGameStateEnter(GameManager.State state) {
+        
+    }
 
     static public void AddListener(EventType e, ScoreEvent func) {
         switch (e) {
