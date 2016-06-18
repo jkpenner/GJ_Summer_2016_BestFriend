@@ -19,5 +19,13 @@ public class BaseDatabaseAsset {
 
         }
     }
+
+    public BaseDatabaseAsset() {
+        Id = -1;
+    }
+
+    public BaseDatabaseAsset(int id) {
+        Id = id;
+    }
 }
 

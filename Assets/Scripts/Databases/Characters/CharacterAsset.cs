@@ -2,19 +2,21 @@
 using System.Collections;
 
 [System.Serializable]
-public class SpawnAsset : BaseDatabaseAsset, IPoolableObject {
+public class CharacterAsset : BaseDatabaseAsset {
     [SerializeField]
     private GameObject _prefab;
 
     [SerializeField]
-    private int _poolCount = 0;
-
-    [SerializeField]
-    private bool _poolRestricted = false;
+    private Sprite _icon;
 
     public GameObject Prefab {
         get { return _prefab; }
         set { _prefab = value; }
+    }
+
+    public Sprite Icon {
+        get { return _icon; }
+        set { _icon = value; }
     }
 
     public override string Name {
@@ -26,17 +28,7 @@ public class SpawnAsset : BaseDatabaseAsset, IPoolableObject {
         }
     }
 
-    public bool PoolRestricted {
-        get { return _poolRestricted; }
-        set { _poolRestricted = value; }
-    }
-
-    public int PoolCount {
-        get { return _poolCount; }
-        set { _poolCount = value; }
-    }
-
-    public SpawnAsset(int id) : base(id) {
+    public CharacterAsset(int id) : base(id) {
 
     }
 }
