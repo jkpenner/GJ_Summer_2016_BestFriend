@@ -7,6 +7,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     public float roundDecayRate = 1f;
     public int roundScoreReward = 1;
 
+    private float _pauseDecayMod = 1f;
     private float _roundCounter = 0f;
     public float RoundCounter {
         get { return _roundCounter; }
@@ -38,7 +39,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void Update() {
         if (_roundCounter > 0) {
-            _roundCounter -= Time.deltaTime * roundDecayRate;
+            _roundCounter -= Time.deltaTime * roundDecayRate * _pauseDecayMod;
         } else if(_roundCounter < 0) {
             _roundCounter = 0;
         }
@@ -48,10 +49,16 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (state == GameManager.State.Reset) {
             _roundCounter = roundLength;
         }
+
+        if (state == GameManager.State.Pause) {
+            _pauseDecayMod = 1;
+        }
     }
 
     private void OnGameStateEnter(GameManager.State state) {
-        
+        if (state == GameManager.State.Pause) {
+            _pauseDecayMod = 0;
+        }
     }
 
     static public void AddListener(EventType e, ScoreEvent func) {
