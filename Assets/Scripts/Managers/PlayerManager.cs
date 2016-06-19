@@ -55,18 +55,16 @@ public class PlayerManager : Singleton<PlayerManager> {
     }
 
     private bool IsControllerActive(PlayerInfo player) {
-        try {
-            return Input.GetButton(GetPlayerInputStr(player, "X")) ||
-                Input.GetButton(GetPlayerInputStr(player, "Y")) ||
-                Input.GetButton(GetPlayerInputStr(player, "A")) ||
-                Input.GetButton(GetPlayerInputStr(player, "B")) ||
-                Input.GetButton(GetPlayerInputStr(player, "Start")) ||
-                Input.GetAxis(GetPlayerInputStr(player, "Horizontal")) != 0f ||
-                Input.GetAxis(GetPlayerInputStr(player, "Veritcal")) != 0f;
-        } catch (System.Exception e) {
-            Debug.LogWarningFormat("[{0}]: {1}", this.name, e.Message);
-            return false;
-        }
+        return Input.GetButton(GetPlayerInputStr(player, "A")) ||
+            Input.GetButton(GetPlayerInputStr(player, "B")) ||
+            Input.GetButton(GetPlayerInputStr(player, "Start")) ||
+            Input.GetButton(GetPlayerInputStr(player, "LeftBumper")) ||
+            Input.GetButton(GetPlayerInputStr(player, "RightBumper")) ||
+            Input.GetButton(GetPlayerInputStr(player, "Start")) ||
+            Input.GetAxis(GetPlayerInputStr(player, "DP_Horizontal")) != 0f ||
+            Input.GetAxis(GetPlayerInputStr(player, "DP_Vertical")) != 0f ||
+            Input.GetAxis(GetPlayerInputStr(player, "LS_Horizontal")) != 0f ||
+            Input.GetAxis(GetPlayerInputStr(player, "LS_Vertical")) != 0f;
     }
 
     private bool CheckForConnectKey(PlayerInfo player) {
