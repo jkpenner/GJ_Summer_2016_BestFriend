@@ -14,24 +14,8 @@ public class UICharacterPanel : MonoBehaviour {
     public KeyCode SelectKeyCode { get; set; }
 
     public void Awake() {
-        Debug.LogFormat("[{0}]: Awake", this.name);
-        if (btnSelect != null) {
-            Debug.LogFormat("[{0}]: Button Select is not null", this.name);
-            btnSelect.onClick.AddListener(OnSelectButtonClick);
-        }
-    }
-
-    public void Enable() {
-        Debug.LogFormat("[{0}]: Enabled", this.name);
         if (btnSelect != null) {
             btnSelect.onClick.AddListener(OnSelectButtonClick);
-        }
-    }
-
-    private void OnDisable() {
-        Debug.LogFormat("[{0}]: Disabled", this.name);
-        if (btnSelect != null) {
-            btnSelect.onClick.RemoveListener(OnSelectButtonClick);
         }
     }
 

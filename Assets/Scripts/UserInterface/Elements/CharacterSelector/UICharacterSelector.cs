@@ -19,6 +19,7 @@ public class UICharacterSelector : Singleton<UICharacterSelector> {
     }
 
     public string buttonPrefix;
+    public string buttonPostfix;
     public SlotInfo[] slotInfos;
 
     private void Awake() {
@@ -37,7 +38,7 @@ public class UICharacterSelector : Singleton<UICharacterSelector> {
                 panel.CharacterName = asset.Name;
                 panel.CharacterIcon = asset.Icon;
                 panel.ButtonIcon = slotInfos[i].buttonIcon;
-                panel.SelectButtonStr = buttonPrefix + slotInfos[i].buttonStr;
+                panel.SelectButtonStr = buttonPrefix + slotInfos[i].buttonStr + buttonPostfix;
                 panel.SelectKeyCode = slotInfos[i].keyCode;
                 panel.Controller = this;
             } else {
@@ -46,16 +47,17 @@ public class UICharacterSelector : Singleton<UICharacterSelector> {
             }
         }
         this.gameObject.SetActive(false);
-
-
-        Display((id) => {
-            Debug.LogFormat("[{0}]: Character Select Trigger with id of {1}", this.name, id);
-        });
     }
 
     public void Display(CharacterSelectEvent selectEvent) {
         gameObject.SetActive(true);
         characterSelectEvent = selectEvent;
+    }
+
+    public void Display(CharacterSelectEvent selectEvent, Vector3 screenPosition) {
+        gameObject.SetActive(true);
+        characterSelectEvent = selectEvent;
+        transform.position = screenPosition;
     }
 
     public void TriggerCharacterSelect(int id) {
