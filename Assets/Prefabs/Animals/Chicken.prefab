@@ -209,6 +209,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c229232b57949f9a2df61030c7d731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animal: 0
+  flightForce: 400
+  grindSpeed: 10
 --- !u!114 &11450274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -250,7 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3104a1815b3b0457fb461b55e636c1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 1500
+  jumpForce: 800
 --- !u!212 &21248298
 SpriteRenderer:
   m_ObjectHideFlags: 1
