@@ -29,6 +29,8 @@ public class UIPauseMenu : MonoBehaviour {
     private void OnEnable() {
         GameManager.AddListener(GameManager.EventType.StateEnter, OnStateEnter);
         GameManager.AddListener(GameManager.EventType.StateExit, OnStateExit);
+
+        btnResume.Select();
     }
 
     private void OnDisable() {
@@ -53,10 +55,15 @@ public class UIPauseMenu : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(pauseKeyCode)) {
+        if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(1, "Start")) ||
+            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(2, "Start")) ||
+            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(3, "Start")) ||
+            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(4, "Start"))){
             if (GameManager.ActiveState == GameManager.State.Active ||
                 GameManager.ActiveState == GameManager.State.None) {
                 GameManager.SetState(GameManager.State.Pause);
+
+                
                 
             } else if (GameManager.ActiveState == GameManager.State.Pause) {
                 GameManager.SetState(GameManager.State.Active);
