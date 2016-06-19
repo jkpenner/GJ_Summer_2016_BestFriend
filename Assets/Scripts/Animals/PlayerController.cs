@@ -39,6 +39,12 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void LateUpdate(){
+		if(animal ==Animal.CHICKEN){
+			playerJump.AllowJump();
+		}
+	}
+
 	//Collision with other animals
 	void OnCollisionEnter2D(Collision2D collision){
 		if(collision.transform.tag == "Anchor"){
