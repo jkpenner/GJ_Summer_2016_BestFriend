@@ -50,18 +50,22 @@ public class ScoreManager : Singleton<ScoreManager> {
     }
 
     static public void AddListener(EventType e, ScoreEvent func) {
-        switch (e) {
-            case EventType.PlayerAdd: Instance.OnPlayerAdd += func; break;
-            case EventType.PlayerRemove: Instance.OnPlayerRemove += func; break;
-            case EventType.ScoreChange: Instance.OnScoreChange += func; break;
+        if (Instance != null) {
+            switch (e) {
+                case EventType.PlayerAdd: Instance.OnPlayerAdd += func; break;
+                case EventType.PlayerRemove: Instance.OnPlayerRemove += func; break;
+                case EventType.ScoreChange: Instance.OnScoreChange += func; break;
+            }
         }
     }
 
     static public void RemoveListener(EventType e, ScoreEvent func) {
-        switch (e) {
-            case EventType.PlayerAdd: Instance.OnPlayerAdd -= func; break;
-            case EventType.PlayerRemove: Instance.OnPlayerRemove -= func; break;
-            case EventType.ScoreChange: Instance.OnScoreChange -= func; break;
+        if (Instance != null) {
+            switch (e) {
+                case EventType.PlayerAdd: Instance.OnPlayerAdd -= func; break;
+                case EventType.PlayerRemove: Instance.OnPlayerRemove -= func; break;
+                case EventType.ScoreChange: Instance.OnScoreChange -= func; break;
+            }
         }
     }
 

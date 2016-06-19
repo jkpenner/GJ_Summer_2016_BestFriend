@@ -32,6 +32,7 @@ public class GameManager : Singleton<GameManager> {
 
     private void Awake() {
         if (Instance == this) {
+            this.transform.SetParent(null);
             DontDestroyOnLoad(this.gameObject);
             ActiveState = initialState;
         } else {
@@ -47,6 +48,9 @@ public class GameManager : Singleton<GameManager> {
     private void OnDisable() {
         OnGameStateEnter -= GameStateEnter;
         OnGameStateExit -= GameStateExit;
+
+        OnGameStateEnter = null;
+        OnGameStateExit = null;
     }
 
     private void GameStateExit(State state) {
@@ -91,16 +95,20 @@ public class GameManager : Singleton<GameManager> {
     }
 
     static public void AddListener(EventType type, GameStateEvent func) {
-        switch (type) {
-            case EventType.StateEnter: Instance.OnGameStateEnter += func; break;
-            case EventType.StateExit: Instance.OnGameStateExit += func; break;
+        if (Instance != null) {
+            switch (type) {
+                case EventType.StateEnter: Instance.OnGameStateEnter += func; break;
+                case EventType.StateExit: Instance.OnGameStateExit += func; break;
+            }
         }
     }
 
     static public void RemoveListener(EventType type, GameStateEvent func) {
-        switch (type) {
-            case EventType.StateEnter: Instance.OnGameStateEnter -= func; break;
-            case EventType.StateExit: Instance.OnGameStateExit -= func; break;
+        if (Instance != null) {
+            switch (type) {
+                case EventType.StateEnter: Instance.OnGameStateEnter -= func; break;
+                case EventType.StateExit: Instance.OnGameStateExit -= func; break;
+            }
         }
     }
 }
