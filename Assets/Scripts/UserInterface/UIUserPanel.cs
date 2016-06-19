@@ -17,6 +17,8 @@ public class UIUserPanel : MonoBehaviour {
 
     public Image imgBorder;
 
+    public Text txtUserScore;
+
     public int initialSelection = 0;
     public int ActiveSelection { get; set; }
 
@@ -26,6 +28,10 @@ public class UIUserPanel : MonoBehaviour {
 
         GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
         GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
+
+        ScoreManager.AddListener(ScoreManager.EventType.ScoreChange, OnScoreChange);
+        ScoreManager.AddListener(ScoreManager.EventType.PlayerAdd, OnPlayerScoreAdd);
+        ScoreManager.AddListener(ScoreManager.EventType.PlayerRemove, OnPlayerScoreRemove);
 
         var playerInfo = PlayerManager.GetPlayerInfo(playerId);
         if (playerInfo != null) {
@@ -37,6 +43,25 @@ public class UIUserPanel : MonoBehaviour {
 
         btnCharLeft.onClick.AddListener(OnCharLeftClick);
         btnCharRight.onClick.AddListener(OnCharRighClick);
+    }
+
+    private void OnPlayerScoreAdd(int playerId) {
+        if (playerId == this.playerId) {
+            Debug.Log("Player Add Updating score");
+            txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
+        }
+    }
+
+    private void OnPlayerScoreRemove(int playerId) {
+        if (playerId == this.playerId) {
+            txtUserScore.text = "";
+        }
+    }
+
+    private void OnScoreChange(int playerId) {
+        if (playerId == this.playerId) {
+            txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
+        }
     }
 
     private void OnGameStateExit(GameManager.State state) {
@@ -89,8 +114,8 @@ public class UIUserPanel : MonoBehaviour {
     }
 
     private void UpdateSelector(int index) {
-        if(index >= imgSelectors.Length) index = 0;
-        if(index < 0) index = imgSelectors.Length - 1;
+        if (index >= imgSelectors.Length) index = 0;
+        if (index < 0) index = imgSelectors.Length - 1;
 
         if (ActiveSelection != index) {
             var playerInfo = PlayerManager.GetPlayerInfo(playerId);

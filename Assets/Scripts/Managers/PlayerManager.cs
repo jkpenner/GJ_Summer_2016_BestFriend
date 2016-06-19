@@ -30,7 +30,6 @@ public class PlayerManager : Singleton<PlayerManager> {
         foreach (var player in players) {
             if (player.IsConnected) {
                 if (IsControllerActive(player)) {
-                    Debug.LogFormat("[{0}]: Recieved input from Player {1}", this.name, player.id);
                     player.DisconnectCounter = disconnectPlayerDelay;
                 } else {
                     player.DisconnectCounter -= Time.deltaTime;

@@ -43,6 +43,10 @@ public class GameManager : Singleton<GameManager> {
     private void OnEnable() {
         OnGameStateEnter += GameStateEnter;
         OnGameStateExit += GameStateExit;
+
+        if (ActiveState == State.None) {
+            SetState(State.Reset);
+        }
     }
 
     private void OnDisable() {
@@ -66,7 +70,7 @@ public class GameManager : Singleton<GameManager> {
     }
 
     private IEnumerator OnResetEnter() {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(1);
         SetState(State.Active);
     }
 

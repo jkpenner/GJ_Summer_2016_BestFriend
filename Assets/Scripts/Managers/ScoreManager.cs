@@ -30,7 +30,18 @@ public class ScoreManager : Singleton<ScoreManager> {
     private void OnEnable() {
         GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
         GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
-    }    
+
+        PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
+        PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+    }
+
+    private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
+        RemovePlayer(player.id);
+    }
+
+    private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
+        AddPlayer(player.id);
+    }
 
     private void OnDisable() {
         GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);

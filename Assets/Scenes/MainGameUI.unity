@@ -226,7 +226,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11457190, guid: e6a99b08beb2cd44889a6bc48aa75cf9, type: 2}
       propertyPath: initialState
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e6a99b08beb2cd44889a6bc48aa75cf9, type: 2}
@@ -523,6 +523,10 @@ Prefab:
       propertyPath: playerId
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 11450970, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
+      propertyPath: m_Text
+      value: Player 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
   m_IsPrefabParent: 0
@@ -536,6 +540,9 @@ GameObject:
   - 4: {fileID: 510347462}
   - 114: {fileID: 510347461}
   - 114: {fileID: 510347460}
+  - 114: {fileID: 510347465}
+  - 114: {fileID: 510347464}
+  - 114: {fileID: 510347463}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -554,10 +561,10 @@ MonoBehaviour:
   m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
+  m_HorizontalAxis: DP_Horizontal_P1
+  m_VerticalAxis: DP_Vertical_P1
+  m_SubmitButton: Start_P1
+  m_CancelButton: B_P1
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
@@ -588,6 +595,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &510347463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 510347459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: DP_Horizontal_P4
+  m_VerticalAxis: DP_Vertical_P4
+  m_SubmitButton: Start_P4
+  m_CancelButton: B_P4
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &510347464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 510347459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: DP_Horizontal_P3
+  m_VerticalAxis: DP_Vertical_P3
+  m_SubmitButton: Start_P3
+  m_CancelButton: B_P3
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &510347465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 510347459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: DP_Horizontal_P2
+  m_VerticalAxis: DP_Vertical_P2
+  m_SubmitButton: Start_P2
+  m_CancelButton: B_P2
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1001 &694595574
 Prefab:
   m_ObjectHideFlags: 0
@@ -833,6 +894,10 @@ Prefab:
     - target: {fileID: 150658, guid: 750c2e3bee33b0140bb6fe247602ccfc, type: 2}
       propertyPath: m_Name
       value: UITimeCounterLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 22482452, guid: 750c2e3bee33b0140bb6fe247602ccfc, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 562.36
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 750c2e3bee33b0140bb6fe247602ccfc, type: 2}
@@ -1150,6 +1215,14 @@ Prefab:
       propertyPath: playerId
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 11435586, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
+      propertyPath: m_Text
+      value: Player 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11450970, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
+      propertyPath: m_Text
+      value: Player 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
   m_IsPrefabParent: 0
@@ -1231,6 +1304,10 @@ Prefab:
     - target: {fileID: 22444766, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116848, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
+      propertyPath: m_Name
+      value: UIUserPanel (1)
       objectReference: {fileID: 0}
     - target: {fileID: 22499454, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
       propertyPath: m_AnchorMin.y
@@ -1412,9 +1489,13 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 26
       objectReference: {fileID: 0}
-    - target: {fileID: 116848, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
-      propertyPath: m_Name
-      value: UIUserPanel (1)
+    - target: {fileID: 11435586, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
+      propertyPath: m_Text
+      value: Player 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11450970, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
+      propertyPath: m_Text
+      value: Player 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
@@ -1787,7 +1868,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22469514, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 53.10569
+      value: 53.022373
       objectReference: {fileID: 0}
     - target: {fileID: 22469514, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -1795,7 +1876,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22469514, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 86.21138
+      value: 86.04475
       objectReference: {fileID: 0}
     - target: {fileID: 22469514, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_SizeDelta.y
@@ -1819,7 +1900,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22424406, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 117.57723
+      value: 117.91051
       objectReference: {fileID: 0}
     - target: {fileID: 22424406, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_SizeDelta.y
@@ -1835,7 +1916,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22444102, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 236.89429
+      value: 236.97763
       objectReference: {fileID: 0}
     - target: {fileID: 22444102, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -1843,7 +1924,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22444102, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 86.21138
+      value: 86.04475
       objectReference: {fileID: 0}
     - target: {fileID: 22444102, guid: bf14c29d17927684395e091ddbcb822a, type: 2}
       propertyPath: m_SizeDelta.y
@@ -2186,6 +2267,14 @@ Prefab:
     - target: {fileID: 11443322, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
       propertyPath: playerId
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11435586, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
+      propertyPath: m_Text
+      value: Player 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11450970, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
+      propertyPath: m_Text
+      value: Player 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fff7c27314ded64c9d9df673bef4319, type: 2}
