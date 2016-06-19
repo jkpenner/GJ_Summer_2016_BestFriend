@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 478094}
   - 114: {fileID: 11482360}
   m_Layer: 0
-  m_Name: Spawner_P1
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,6 +25,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.68, y: 2.16, z: 0}
   m_LocalScale: {x: 4.477651, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -39,9 +40,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ca59f084ad2e4917b1790fdc500e63f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useRandom: 1
   playerObjects:
   - {fileID: 143650, guid: d88fdafb5394245428ffb43f5c9e8755, type: 2}
-  playerNumber: 1
+  - {fileID: 149516, guid: f6fe71d35ab28476bbe36309f1d0b283, type: 2}
+  - {fileID: 100748, guid: f6954b224396549768cf1fb552448d1b, type: 2}
+  playerNumber: -1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

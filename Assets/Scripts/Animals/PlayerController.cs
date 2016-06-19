@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerController : MonoBehaviour {
 
@@ -31,10 +32,25 @@ public class PlayerController : MonoBehaviour {
 		playerDive = gameObject.GetComponent<PlayerDive>();
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		ChangeState(State.ACTIVE);
+
+        // Add Listeners to the playermanager
+        PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
 	}
 
-	// Update is called once per frame
-	void Update () {
+    private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
+        if (player.id == GetComponent<InputMapper>().playerNumber) {
+            if (_state == State.ACTIVE) {
+                Destroy(this.gameObject);
+            }
+        }
+    }
+
+    private void OnDestroy() {
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		//TODO: move chicken flight to own class
 		if(_state == State.DISABLED && animal == Animal.CHICKEN){
 			rigidBody.AddForce(Vector2.up * flightForce);

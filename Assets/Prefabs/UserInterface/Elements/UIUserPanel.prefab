@@ -789,7 +789,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Score
+  m_Text: Player 1
 --- !u!114 &11435710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -975,7 +975,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: UserName
+  m_Text: Player 1
 --- !u!114 &11451270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1445,7 +1445,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press Start To Connect
+  m_Text: Press A To Connect
 --- !u!114 &11496534
 MonoBehaviour:
   m_ObjectHideFlags: 1

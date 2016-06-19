@@ -68,7 +68,7 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     private bool CheckForConnectKey(PlayerInfo player) {
         try {
-            return Input.GetButton(GetPlayerInputStr(player, "Start"));
+            return Input.GetButton(GetPlayerInputStr(player, "A"));
         } catch (System.Exception e) {
             Debug.LogWarningFormat("[{0}]: {1}", this.name, e.Message);
             return false;
