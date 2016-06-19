@@ -13,6 +13,22 @@ public class ScoreManager : Singleton<ScoreManager> {
         get { return _roundCounter; }
     }
 
+    public int CurrentRound { get; set; }
+
+    [SerializeField]
+    private int _roundsPerGame = 3;
+    public int RoundsPerGame {
+        get { return _roundsPerGame; }
+        set { _roundsPerGame = value; }
+    }
+
+    [SerializeField]
+    private int _roundsToWin = 2;
+    public int RoundsToWin {
+        get { return _roundsToWin; }
+        set { _roundsToWin = value; }
+    }
+
     Dictionary<int, int> _scores = new Dictionary<int, int>();
 
     public delegate void ScoreEvent(int playerId);
@@ -20,12 +36,13 @@ public class ScoreManager : Singleton<ScoreManager> {
     private ScoreEvent OnPlayerAdd;
     private ScoreEvent OnPlayerRemove;
 
-    public delegate void TimeEvent();
-    private TimeEvent OnRoundCounterComplete;
-    private TimeEvent OnRoundCounterStart;
-    private TimeEvent OnRoundCounterPause;
+    public enum ScoreEventType { Changed, PlayerAdd, PlayerRemove }
 
-    public enum EventType { ScoreChange, PlayerAdd, PlayerRemove }
+    public delegate void RoundEvent();
+    private RoundEvent OnRoundComplete;
+    private RoundEvent OnRoundStart;
+
+    public enum RoundEventType { Complete, Start }
 
     private void OnEnable() {
         GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
@@ -51,18 +68,36 @@ public class ScoreManager : Singleton<ScoreManager> {
     private void Update() {
         if (_roundCounter > 0) {
             _roundCounter -= Time.deltaTime * roundDecayRate * _pauseDecayMod;
-        } else if(_roundCounter < 0) {
+        } else if (_roundCounter < 0) {
             _roundCounter = 0;
+
+
+            if (OnRoundComplete != null) {
+                OnRoundComplete();
+            }
+
+            if (CurrentRound >= RoundsPerGame) {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            }
+
+            GameManager.SetState(GameManager.State.Reset);
         }
     }
 
     private void OnGameStateExit(GameManager.State state) {
         if (state == GameManager.State.Reset) {
             _roundCounter = roundLength;
+            CurrentRound++;
+            if (OnRoundStart != null) {
+                OnRoundStart();
+            }
         }
 
         if (state == GameManager.State.Pause) {
             _pauseDecayMod = 1;
+            if (OnRoundStart != null) {
+                OnRoundStart();
+            }
         }
     }
 
@@ -72,22 +107,40 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
     }
 
-    static public void AddListener(EventType e, ScoreEvent func) {
+    static public void AddListener(ScoreEventType e, ScoreEvent func) {
         if (Instance != null) {
             switch (e) {
-                case EventType.PlayerAdd: Instance.OnPlayerAdd += func; break;
-                case EventType.PlayerRemove: Instance.OnPlayerRemove += func; break;
-                case EventType.ScoreChange: Instance.OnScoreChange += func; break;
+                case ScoreEventType.PlayerAdd: Instance.OnPlayerAdd += func; break;
+                case ScoreEventType.PlayerRemove: Instance.OnPlayerRemove += func; break;
+                case ScoreEventType.Changed: Instance.OnScoreChange += func; break;
             }
         }
     }
 
-    static public void RemoveListener(EventType e, ScoreEvent func) {
+    static public void AddListener(RoundEventType e, RoundEvent func) {
         if (Instance != null) {
             switch (e) {
-                case EventType.PlayerAdd: Instance.OnPlayerAdd -= func; break;
-                case EventType.PlayerRemove: Instance.OnPlayerRemove -= func; break;
-                case EventType.ScoreChange: Instance.OnScoreChange -= func; break;
+                case RoundEventType.Complete: Instance.OnRoundComplete += func; break;
+                case RoundEventType.Start: Instance.OnRoundStart += func; break;
+            }
+        }
+    }
+
+    static public void RemoveListener(RoundEventType e, RoundEvent func) {
+        if (Instance != null) {
+            switch (e) {
+                case RoundEventType.Complete: Instance.OnRoundComplete -= func; break;
+                case RoundEventType.Start: Instance.OnRoundStart -= func; break;
+            }
+        }
+    }
+
+    static public void RemoveListener(ScoreEventType e, ScoreEvent func) {
+        if (Instance != null) {
+            switch (e) {
+                case ScoreEventType.PlayerAdd: Instance.OnPlayerAdd -= func; break;
+                case ScoreEventType.PlayerRemove: Instance.OnPlayerRemove -= func; break;
+                case ScoreEventType.Changed: Instance.OnScoreChange -= func; break;
             }
         }
     }

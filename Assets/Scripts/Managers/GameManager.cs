@@ -5,7 +5,7 @@ using System;
 public class GameManager : Singleton<GameManager> {
     public enum State { None, Active, Reset, RoundOver, Pause, GameWin, GameOver }
 
-    public enum EventType { StateEnter, StateExit }
+    public enum EventType { StateEnter, StateExit, RoundComplete }
 
     public delegate void GameStateEvent(State state);
     private GameStateEvent OnGameStateEnter;
@@ -16,24 +16,10 @@ public class GameManager : Singleton<GameManager> {
 
     public UICharacterSelector selector;
 
-    [SerializeField]
-    private int _roundsPerGame = 3;
-    public int RoundsPerGame {
-        get { return _roundsPerGame; }
-        set { _roundsPerGame = value; }
-    }
-
-    [SerializeField]
-    private int _roundsToWin = 2;
-    public int RoundsToWin {
-        get { return _roundsToWin; }
-        set { _roundsToWin = value; }
-    }
-
     private void Awake() {
         if (Instance == this) {
             this.transform.SetParent(null);
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
             ActiveState = initialState;
         } else {
             Destroy(this.gameObject);

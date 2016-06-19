@@ -18,15 +18,5 @@ public class GameManagerEditor : Editor {
                 EditorUtility.SetDirty(target);
             }
         }
-
-        EditorGUI.BeginChangeCheck();
-
-        manager.RoundsPerGame = EditorGUILayout.DelayedIntField("Rounds Per Game", manager.RoundsPerGame);
-
-        manager.RoundsToWin = EditorGUILayout.DelayedIntField("Rounds To Win", manager.RoundsToWin);
-
-        if (EditorGUI.EndChangeCheck()) {
-            EditorUtility.SetDirty(target);
-        }
     }
 }

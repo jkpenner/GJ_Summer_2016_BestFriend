@@ -29,9 +29,9 @@ public class UIUserPanel : MonoBehaviour {
         GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
         GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
 
-        ScoreManager.AddListener(ScoreManager.EventType.ScoreChange, OnScoreChange);
-        ScoreManager.AddListener(ScoreManager.EventType.PlayerAdd, OnPlayerScoreAdd);
-        ScoreManager.AddListener(ScoreManager.EventType.PlayerRemove, OnPlayerScoreRemove);
+        ScoreManager.AddListener(ScoreManager.ScoreEventType.Changed, OnScoreChange);
+        ScoreManager.AddListener(ScoreManager.ScoreEventType.PlayerAdd, OnPlayerScoreAdd);
+        ScoreManager.AddListener(ScoreManager.ScoreEventType.PlayerRemove, OnPlayerScoreRemove);
 
         var playerInfo = PlayerManager.GetPlayerInfo(playerId);
         if (playerInfo != null) {
