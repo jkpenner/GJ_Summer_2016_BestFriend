@@ -21,12 +21,14 @@ public class PlayerController : MonoBehaviour {
 	State _state;
 	PlayerJump playerJump;
 	PlayerMove playerMove;
+	PlayerDive playerDive;
 	Rigidbody2D rigidBody;
 
 	// Use this for initialization
 	void Start () {
 		playerJump = gameObject.GetComponent<PlayerJump>();
 		playerMove = gameObject.GetComponent<PlayerMove>();
+		playerDive = gameObject.GetComponent<PlayerDive>();
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		ChangeState(State.ACTIVE);
 	}
@@ -78,6 +80,7 @@ public class PlayerController : MonoBehaviour {
 	void ResetPlayer(){
 		playerMove.enabled = false;
 		playerJump.enabled = false;
+		if(playerDive) playerDive.enabled = false;
 		gameObject.transform.tag = "Anchor";
 
 		int playerNumber = gameObject.GetComponent<InputMapper>().playerNumber;
