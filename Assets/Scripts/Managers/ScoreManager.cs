@@ -19,6 +19,11 @@ public class ScoreManager : Singleton<ScoreManager> {
     private ScoreEvent OnPlayerAdd;
     private ScoreEvent OnPlayerRemove;
 
+    public delegate void TimeEvent();
+    private TimeEvent OnRoundCounterComplete;
+    private TimeEvent OnRoundCounterStart;
+    private TimeEvent OnRoundCounterPause;
+
     public enum EventType { ScoreChange, PlayerAdd, PlayerRemove }
 
     private void OnEnable() {
