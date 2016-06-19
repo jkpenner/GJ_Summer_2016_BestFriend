@@ -11,4 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5956d7fced4f0a844bbf7659032579a1, type: 3}
   m_Name: CharacterDatabase
   m_EditorClassIdentifier: 
-  _objects: []
+  _objects:
+  - _id: 1
+    _prefab: {fileID: 143650, guid: d88fdafb5394245428ffb43f5c9e8755, type: 2}
+    _icon: {fileID: 21300000, guid: 75e67f01d56d8448f9e16c9231820802, type: 3}
