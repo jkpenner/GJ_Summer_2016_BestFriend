@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 04330422f6a3a7a4b84e3dd738a1a4e3
-timeCreated: 1466187387
+guid: 8103ac5c4cb6745dc9cc68e89fe10dbe
+timeCreated: 1466231588
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
-  fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: pPipe1
-    9500000: //RootNode
+  fileIDToRecycleName: {}
   materials:
     importMaterials: 1
     materialName: 0
@@ -18,7 +12,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 1
+    resampleRotations: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 

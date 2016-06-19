@@ -1,33 +1,10 @@
 fileFormatVersion: 2
-guid: fdff8d17bb706654a9d4763de9fe272d
-timeCreated: 1466187395
+guid: 3fbd9f511933d46349cff36881aa1840
+timeCreated: 1466231588
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: pCylinder1
-    100004: pCylinder2
-    100006: pCylinder3
-    100008: pPipe1
-    400000: //RootNode
-    400002: pCylinder1
-    400004: pCylinder2
-    400006: pCylinder3
-    400008: pPipe1
-    2300000: pCylinder1
-    2300002: pCylinder2
-    2300004: pCylinder3
-    2300006: pPipe1
-    3300000: pCylinder1
-    3300002: pCylinder2
-    3300004: pCylinder3
-    3300006: pPipe1
-    4300000: pPipe1
-    4300002: pCylinder1
-    4300004: pCylinder2
-    4300006: pCylinder3
-    9500000: //RootNode
+  fileIDToRecycleName: {}
   materials:
     importMaterials: 1
     materialName: 0
@@ -35,7 +12,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 1
+    resampleRotations: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 

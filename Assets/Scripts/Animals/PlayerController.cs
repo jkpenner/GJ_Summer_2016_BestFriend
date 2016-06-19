@@ -8,36 +8,64 @@ public class PlayerController : MonoBehaviour {
 		DISABLED
 	}
 
+	public enum Animal{
+		CHICKEN,
+		COW,
+		PIG
+	}
+
+	public Animal animal;
+	public float flightForce = 400f; 
+	public float grindSpeed = 15f;
+
 	State _state;
 	PlayerJump playerJump;
 	PlayerMove playerMove;
+	PlayerDive playerDive;
 	Rigidbody2D rigidBody;
 
 	// Use this for initialization
 	void Start () {
 		playerJump = gameObject.GetComponent<PlayerJump>();
 		playerMove = gameObject.GetComponent<PlayerMove>();
+		playerDive = gameObject.GetComponent<PlayerDive>();
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		ChangeState(State.ACTIVE);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
+		//TODO: move chicken flight to own class
+		if(_state == State.DISABLED && animal == Animal.CHICKEN){
+			rigidBody.AddForce(Vector2.up * flightForce);
+		}
+	}
 
+	void LateUpdate(){
+		if(animal ==Animal.CHICKEN){
+			playerJump.AllowJump();
+		}
 	}
 
 	//Collision with other animals
 	void OnCollisionEnter2D(Collision2D collision){
-		if(collision.transform.tag == "Anchor" && _state == State.ACTIVE){
+		if(collision.transform.tag == "Anchor"){
+			if(_state == State.ACTIVE){
+				ChangeState(State.DISABLED);
+				ResetPlayer();
+			}
+			foreach(FixedJoint2D fixedJoint in gameObject.GetComponents<FixedJoint2D>()){
+				if(fixedJoint.connectedBody == collision.gameObject) return;
+			}
 			StickObject(collision);
-			ChangeState(State.DISABLED);
-			ResetPlayer();
 		}
 	}
 
 	//Collision with "Grinder"
 	void OnTriggerEnter2D(Collider2D collider){
-		if(_state == State.ACTIVE){
+		if(collider.CompareTag("Destroyer")){
+			Destroy(gameObject);
+		}else if(_state == State.ACTIVE){
 			ResetPlayer();
 		}
 		GrindPlayer();
@@ -52,6 +80,7 @@ public class PlayerController : MonoBehaviour {
 	void ResetPlayer(){
 		playerMove.enabled = false;
 		playerJump.enabled = false;
+		if(playerDive) playerDive.enabled = false;
 		gameObject.transform.tag = "Anchor";
 
 		int playerNumber = gameObject.GetComponent<InputMapper>().playerNumber;
@@ -60,7 +89,8 @@ public class PlayerController : MonoBehaviour {
 
 	void GrindPlayer(){
 		rigidBody.isKinematic = true;
-		rigidBody.velocity = new Vector2(0,-10f*Time.deltaTime);
+		rigidBody.velocity = Vector2.down * grindSpeed*Time.deltaTime;
+		gameObject.GetComponentInChildren<Animator>().SetBool("isGrinding", true);
 	}
 
 	/*  TODO: Move to own class */
@@ -73,8 +103,8 @@ public class PlayerController : MonoBehaviour {
 		endHinge.frequency = 5f;
 		endHinge.dampingRatio = 1;
 
-		endHinge.anchor = GetVectorOffset(gameObject, collision.gameObject, transform.eulerAngles.z) * 3f;
-		endHinge.connectedAnchor = GetVectorOffset(collision.gameObject, gameObject, collision.transform.eulerAngles.z) * 3f;
+		endHinge.anchor = GetVectorOffset(gameObject, collision.gameObject, transform.eulerAngles.z) * gameObject.GetComponent<CircleCollider2D>().radius;
+		endHinge.connectedAnchor = GetVectorOffset(collision.gameObject, gameObject, collision.transform.eulerAngles.z) * collision.gameObject.GetComponent<CircleCollider2D>().radius;
 	}
 		
 	Vector2 GetVectorOffset(GameObject object1, GameObject object2, float angle){
