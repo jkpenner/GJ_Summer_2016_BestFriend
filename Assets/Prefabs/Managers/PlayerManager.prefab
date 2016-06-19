@@ -57,7 +57,7 @@ MonoBehaviour:
     color: {r: 1, g: 1, b: 0, a: 1}
     postfix: _P4
     prefix: 
-  disconnectPlayerDelay: 2
+  disconnectPlayerDelay: 30
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
