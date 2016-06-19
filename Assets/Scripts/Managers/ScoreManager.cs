@@ -41,8 +41,9 @@ public class ScoreManager : Singleton<ScoreManager> {
     public delegate void RoundEvent();
     private RoundEvent OnRoundComplete;
     private RoundEvent OnRoundStart;
+    private RoundEvent OnRoundResume;
 
-    public enum RoundEventType { Complete, Start }
+    public enum RoundEventType { Complete, Start, Resume }
 
     private void OnEnable() {
         GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
@@ -95,8 +96,8 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         if (state == GameManager.State.Pause) {
             _pauseDecayMod = 1;
-            if (OnRoundStart != null) {
-                OnRoundStart();
+            if (OnRoundResume != null) {
+                OnRoundResume();
             }
         }
     }
@@ -122,6 +123,7 @@ public class ScoreManager : Singleton<ScoreManager> {
             switch (e) {
                 case RoundEventType.Complete: Instance.OnRoundComplete += func; break;
                 case RoundEventType.Start: Instance.OnRoundStart += func; break;
+                case RoundEventType.Resume: Instance.OnRoundResume += func; break;
             }
         }
     }
@@ -131,6 +133,7 @@ public class ScoreManager : Singleton<ScoreManager> {
             switch (e) {
                 case RoundEventType.Complete: Instance.OnRoundComplete -= func; break;
                 case RoundEventType.Start: Instance.OnRoundStart -= func; break;
+                case RoundEventType.Resume: Instance.OnRoundResume -= func; break;
             }
         }
     }
