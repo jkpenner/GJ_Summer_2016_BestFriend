@@ -9,3 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
   - enabled: 1
     path: Assets/Scenes/MainGame.unity
+  - enabled: 1
+    path: Assets/Scenes/GameBackground.unity
+  - enabled: 1
+    path: Assets/Scenes/MainGameUI.unity
