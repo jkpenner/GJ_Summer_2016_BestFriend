@@ -30,7 +30,9 @@ public class PlayerSpawner : MonoBehaviour {
     }
 
     private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
-        if (player.id == playerNumber) {
+        if (player.id == playerNumber && 
+            (GameManager.ActiveState == GameManager.State.Active ||
+            GameManager.ActiveState == GameManager.State.Pause)) {
             CreateNewPlayer();
         }
     }
