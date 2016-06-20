@@ -668,7 +668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &153178761
 Transform:
   m_ObjectHideFlags: 0
@@ -1804,7 +1804,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &339388493
 Transform:
   m_ObjectHideFlags: 0
@@ -7409,7 +7409,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1133307032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7668,11 +7668,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22458316, guid: aaf398524e1a0e84780cd85cffa6c7a4, type: 2}
       propertyPath: m_SizeDelta.x
-      value: -1140
+      value: -962
       objectReference: {fileID: 0}
     - target: {fileID: 22458316, guid: aaf398524e1a0e84780cd85cffa6c7a4, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 22458316, guid: aaf398524e1a0e84780cd85cffa6c7a4, type: 2}
       propertyPath: m_AnchorMin.x
@@ -9395,11 +9395,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 455570, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.36
       objectReference: {fileID: 0}
     - target: {fileID: 455570, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -30.67
       objectReference: {fileID: 0}
     - target: {fileID: 455570, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
       propertyPath: m_LocalRotation.x
@@ -9423,7 +9423,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 2053598, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
       propertyPath: orthographic
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2053598, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
       propertyPath: m_Depth
@@ -9443,10 +9443,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 2053598, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
       propertyPath: near clip plane
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 455570, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
       propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 455570, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
