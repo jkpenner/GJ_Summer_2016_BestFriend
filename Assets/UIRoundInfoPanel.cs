@@ -19,6 +19,11 @@ public class UIRoundInfoPanel : MonoBehaviour {
         canvasGroup.alpha = 0f;
     }
 
+    private void OnDestroy() {
+        ScoreManager.RemoveListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
+        ScoreManager.RemoveListener(ScoreManager.RoundEventType.Start, OnRoundStart);
+    }
+
     private void OnRoundStart() {
         canvasGroup.alpha = 0f;
     }

@@ -6,6 +6,7 @@ public class SoundManager : Singleton<SoundManager> {
         if (Instance != this) {
             Destroy(this.gameObject);
         } else {
+            transform.SetParent(null);
             DontDestroyOnLoad(this.gameObject);
         }
     }

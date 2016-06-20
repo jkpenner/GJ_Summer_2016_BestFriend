@@ -41,7 +41,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 6
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_LightmapsMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -66,7 +66,8 @@ LightmapSettings:
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000001, guid: 7ee6ad38945356b44b04ae8f85f0d20b,
+    type: 2}
   m_RuntimeCPUUsage: 25
 --- !u!196 &4
 NavMeshSettings:
@@ -385,7 +386,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22467410, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 151.33333
+      value: 82.833336
       objectReference: {fileID: 0}
     - target: {fileID: 22467410, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -393,7 +394,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22467410, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 302.66666
+      value: 165.66667
       objectReference: {fileID: 0}
     - target: {fileID: 22467410, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_SizeDelta.y
@@ -409,7 +410,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22449478, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 454
+      value: 248.5
       objectReference: {fileID: 0}
     - target: {fileID: 22449478, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -417,7 +418,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22449478, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 302.66666
+      value: 165.66667
       objectReference: {fileID: 0}
     - target: {fileID: 22449478, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_SizeDelta.y
@@ -433,7 +434,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22413930, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 756.6666
+      value: 414.1667
       objectReference: {fileID: 0}
     - target: {fileID: 22413930, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -441,7 +442,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22413930, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 302.66666
+      value: 165.66667
       objectReference: {fileID: 0}
     - target: {fileID: 22413930, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
       propertyPath: m_SizeDelta.y

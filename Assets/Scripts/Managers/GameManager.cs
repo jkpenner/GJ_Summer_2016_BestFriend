@@ -74,21 +74,26 @@ public class GameManager : Singleton<GameManager> {
     }
 
     static public void SetState(State newState) {
-        if (Instance._activeState != newState) {
-            Debug.LogFormat("[{0}]: State assigned to {1}", 
-                "GameManager", newState.ToString());
+        if (Instance != null) {
+            if (Instance._activeState != newState) {
+                Debug.LogFormat("[{0}]: State assigned to {1}",
+                    "GameManager", newState.ToString());
 
-            // Call State Exit for previous ActiveState
-            if (Instance.OnGameStateExit != null) {
-                Instance.OnGameStateExit(ActiveState);
+                // Call State Exit for previous ActiveState
+                if (Instance.OnGameStateExit != null) {
+                    Instance.OnGameStateExit(ActiveState);
+                }
+
+                Instance._activeState = newState;
+
+                // Call State Enter for new ActiveState
+                if (Instance.OnGameStateEnter != null) {
+                    Instance.OnGameStateEnter(ActiveState);
+                }
             }
-
-            Instance._activeState = newState;
-
-            // Call State Enter for new ActiveState
-            if (Instance.OnGameStateEnter != null) {
-                Instance.OnGameStateEnter(ActiveState);
-            }
+        } else {
+            Debug.LogWarningFormat("[{0}]: Attempting to set state, but there is no instance in the scene.",
+                    "GameManager", newState.ToString());
         }
     }
 

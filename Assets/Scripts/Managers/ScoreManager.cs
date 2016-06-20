@@ -47,6 +47,10 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     public enum RoundEventType { Complete, Start, Resume }
 
+    private void Awake() {
+        
+    }
+
     private void OnEnable() {
         GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
         GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
@@ -74,12 +78,21 @@ public class ScoreManager : Singleton<ScoreManager> {
         } else if (_roundCounter < 0) {
             _roundCounter = 0;
 
+            StorageManager.RoundScores.Add(0);
+            for (int i = 1; i < 5; i++) {
+                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] += GetPlayerScore(i);
+            }
+
+            for (int i = 0; i < StorageManager.RoundScores.Count - 2; i++) {
+                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] -= StorageManager.RoundScores[i];
+            }
+
+            StorageManager.RoundTimes.Add(roundLength - _roundCounter);
+
 
             if (OnRoundComplete != null) {
                 OnRoundComplete();
             }
-
-            
 
             GameManager.SetState(GameManager.State.Reset);
         }
@@ -91,7 +104,11 @@ public class ScoreManager : Singleton<ScoreManager> {
             CurrentRound++;
 
             if (CurrentRound > RoundsPerGame) {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+                for (int i = 1; i < 5; i++) {
+                    StorageManager.PlayerScores.Add(GetPlayerScore(i));
+                }
+                // Load the Score Scene
+                UnityEngine.SceneManagement.SceneManager.LoadScene(4);
             }
 
             if (OnRoundStart != null) {
@@ -155,6 +172,17 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     static public void EndRound() {
         if (Instance != null) {
+            StorageManager.RoundScores.Add(0);
+            for (int i = 1; i < 5; i++) {
+                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] += GetPlayerScore(i);
+            }
+
+            for (int i = 0; i < StorageManager.RoundScores.Count - 2; i++) {
+                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] -= StorageManager.RoundScores[i];
+            }
+
+            StorageManager.RoundTimes.Add(Instance.roundLength - Instance._roundCounter);
+
             if (Instance.OnRoundComplete != null) {
                 Instance.OnRoundComplete();
             }
