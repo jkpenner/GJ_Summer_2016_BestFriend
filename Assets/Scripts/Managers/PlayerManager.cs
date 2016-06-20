@@ -106,6 +106,13 @@ public class PlayerManager : Singleton<PlayerManager> {
         }
     }
 
+    static public PlayerInfo[] GetAllPlayerInfo() {
+        if (Instance != null) {
+            return Instance.players;
+        }
+        return null;
+    }
+
     static public PlayerInfo GetPlayerInfo(int playerId) {
         if (Instance != null) {
             foreach (var player in Instance.players) {

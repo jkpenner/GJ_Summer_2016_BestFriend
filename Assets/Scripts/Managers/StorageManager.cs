@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class StorageManager : Singleton<StorageManager> {
+    [SerializeField]
     private List<int> _roundScores;
+    [SerializeField]
     private List<float> _roundTimes;
 
+    [SerializeField]
     private List<int> _playerScores;
 
     static public List<int> RoundScores {

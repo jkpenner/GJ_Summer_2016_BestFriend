@@ -48,7 +48,11 @@ public class ScoreManager : Singleton<ScoreManager> {
     public enum RoundEventType { Complete, Start, Resume }
 
     private void Awake() {
-
+        foreach (var player in PlayerManager.GetAllPlayerInfo()) {
+            if (player.IsConnected) {
+                AddPlayer(player.id);
+            }
+        }
     }
 
     private void OnEnable() {
@@ -70,6 +74,9 @@ public class ScoreManager : Singleton<ScoreManager> {
     private void OnDisable() {
         GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);
         GameManager.RemoveListener(GameManager.EventType.StateExit, OnGameStateExit);
+
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
     }
 
     private void Update() {
@@ -242,6 +249,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     static public void ModifyPlayerScore(int id, int amount) {
         if (Instance._scores.ContainsKey(id)) {
+            Debug.Log("Modifiying Player Score " + id.ToString() + " by " + amount);
             if (amount != 0) {
                 Instance._scores[id] += amount;
                 Instance._scores[id] = Mathf.Max(0, Instance._scores[id]);
