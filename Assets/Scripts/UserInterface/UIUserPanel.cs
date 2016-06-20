@@ -23,6 +23,15 @@ public class UIUserPanel : MonoBehaviour {
     public int ActiveSelection { get; set; }
 
     private void Awake() {
+        if (SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer && playerId > 2) {
+            this.gameObject.SetActive(false);
+            return;
+        }
+
+        if (SettingManager.ActiveGameMode == SettingManager.GameMode.Random) {
+            selectorInfo.gameObject.SetActive(false);
+        }
+
         PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
         PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
 
@@ -40,9 +49,24 @@ public class UIUserPanel : MonoBehaviour {
         }
 
         ActiveSelection = -1;
+        UpdateSelector(0);
 
-        btnCharLeft.onClick.AddListener(OnCharLeftClick);
-        btnCharRight.onClick.AddListener(OnCharRighClick);
+        if (SettingManager.ActiveGameMode != SettingManager.GameMode.Random) {
+            btnCharLeft.onClick.AddListener(OnCharLeftClick);
+            btnCharRight.onClick.AddListener(OnCharRighClick);
+        }
+    }
+
+    private void OnDestroy() {
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+
+        GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);
+        GameManager.RemoveListener(GameManager.EventType.StateExit, OnGameStateExit);
+
+        ScoreManager.RemoveListener(ScoreManager.ScoreEventType.Changed, OnScoreChange);
+        ScoreManager.RemoveListener(ScoreManager.ScoreEventType.PlayerAdd, OnPlayerScoreAdd);
+        ScoreManager.RemoveListener(ScoreManager.ScoreEventType.PlayerRemove, OnPlayerScoreRemove);
     }
 
     private void OnPlayerScoreAdd(int playerId) {
@@ -79,13 +103,15 @@ public class UIUserPanel : MonoBehaviour {
     }
 
     private void Update() {
-        if (GameManager.ActiveState != GameManager.State.Pause) {
-            if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(playerId, "LeftBumper"))) {
-                OnCharLeftClick();
-            }
+        if (SettingManager.ActiveGameMode != SettingManager.GameMode.Random) {
+            if (GameManager.ActiveState != GameManager.State.Pause) {
+                if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(playerId, "LeftBumper"))) {
+                    OnCharLeftClick();
+                }
 
-            if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(playerId, "RightBumper"))) {
-                OnCharRighClick();
+                if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(playerId, "RightBumper"))) {
+                    OnCharRighClick();
+                }
             }
         }
     }
@@ -137,7 +163,7 @@ public class UIUserPanel : MonoBehaviour {
 
     private void ToggleUIElements(bool isConnected) {
         connectInfo.gameObject.SetActive(!isConnected);
-        selectorInfo.gameObject.SetActive(isConnected);
+        selectorInfo.gameObject.SetActive(isConnected && SettingManager.ActiveGameMode != SettingManager.GameMode.Random);
         scoreInfo.gameObject.SetActive(isConnected);
     }
 }

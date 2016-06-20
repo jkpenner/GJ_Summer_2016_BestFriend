@@ -345,11 +345,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 11464928}
+    m_SelectOnDown: {fileID: 11464928}
+    m_SelectOnLeft: {fileID: 11428654}
+    m_SelectOnRight: {fileID: 11428654}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.3455882, g: 0.3455882, b: 0.3455882, a: 1}
@@ -446,11 +446,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 11464928}
+    m_SelectOnDown: {fileID: 11464928}
+    m_SelectOnLeft: {fileID: 11418850}
+    m_SelectOnRight: {fileID: 11418850}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.3455882, g: 0.3455882, b: 0.3455882, a: 1}
@@ -612,9 +612,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 11418850}
+    m_SelectOnDown: {fileID: 11418850}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -890,7 +890,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 335.7, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22444102

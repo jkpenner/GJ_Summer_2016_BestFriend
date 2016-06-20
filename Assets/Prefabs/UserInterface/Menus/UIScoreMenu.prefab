@@ -2250,27 +2250,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScoreBars:
-  - rtSscoreBar: {fileID: 22439382}
+  - rtBarPanel: {fileID: 22470370}
+    rtSscoreBar: {fileID: 22439382}
     rtScoreBarContainer: {fileID: 22483346}
     txtScoreValue: {fileID: 11455050}
     imgOutline: {fileID: 11490472}
     imgScoreBar: {fileID: 11401034}
-  - rtSscoreBar: {fileID: 22459056}
+  - rtBarPanel: {fileID: 22453134}
+    rtSscoreBar: {fileID: 22459056}
     rtScoreBarContainer: {fileID: 22473678}
     txtScoreValue: {fileID: 11421454}
     imgOutline: {fileID: 11461510}
     imgScoreBar: {fileID: 11412330}
-  - rtSscoreBar: {fileID: 22499522}
+  - rtBarPanel: {fileID: 22465550}
+    rtSscoreBar: {fileID: 22499522}
     rtScoreBarContainer: {fileID: 22484338}
     txtScoreValue: {fileID: 11462998}
     imgOutline: {fileID: 11402328}
     imgScoreBar: {fileID: 11488142}
-  - rtSscoreBar: {fileID: 22456428}
+  - rtBarPanel: {fileID: 22471106}
+    rtSscoreBar: {fileID: 22456428}
     rtScoreBarContainer: {fileID: 22461304}
     txtScoreValue: {fileID: 11487100}
     imgOutline: {fileID: 11470554}
     imgScoreBar: {fileID: 11404756}
   teamScoreBar:
+    rtBarPanel: {fileID: 22428092}
     rtSscoreBar: {fileID: 22434536}
     rtScoreBarContainer: {fileID: 22454332}
     txtScoreValue: {fileID: 11442088}

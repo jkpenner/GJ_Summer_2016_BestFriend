@@ -8,6 +8,13 @@ public class PlayerSpawner : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        if (playerNumber > 2 && SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer) {
+            this.gameObject.SetActive(false);
+            return;
+        }
+
+        useRandom = SettingManager.ActiveGameMode == SettingManager.GameMode.Random;
+
         ScoreManager.AddListener(ScoreManager.RoundEventType.Start, OnRoundStart);
 
         PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);

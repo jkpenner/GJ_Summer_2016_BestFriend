@@ -54,7 +54,8 @@ public class UIPauseMenu : MonoBehaviour, IUIMenu {
             if (GameManager.ActiveState == GameManager.State.Active ||
                 GameManager.ActiveState == GameManager.State.None) {
                 GameManager.SetState(GameManager.State.Pause);                
-            } else if (GameManager.ActiveState == GameManager.State.Pause) {
+            } else if (GameManager.ActiveState == GameManager.State.Pause &&
+                canvasGroup.alpha == 1) {
                 GameManager.SetState(GameManager.State.Active);
             }
         }

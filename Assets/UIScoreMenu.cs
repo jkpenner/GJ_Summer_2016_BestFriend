@@ -6,6 +6,8 @@ using System.Collections;
 public class UIScoreMenu : MonoBehaviour {
     [System.Serializable]
     public class ScoreBarInfo {
+        public RectTransform rtBarPanel;
+
         public RectTransform rtSscoreBar;
         public RectTransform rtScoreBarContainer;
         public Text txtScoreValue;
@@ -39,6 +41,11 @@ public class UIScoreMenu : MonoBehaviour {
         btnReplay.interactable = false;
         btnMainMenu.interactable = false;
 
+        if (SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer) {
+            playerScoreBars[2].rtBarPanel.gameObject.SetActive(false);
+            playerScoreBars[3].rtBarPanel.gameObject.SetActive(false);
+        }
+
         StartCoroutine("PopulateScores");
     }
 
@@ -49,15 +56,17 @@ public class UIScoreMenu : MonoBehaviour {
 
             float percentComplete = (timeToPopulate - counter) / timeToPopulate;
 
+            int players = SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer ? 2 : 4;
+
             // find the total and max values of player scores
             int max = 0, total = 0;
-            for (int i = 0; i < StorageManager.PlayerScores.Count; i++) {
-                total = StorageManager.PlayerScores[0];
-                max = Mathf.Max(max, StorageManager.PlayerScores[0]);
+            for (int i = 0; i < players; i++) {
+                total = StorageManager.PlayerScores[i];
+                max = Mathf.Max(max, StorageManager.PlayerScores[i]);
             }
 
             // Populate the player scores
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < players; i++) {
                 PopulateScoreBar(playerScoreBars[i], StorageManager.PlayerScores[i], max, percentComplete, PlayerManager.GetPlayerInfo(i + 1).color);
             }
 

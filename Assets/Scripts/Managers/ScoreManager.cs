@@ -48,7 +48,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     public enum RoundEventType { Complete, Start, Resume }
 
     private void Awake() {
-        
+
     }
 
     private void OnEnable() {
@@ -192,26 +192,36 @@ public class ScoreManager : Singleton<ScoreManager> {
     }
 
     static public void AddPlayer(int id) {
-        if (!Instance._scores.ContainsKey(id)) {
-            Instance._scores.Add(id, 0);
-            if (Instance.OnPlayerAdd != null) {
-                Instance.OnPlayerAdd(id);
+        if (Instance != null) {
+            if (!Instance._scores.ContainsKey(id)) {
+                Instance._scores.Add(id, 0);
+                if (Instance.OnPlayerAdd != null) {
+                    Instance.OnPlayerAdd(id);
+                }
+            } else {
+                Debug.LogFormat("[{0}]: Attempting to add player with id {1}, " +
+                    "but id already exists.", Instance.name, id);
             }
         } else {
-            Debug.LogFormat("[{0}]: Attempting to add player with id {1}, " +
-                "but id already exists.", Instance.name, id);
+            Debug.LogFormat("[{0}]: Attempting to add player, " +
+                "but there is not instance in the scene.", "ScoreManager", id);
         }
     }
 
     static public void RemovePlayer(int id) {
-        if (Instance._scores.ContainsKey(id)) {
-            Instance._scores.Remove(id);
-            if (Instance.OnPlayerRemove != null) {
-                Instance.OnPlayerRemove(id);
+        if (Instance != null) {
+            if (Instance._scores.ContainsKey(id)) {
+                Instance._scores.Remove(id);
+                if (Instance.OnPlayerRemove != null) {
+                    Instance.OnPlayerRemove(id);
+                }
+            } else {
+                Debug.LogFormat("[{0}]: Attempting to remove player with id {1}, " +
+                    "but id does not exists.", Instance.name, id);
             }
         } else {
-            Debug.LogFormat("[{0}]: Attempting to remove player with id {1}, " +
-                "but id does not exists.", Instance.name, id);
+            Debug.LogFormat("[{0}]: Attempting to remove player, " +
+                "but there is not instance in the scene.", "ScoreManager", id);
         }
     }
 
