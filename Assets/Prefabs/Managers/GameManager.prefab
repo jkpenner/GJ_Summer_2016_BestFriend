@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialState: 0
-  resetStateDuration: 1
+  resetStateDuration: 5
   selector: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:

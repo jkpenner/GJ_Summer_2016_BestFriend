@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49209fa81e469ff4684e17282d23d0a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roundLength: 1
+  roundLength: 120
   roundDecayRate: 1
   roundScoreReward: 1
   _roundsPerGame: 3
