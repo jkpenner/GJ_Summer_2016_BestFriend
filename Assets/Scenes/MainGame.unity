@@ -1453,6 +1453,18 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.x
       value: -4.8248997
       objectReference: {fileID: 0}
+    - target: {fileID: 2053598, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2053598, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2053598, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bd1459d93ff8e6948b8f9073899e9117, type: 2}
   m_IsPrefabParent: 0
