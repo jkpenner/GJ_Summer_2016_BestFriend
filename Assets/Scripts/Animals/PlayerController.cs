@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour {
 	public float grindSpeed = 15f;
     public int scoreValue = 1;
 
+    private float activeGrindSpeed = 0;
+    private Vector2 pauseVelocityStored;
+
     State _state;
 	PlayerJump playerJump;
 	PlayerMove playerMove;
@@ -34,6 +37,8 @@ public class PlayerController : MonoBehaviour {
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		ChangeState(State.ACTIVE);
 
+        activeGrindSpeed = grindSpeed;
+
         // Listen to Manager Events
         GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
         GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
@@ -43,18 +48,33 @@ public class PlayerController : MonoBehaviour {
 
     private void OnRoundComplete() {
         // When the round complete kill everything
-        Destroy(this.gameObject);
+        // Updates the active grind speed for fast killing
+        activeGrindSpeed = grindSpeed * 15;
+        rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
+
+        // if the animal is not in the grinder
+        if (_state == State.ACTIVE) {
+            // Spawn a partical effect
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnGameStateExit(GameManager.State state) {
         if (state == GameManager.State.Pause) {
             rigidBody.isKinematic = false;
+            rigidBody.velocity = pauseVelocityStored;            
+        }
+
+        if (state == GameManager.State.Reset) {
+            activeGrindSpeed = grindSpeed;
         }
     }
 
     private void OnGameStateEnter(GameManager.State state) {
         if (state == GameManager.State.Pause) {
             rigidBody.isKinematic = true;
+            pauseVelocityStored = rigidBody.velocity;
+            rigidBody.velocity = Vector2.zero;
         }
     }
 
@@ -129,9 +149,11 @@ public class PlayerController : MonoBehaviour {
 
 	void GrindPlayer(){
 		rigidBody.isKinematic = true;
-		rigidBody.velocity = Vector2.down * grindSpeed*Time.deltaTime;
+		rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
 		gameObject.GetComponentInChildren<Animator>().SetBool("isGrinding", true);
-        ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, -scoreValue);
+        if (GameManager.ActiveState == GameManager.State.Active) {
+            ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, -scoreValue);
+        }
     }
 
 	/*  TODO: Move to own class */
