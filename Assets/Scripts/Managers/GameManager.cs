@@ -14,6 +14,9 @@ public class GameManager : Singleton<GameManager> {
     private State _activeState = State.None;
     public State initialState = State.None;
 
+    private bool firstReset = true;
+    public float resetStateDuration = 4f;
+
     public UICharacterSelector selector;
 
     private void Awake() {
@@ -50,13 +53,18 @@ public class GameManager : Singleton<GameManager> {
     private void GameStateEnter(State state) {
         switch (state) {
             case State.Reset:
-                StartCoroutine("OnResetEnter");
+                StartCoroutine("OnResetEnter", resetStateDuration);
                 break;
         }
     }
 
-    private IEnumerator OnResetEnter() {
-        yield return new WaitForSeconds(1);
+    private IEnumerator OnResetEnter(float wait) {
+        if (firstReset) {
+            firstReset = false;
+            yield return new WaitForSeconds(0.1f);
+        } else {
+            yield return new WaitForSeconds(wait);
+        }
         SetState(State.Active);
     }
 

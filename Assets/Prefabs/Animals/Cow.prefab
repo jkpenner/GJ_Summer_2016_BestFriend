@@ -243,6 +243,7 @@ MonoBehaviour:
   animal: 1
   flightForce: 400
   grindSpeed: 10
+  scoreValue: 50
 --- !u!114 &11465476
 MonoBehaviour:
   m_ObjectHideFlags: 1

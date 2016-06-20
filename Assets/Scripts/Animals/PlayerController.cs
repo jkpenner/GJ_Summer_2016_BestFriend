@@ -18,8 +18,9 @@ public class PlayerController : MonoBehaviour {
 	public Animal animal;
 	public float flightForce = 400f; 
 	public float grindSpeed = 15f;
+    public int scoreValue = 1;
 
-	State _state;
+    State _state;
 	PlayerJump playerJump;
 	PlayerMove playerMove;
 	PlayerDive playerDive;
@@ -130,7 +131,8 @@ public class PlayerController : MonoBehaviour {
 		rigidBody.isKinematic = true;
 		rigidBody.velocity = Vector2.down * grindSpeed*Time.deltaTime;
 		gameObject.GetComponentInChildren<Animator>().SetBool("isGrinding", true);
-	}
+        ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, -scoreValue);
+    }
 
 	/*  TODO: Move to own class */
 	void StickObject(Collision2D collision){
@@ -144,6 +146,13 @@ public class PlayerController : MonoBehaviour {
 
 		endHinge.anchor = GetVectorOffset(gameObject, collision.gameObject, transform.eulerAngles.z) * gameObject.GetComponent<CircleCollider2D>().radius;
 		endHinge.connectedAnchor = GetVectorOffset(collision.gameObject, gameObject, collision.transform.eulerAngles.z) * collision.gameObject.GetComponent<CircleCollider2D>().radius;
+
+        if (ScoreManager.Instance.winTransform.position.y < transform.position.y) {
+            ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, scoreValue * 10);
+            ScoreManager.EndRound();
+        } else {
+            ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, scoreValue);
+        }
 	}
 		
 	Vector2 GetVectorOffset(GameObject object1, GameObject object2, float angle){

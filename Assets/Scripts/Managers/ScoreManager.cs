@@ -29,6 +29,8 @@ public class ScoreManager : Singleton<ScoreManager> {
         set { _roundsToWin = value; }
     }
 
+    public Transform winTransform;
+
     Dictionary<int, int> _scores = new Dictionary<int, int>();
 
     public delegate void ScoreEvent(int playerId);
@@ -77,9 +79,7 @@ public class ScoreManager : Singleton<ScoreManager> {
                 OnRoundComplete();
             }
 
-            if (CurrentRound >= RoundsPerGame) {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-            }
+            
 
             GameManager.SetState(GameManager.State.Reset);
         }
@@ -89,6 +89,11 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (state == GameManager.State.Reset) {
             _roundCounter = roundLength;
             CurrentRound++;
+
+            if (CurrentRound > RoundsPerGame) {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            }
+
             if (OnRoundStart != null) {
                 OnRoundStart();
             }
@@ -148,6 +153,16 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
     }
 
+    static public void EndRound() {
+        if (Instance != null) {
+            if (Instance.OnRoundComplete != null) {
+                Instance.OnRoundComplete();
+            }
+            Instance.CurrentRound++;
+            GameManager.SetState(GameManager.State.Reset);
+        }
+    }
+
     static public void AddPlayer(int id) {
         if (!Instance._scores.ContainsKey(id)) {
             Instance._scores.Add(id, 0);
@@ -191,6 +206,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (Instance._scores.ContainsKey(id)) {
             if (amount != 0) {
                 Instance._scores[id] += amount;
+                Instance._scores[id] = Mathf.Max(0, Instance._scores[id]);
                 if (Instance.OnScoreChange != null) {
                     Instance.OnScoreChange(id);
                 }
@@ -205,6 +221,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (Instance._scores.ContainsKey(id)) {
             if (amount != Instance._scores[id]) {
                 Instance._scores[id] += amount;
+                Instance._scores[id] = Mathf.Max(0, Instance._scores[id]);
                 if (Instance.OnScoreChange != null) {
                     Instance.OnScoreChange(id);
                 }
