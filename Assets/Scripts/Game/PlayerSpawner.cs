@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+
 
 public class PlayerSpawner : MonoBehaviour {
     public bool useRandom = true;
@@ -8,8 +8,13 @@ public class PlayerSpawner : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        ScoreManager.AddListener(ScoreManager.RoundEventType.Start, OnRoundStart);
+
         PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
         PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+    }
+
+    private void OnRoundStart() {
         CreateNewPlayer();
     }
 
