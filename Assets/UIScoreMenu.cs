@@ -2,8 +2,9 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
 
-public class UIScoreMenu : MonoBehaviour {
+public class UIScoreMenu : MonoBehaviour, IUIMenu {
     [System.Serializable]
     public class ScoreBarInfo {
         public RectTransform rtBarPanel;
@@ -37,6 +38,8 @@ public class UIScoreMenu : MonoBehaviour {
         btnReplay.onClick.AddListener(OnReplayClick);
         btnMainMenu.onClick.AddListener(OnMainMenuClick);
 
+        OnMenuActivate();
+
         // Disable the buttons till scores populate
         btnReplay.interactable = false;
         btnMainMenu.interactable = false;
@@ -61,7 +64,7 @@ public class UIScoreMenu : MonoBehaviour {
             // find the total and max values of player scores
             int max = 0, total = 0;
             for (int i = 0; i < players; i++) {
-                total = StorageManager.PlayerScores[i];
+                total += StorageManager.PlayerScores[i];
                 max = Mathf.Max(max, StorageManager.PlayerScores[i]);
             }
 
@@ -82,7 +85,6 @@ public class UIScoreMenu : MonoBehaviour {
         }
 
         btnReplay.interactable = true;
-        btnReplay.Select();
         btnMainMenu.interactable = true;
         Destroy(StorageManager.Instance.gameObject);
     }
@@ -111,5 +113,13 @@ public class UIScoreMenu : MonoBehaviour {
     private void OnMainMenuClick() {
         //Load the Main Menu
         SceneManager.LoadScene(0);
+    }
+
+    public void OnMenuActivate() {
+        btnReplay.Select();
+    }
+
+    public void OnMenuDeactivate() {
+        
     }
 }
