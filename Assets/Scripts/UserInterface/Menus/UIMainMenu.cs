@@ -16,6 +16,10 @@ public class UIMainMenu : MonoBehaviour {
         btnExitGame.onClick.AddListener(OnExitGameClick);	
 	}
 
+    void OnEnable() {
+        btnFindGame.Select();
+    }
+
     private void OnFindGameClick() {
         GameManager.ActiveState = GameManager.State.Active;
         SceneManager.LoadScene(1);

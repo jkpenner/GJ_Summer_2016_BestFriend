@@ -50,5 +50,7 @@ public class UIOptionMenu : MonoBehaviour {
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1;
+
+        btnReturn.Select();
     }
 }

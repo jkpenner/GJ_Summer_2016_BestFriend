@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class GameManager : Singleton<GameManager> {
-    public enum State { None, Active, Pause, GameWin, GameOver }
+    public enum State { None, Active, Reset, RoundOver, Pause, GameWin, GameOver }
 
-    public enum EventType { StateEnter, StateExit }
+    public enum EventType { StateEnter, StateExit, RoundComplete }
 
     public delegate void GameStateEvent(State state);
     private GameStateEvent OnGameStateEnter;
@@ -13,13 +14,58 @@ public class GameManager : Singleton<GameManager> {
     private State _activeState = State.None;
     public State initialState = State.None;
 
+    private bool firstReset = true;
+    public float resetStateDuration = 4f;
+
+    public UICharacterSelector selector;
+
     private void Awake() {
         if (Instance == this) {
-            DontDestroyOnLoad(this.gameObject);
+            this.transform.SetParent(null);
+            //DontDestroyOnLoad(this.gameObject);
             ActiveState = initialState;
         } else {
             Destroy(this.gameObject);
         }
+    }
+
+    private void OnEnable() {
+        OnGameStateEnter += GameStateEnter;
+        OnGameStateExit += GameStateExit;
+
+        if (ActiveState == State.None) {
+            SetState(State.Reset);
+        }
+    }
+
+    private void OnDisable() {
+        OnGameStateEnter -= GameStateEnter;
+        OnGameStateExit -= GameStateExit;
+
+        OnGameStateEnter = null;
+        OnGameStateExit = null;
+    }
+
+    private void GameStateExit(State state) {
+        
+    }
+
+    private void GameStateEnter(State state) {
+        switch (state) {
+            case State.Reset:
+                StartCoroutine("OnResetEnter", resetStateDuration);
+                break;
+        }
+    }
+
+    private IEnumerator OnResetEnter(float wait) {
+        if (firstReset) {
+            firstReset = false;
+            yield return new WaitForSeconds(0.1f);
+        } else {
+            yield return new WaitForSeconds(wait);
+        }
+        SetState(State.Active);
     }
 
     static public State ActiveState {
@@ -47,16 +93,20 @@ public class GameManager : Singleton<GameManager> {
     }
 
     static public void AddListener(EventType type, GameStateEvent func) {
-        switch (type) {
-            case EventType.StateEnter: Instance.OnGameStateEnter += func; break;
-            case EventType.StateExit: Instance.OnGameStateExit += func; break;
+        if (Instance != null) {
+            switch (type) {
+                case EventType.StateEnter: Instance.OnGameStateEnter += func; break;
+                case EventType.StateExit: Instance.OnGameStateExit += func; break;
+            }
         }
     }
 
     static public void RemoveListener(EventType type, GameStateEvent func) {
-        switch (type) {
-            case EventType.StateEnter: Instance.OnGameStateEnter -= func; break;
-            case EventType.StateExit: Instance.OnGameStateExit -= func; break;
+        if (Instance != null) {
+            switch (type) {
+                case EventType.StateEnter: Instance.OnGameStateEnter -= func; break;
+                case EventType.StateExit: Instance.OnGameStateExit -= func; break;
+            }
         }
     }
 }

@@ -24,9 +24,9 @@ public class UIScorePanel : MonoBehaviour {
             userScoreParent = this.transform;
         }
 
-        ScoreManager.AddListener(ScoreManager.EventType.PlayerAdd, OnPlayerAdd);
-        ScoreManager.AddListener(ScoreManager.EventType.PlayerRemove, OnPlayerRemove);
-        ScoreManager.AddListener(ScoreManager.EventType.ScoreChange, OnScoreChange);
+        ScoreManager.AddListener(ScoreManager.ScoreEventType.PlayerAdd, OnPlayerAdd);
+        ScoreManager.AddListener(ScoreManager.ScoreEventType.PlayerRemove, OnPlayerRemove);
+        ScoreManager.AddListener(ScoreManager.ScoreEventType.Changed, OnScoreChange);
 
         ScoreManager.AddPlayer(1);
         ScoreManager.AddPlayer(2);

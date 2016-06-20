@@ -30,7 +30,8 @@ public class PlayerJump : MonoBehaviour {
 	}
 
 	void Jump(){
-		if(Input.GetButtonDown(jumpInput) && canJump){
+        if(Input.GetButtonDown(PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "A"))) {
+		//if(Input.GetButtonDown(jumpInput) && canJump){
 			rigidBody.AddForce(new Vector2(0f, jumpForce));
 			canJump = false;
 		}

@@ -21,8 +21,11 @@ public class PlayerMove : MonoBehaviour {
 	}
 
 	void Move(){
-		if(Input.GetButton(moveInput)){
-			var inputValue = Input.GetAxis(moveInput);
+        var inputValue = Input.GetAxis(PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "LS_Horizontal"));
+        if(inputValue != 0.0f) {
+
+		//if(Input.GetButton(moveInput)){
+			//var inputValue = Input.GetAxis(moveInput);
 			if((inputValue > 0 && rigidBody.velocity.x < walkSpeed) || (inputValue < 0 && rigidBody.velocity.x > -walkSpeed)){
 				rigidBody.AddForce(new Vector2(inputValue * walkForce, 0f));
 			}

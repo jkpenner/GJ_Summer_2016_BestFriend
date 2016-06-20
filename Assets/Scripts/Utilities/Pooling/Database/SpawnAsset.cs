@@ -36,7 +36,7 @@ public class SpawnAsset : BaseDatabaseAsset, IPoolableObject {
         set { _poolCount = value; }
     }
 
-    public SpawnAsset(int id) {
-        Id = id;
+    public SpawnAsset(int id) : base(id) {
+
     }
 }

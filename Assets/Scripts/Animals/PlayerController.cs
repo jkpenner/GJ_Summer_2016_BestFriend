@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerController : MonoBehaviour {
 
@@ -17,8 +18,9 @@ public class PlayerController : MonoBehaviour {
 	public Animal animal;
 	public float flightForce = 400f; 
 	public float grindSpeed = 15f;
+    public int scoreValue = 1;
 
-	State _state;
+    State _state;
 	PlayerJump playerJump;
 	PlayerMove playerMove;
 	PlayerDive playerDive;
@@ -31,10 +33,48 @@ public class PlayerController : MonoBehaviour {
 		playerDive = gameObject.GetComponent<PlayerDive>();
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		ChangeState(State.ACTIVE);
+
+        // Listen to Manager Events
+        GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
+        GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
+        PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+        ScoreManager.AddListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
 	}
 
-	// Update is called once per frame
-	void Update () {
+    private void OnRoundComplete() {
+        // When the round complete kill everything
+        Destroy(this.gameObject);
+    }
+
+    private void OnGameStateExit(GameManager.State state) {
+        if (state == GameManager.State.Pause) {
+            rigidBody.isKinematic = false;
+        }
+    }
+
+    private void OnGameStateEnter(GameManager.State state) {
+        if (state == GameManager.State.Pause) {
+            rigidBody.isKinematic = true;
+        }
+    }
+
+    private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
+        if (player.id == GetComponent<InputMapper>().playerNumber) {
+            if (_state == State.ACTIVE) {
+                Destroy(this.gameObject);
+            }
+        }
+    }
+
+    private void OnDestroy() {
+        GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);
+        GameManager.RemoveListener(GameManager.EventType.StateExit, OnGameStateExit);
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+        ScoreManager.RemoveListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		//TODO: move chicken flight to own class
 		if(_state == State.DISABLED && animal == Animal.CHICKEN){
 			rigidBody.AddForce(Vector2.up * flightForce);
@@ -91,7 +131,8 @@ public class PlayerController : MonoBehaviour {
 		rigidBody.isKinematic = true;
 		rigidBody.velocity = Vector2.down * grindSpeed*Time.deltaTime;
 		gameObject.GetComponentInChildren<Animator>().SetBool("isGrinding", true);
-	}
+        ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, -scoreValue);
+    }
 
 	/*  TODO: Move to own class */
 	void StickObject(Collision2D collision){
@@ -105,6 +146,13 @@ public class PlayerController : MonoBehaviour {
 
 		endHinge.anchor = GetVectorOffset(gameObject, collision.gameObject, transform.eulerAngles.z) * gameObject.GetComponent<CircleCollider2D>().radius;
 		endHinge.connectedAnchor = GetVectorOffset(collision.gameObject, gameObject, collision.transform.eulerAngles.z) * collision.gameObject.GetComponent<CircleCollider2D>().radius;
+
+        if (ScoreManager.Instance.winTransform.position.y < transform.position.y) {
+            ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, scoreValue * 10);
+            ScoreManager.EndRound();
+        } else {
+            ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, scoreValue);
+        }
 	}
 		
 	Vector2 GetVectorOffset(GameObject object1, GameObject object2, float angle){

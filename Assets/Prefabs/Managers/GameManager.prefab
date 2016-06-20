@@ -40,6 +40,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f73b0414caafc449ec37c705013814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialState: 0
+  selector: {fileID: 0}
+  _roundsPerGame: 3
+  _roundsToWin: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
