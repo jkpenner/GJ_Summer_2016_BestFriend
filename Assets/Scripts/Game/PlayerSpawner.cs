@@ -22,7 +22,7 @@ public class PlayerSpawner : MonoBehaviour {
     }
 
     private void OnRoundStart() {
-        CreateNewPlayer();
+        CreateNewPlayer(true);
     }
 
     private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
@@ -30,22 +30,27 @@ public class PlayerSpawner : MonoBehaviour {
     }
 
     private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
-        if (player.id == playerNumber && 
-            (GameManager.ActiveState == GameManager.State.Active ||
-            GameManager.ActiveState == GameManager.State.Pause)) {
+        if (player.id == playerNumber) {
             CreateNewPlayer();
         }
     }
 
     public void CreateNewPlayer() {
-        var playerInfo = PlayerManager.GetPlayerInfo(playerNumber);
-        if (playerInfo != null && playerInfo.IsConnected) {
-            if (useRandom) {
-                SpawnRandom();
-            } else {
-                var prefab = playerObjects[playerInfo.CharacterSelection];
-                var instance = (GameObject)Instantiate(prefab, transform.position, Quaternion.identity);
-                instance.GetComponent<InputMapper>().SetPlayerNumber(playerNumber);
+        CreateNewPlayer(false);
+    }
+
+    public void CreateNewPlayer(bool force) {
+        if (force || (GameManager.ActiveState == GameManager.State.Active ||
+            GameManager.ActiveState == GameManager.State.Pause)) {
+            var playerInfo = PlayerManager.GetPlayerInfo(playerNumber);
+            if (playerInfo != null && playerInfo.IsConnected) {
+                if (useRandom) {
+                    SpawnRandom();
+                } else {
+                    var prefab = playerObjects[playerInfo.CharacterSelection];
+                    var instance = (GameObject)Instantiate(prefab, transform.position, Quaternion.identity);
+                    instance.GetComponent<InputMapper>().SetPlayerNumber(playerNumber);
+                }
             }
         }
     }
