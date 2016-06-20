@@ -32,7 +32,7 @@ public class UIRoundInfoPanel : MonoBehaviour {
         canvasGroup.alpha = 1f;
 
         if (ScoreManager.Instance.RoundCounter > 0) {
-            txtDescription.text = "Players Reacted The Finish Line!";
+            txtDescription.text = "Players Reached The Finish Line!";
         } else {
             txtDescription.text = "Round Timer Expired";
         }
