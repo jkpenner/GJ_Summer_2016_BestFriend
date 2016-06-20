@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using System;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class UIPauseMenu : MonoBehaviour {
+public class UIPauseMenu : MonoBehaviour, IUIMenu {
     private CanvasGroup canvasGroup;
 
     public Button btnResume;
@@ -17,9 +17,7 @@ public class UIPauseMenu : MonoBehaviour {
 
     private void Start() {
         canvasGroup = GetComponent<CanvasGroup>();
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.interactable = false;
-        canvasGroup.alpha = 0;
+        OnMenuDeactivate();
 
         btnResume.onClick.AddListener(OnResumeClick);
         btnOptions.onClick.AddListener(OnOptionsClick);
@@ -29,8 +27,6 @@ public class UIPauseMenu : MonoBehaviour {
     private void OnEnable() {
         GameManager.AddListener(GameManager.EventType.StateEnter, OnStateEnter);
         GameManager.AddListener(GameManager.EventType.StateExit, OnStateExit);
-
-        btnResume.Select();
     }
 
     private void OnDisable() {
@@ -40,17 +36,13 @@ public class UIPauseMenu : MonoBehaviour {
 
     private void OnStateExit(GameManager.State state) {
         if (state == GameManager.State.Pause) {
-            canvasGroup.blocksRaycasts = false;
-            canvasGroup.interactable = false;
-            canvasGroup.alpha = 0;
+            OnMenuDeactivate();
         }
     }
 
     private void OnStateEnter(GameManager.State state) {
         if (state == GameManager.State.Pause) {
-            canvasGroup.blocksRaycasts = true;
-            canvasGroup.interactable = true;
-            canvasGroup.alpha = 1;
+            OnMenuActivate();
         }
     }
 
@@ -61,10 +53,7 @@ public class UIPauseMenu : MonoBehaviour {
             Input.GetButtonDown(PlayerManager.GetPlayerInputStr(4, "Start"))){
             if (GameManager.ActiveState == GameManager.State.Active ||
                 GameManager.ActiveState == GameManager.State.None) {
-                GameManager.SetState(GameManager.State.Pause);
-
-                
-                
+                GameManager.SetState(GameManager.State.Pause);                
             } else if (GameManager.ActiveState == GameManager.State.Pause) {
                 GameManager.SetState(GameManager.State.Active);
             }
@@ -76,11 +65,23 @@ public class UIPauseMenu : MonoBehaviour {
     }
 
     private void OnOptionsClick() {
-        optionMenu.Display(this.gameObject);
+        optionMenu.Display(this);
+        OnMenuDeactivate();
     }
 
     private void OnResumeClick() {
         GameManager.SetState(GameManager.State.Active);
+        OnMenuDeactivate();
+    }
+
+    public void OnMenuActivate() {
+        btnResume.Select();
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
+        canvasGroup.alpha = 1;
+    }
+
+    public void OnMenuDeactivate() {
         canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;
         canvasGroup.alpha = 0;

@@ -4,7 +4,7 @@ using System.Collections;
 using System;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class UIOptionMenu : MonoBehaviour {
+public class UIOptionMenu : MonoBehaviour, IUIMenu {
     private CanvasGroup canvasGroup;
 
     public Button btnIncreaseQuality;
@@ -12,13 +12,11 @@ public class UIOptionMenu : MonoBehaviour {
 
     public Button btnReturn;
 
-    private GameObject previous;
+    private IUIMenu previous;
 
-    private void Start() {
+    private void Awake() {
         canvasGroup = GetComponent<CanvasGroup>();
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.alpha = 0;
+        OnMenuDeactivate();
 
         btnIncreaseQuality.onClick.AddListener(OnIncreaseQualityClick);
         btnDecreaseQuality.onClick.AddListener(OnDescreaseQualityClick);
@@ -26,12 +24,10 @@ public class UIOptionMenu : MonoBehaviour {
     }
 
     private void OnReturnClick() {
-        previous.SetActive(true);
+        previous.OnMenuActivate();
         gameObject.SetActive(false);
 
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.alpha = 0;
+        OnMenuDeactivate();
     }
 
     private void OnDescreaseQualityClick() {
@@ -42,15 +38,23 @@ public class UIOptionMenu : MonoBehaviour {
         QualitySettings.IncreaseLevel();
     }
 
-    public void Display(GameObject enableOnExit) {
+    public void Display(IUIMenu enableOnExit) {
         gameObject.SetActive(true);
         previous = enableOnExit;
-        previous.SetActive(false);
 
+        OnMenuActivate();
+    }
+
+    public void OnMenuActivate() {
+        btnReturn.Select();
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1;
+    }
 
-        btnReturn.Select();
+    public void OnMenuDeactivate() {
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
+        canvasGroup.alpha = 0;
     }
 }
