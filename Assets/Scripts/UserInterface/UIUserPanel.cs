@@ -46,6 +46,9 @@ public class UIUserPanel : MonoBehaviour {
         if (playerInfo != null) {
             imgBorder.color = playerInfo.color;
             ToggleUIElements(playerInfo.IsConnected);
+            if (playerInfo.IsConnected) {
+                txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
+            }
         }
 
         ActiveSelection = -1;
