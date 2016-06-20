@@ -26,6 +26,15 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     public enum EventType { PlayerConnect, PlayerDisconnect }
 
+    private void Awake() {
+        if (Instance == this) {
+            this.transform.SetParent(null);
+            DontDestroyOnLoad(this.gameObject);
+        } else {
+            Destroy(this.gameObject);
+        }
+    }
+
     private void Update() {
         foreach (var player in players) {
             if (player.IsConnected) {

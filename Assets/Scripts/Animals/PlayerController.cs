@@ -33,9 +33,29 @@ public class PlayerController : MonoBehaviour {
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		ChangeState(State.ACTIVE);
 
-        // Add Listeners to the playermanager
+        // Listen to Manager Events
+        GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
+        GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
         PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+        ScoreManager.AddListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
 	}
+
+    private void OnRoundComplete() {
+        // When the round complete kill everything
+        Destroy(this.gameObject);
+    }
+
+    private void OnGameStateExit(GameManager.State state) {
+        if (state == GameManager.State.Pause) {
+            rigidBody.isKinematic = false;
+        }
+    }
+
+    private void OnGameStateEnter(GameManager.State state) {
+        if (state == GameManager.State.Pause) {
+            rigidBody.isKinematic = true;
+        }
+    }
 
     private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
         if (player.id == GetComponent<InputMapper>().playerNumber) {
@@ -46,7 +66,10 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDestroy() {
+        GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);
+        GameManager.RemoveListener(GameManager.EventType.StateExit, OnGameStateExit);
         PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+        ScoreManager.RemoveListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
     }
 
     // Update is called once per frame
