@@ -6,11 +6,13 @@ public class PlayerJump : MonoBehaviour {
 	public float jumpForce = 200f;
 
 	Rigidbody2D rigidBody;
+	Animator animator;
 	bool canJump = true;
 
 	// Use this for initialization
 	void Start () {
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
+		animator = gameObject.GetComponentInChildren<Animator>();
 	}
 
 	//Collision with other animals 
@@ -30,7 +32,14 @@ public class PlayerJump : MonoBehaviour {
 	void Jump(){
         if(Input.GetButtonDown(PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "A")) && canJump) {
 			rigidBody.AddForce(new Vector2(0f, jumpForce));
+			animator.SetBool("isJumping", true);
 			canJump = false;
+			StartCoroutine("StopJump");
 		}
+	}
+
+	IEnumerator StopJump(){
+		yield return new WaitForSeconds(0.3f);
+		animator.SetBool("isJumping", false);
 	}
 }

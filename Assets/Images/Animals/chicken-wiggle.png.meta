@@ -1,0 +1,261 @@
+fileFormatVersion: 2
+guid: 47f495ca7ebd9494996c795f54bd9ce9
+timeCreated: 1466486662
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: chicken-wiggle_0
+    21300002: chicken-wiggle_1
+    21300004: chicken-wiggle_2
+    21300006: chicken-wiggle_3
+    21300008: chicken-wiggle_4
+    21300010: chicken-wiggle_5
+    21300012: chicken-wiggle_6
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 2
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 150
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: chicken-wiggle_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1383
+        width: 270
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 34.5}
+        - {x: 13, y: 107.5}
+        - {x: -25, y: 107.5}
+        - {x: -39, y: 96.5}
+        - {x: -108, y: 44.5}
+        - {x: -108, y: -60.5}
+        - {x: -73, y: -90.5}
+        - {x: 43, y: -90.5}
+        - {x: 92, y: -66.5}
+        - {x: 112, y: -30.5}
+        - {x: 112, y: 9.5}
+      - - {x: -113, y: 87.5}
+        - {x: -112, y: 84.5}
+        - {x: -109, y: 84.5}
+        - {x: -107, y: 86.5}
+        - {x: -108, y: 89.5}
+        - {x: -111, y: 89.5}
+    - name: chicken-wiggle_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1166
+        width: 270
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 126, y: 16.5}
+        - {x: 36, y: 108.5}
+        - {x: -37, y: 108.5}
+        - {x: -83, y: 55.5}
+        - {x: -120, y: 23.5}
+        - {x: -120, y: 0.5}
+        - {x: -96, y: -59.5}
+        - {x: -34, y: -90.5}
+        - {x: 66, y: -90.5}
+        - {x: 127, y: -35.5}
+        - {x: 130, y: -21.5}
+        - {x: 130, y: 5.5}
+      - - {x: -113, y: 87.5}
+        - {x: -112, y: 84.5}
+        - {x: -109, y: 84.5}
+        - {x: -107, y: 86.5}
+        - {x: -108, y: 89.5}
+        - {x: -111, y: 89.5}
+    - name: chicken-wiggle_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 949
+        width: 270
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 59, y: 65.5}
+        - {x: 25, y: 108.5}
+        - {x: -23, y: 108.5}
+        - {x: -40, y: 104.5}
+        - {x: -84, y: 42.5}
+        - {x: -135, y: 9.5}
+        - {x: -135, y: -26.5}
+        - {x: -69, y: -90.5}
+        - {x: 22, y: -90.5}
+        - {x: 49, y: -87.5}
+        - {x: 113, y: -59.5}
+        - {x: 135, y: -29.5}
+        - {x: 135, y: -0.5}
+      - - {x: -113, y: 87.5}
+        - {x: -112, y: 84.5}
+        - {x: -109, y: 84.5}
+        - {x: -107, y: 86.5}
+        - {x: -108, y: 89.5}
+        - {x: -111, y: 89.5}
+    - name: chicken-wiggle_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 732
+        width: 270
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36, y: 108.5}
+        - {x: -91, y: 45.5}
+        - {x: -129, y: -1.5}
+        - {x: -129, y: -27.5}
+        - {x: -114, y: -33.5}
+        - {x: -68, y: -75.5}
+        - {x: -65, y: -76.5}
+        - {x: -22, y: -90.5}
+        - {x: 28, y: -90.5}
+        - {x: 50, y: -89.5}
+        - {x: 135, y: -46.5}
+        - {x: 135, y: -9.5}
+        - {x: 38, y: 108.5}
+      - - {x: -113, y: 87.5}
+        - {x: -112, y: 84.5}
+        - {x: -109, y: 84.5}
+        - {x: -107, y: 86.5}
+        - {x: -108, y: 89.5}
+        - {x: -111, y: 89.5}
+    - name: chicken-wiggle_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 515
+        width: 270
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 35, y: 108.5}
+        - {x: -34, y: 108.5}
+        - {x: -87, y: 58.5}
+        - {x: -135, y: 6.5}
+        - {x: -135, y: -36.5}
+        - {x: -49, y: -90.5}
+        - {x: 40, y: -90.5}
+        - {x: 116, y: -64.5}
+        - {x: 135, y: -33.5}
+        - {x: 135, y: -1.5}
+        - {x: 94, y: 29.5}
+      - - {x: -113, y: 87.5}
+        - {x: -112, y: 84.5}
+        - {x: -109, y: 84.5}
+        - {x: -107, y: 86.5}
+        - {x: -108, y: 89.5}
+        - {x: -111, y: 89.5}
+    - name: chicken-wiggle_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 298
+        width: 270
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -109, y: -80.5}
+        - {x: -100, y: -86.5}
+        - {x: -95, y: -85.5}
+        - {x: -91, y: -84.5}
+        - {x: -96, y: -93.5}
+        - {x: -40, y: -105.5}
+        - {x: 111, y: -105.5}
+        - {x: 111, y: -26.5}
+        - {x: 46, y: 108.5}
+        - {x: -46, y: 108.5}
+        - {x: -109, y: -13.5}
+      - - {x: -113, y: 87.5}
+        - {x: -112, y: 84.5}
+        - {x: -109, y: 84.5}
+        - {x: -107, y: 86.5}
+        - {x: -108, y: 89.5}
+        - {x: -111, y: 89.5}
+    - name: chicken-wiggle_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 81
+        width: 270
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 103, y: 40.5}
+        - {x: 32, y: 96.5}
+        - {x: 12, y: 107.5}
+        - {x: -25, y: 107.5}
+        - {x: -48, y: 99.5}
+        - {x: -107, y: 53.5}
+        - {x: -107, y: -50.5}
+        - {x: -93, y: -73.5}
+        - {x: -42, y: -90.5}
+        - {x: 40, y: -90.5}
+        - {x: 101, y: -55.5}
+        - {x: 113, y: -22.5}
+        - {x: 113, y: 13.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

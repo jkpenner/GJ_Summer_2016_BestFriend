@@ -159,6 +159,7 @@ public class PlayerController : MonoBehaviour {
 	/*  TODO: Move to own class */
 	void StickObject(Collision2D collision){
 		GameObject stickyObject = collision.gameObject;
+		gameObject.GetComponentInChildren<Animator>().SetBool("isStuck", true);
 
 		FixedJoint2D endHinge = gameObject.AddComponent<FixedJoint2D>() as FixedJoint2D;
 		endHinge.connectedBody = stickyObject.GetComponent<Rigidbody2D>();
