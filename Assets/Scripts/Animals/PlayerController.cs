@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void LateUpdate(){
-		if(animal ==Animal.CHICKEN){
+		if(animal == Animal.CHICKEN){
 			playerJump.AllowJump();
 		}
 	}
