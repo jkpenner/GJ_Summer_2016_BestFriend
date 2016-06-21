@@ -101,12 +101,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void LateUpdate(){
-		if(animal == Animal.CHICKEN){
-			playerJump.AllowJump();
-		}
-	}
-
 	//Collision with other animals
 	void OnCollisionEnter2D(Collision2D collision){
 		if(collision.transform.tag == "Anchor"){
@@ -125,10 +119,14 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collider){
 		if(collider.CompareTag("Destroyer")){
 			Destroy(gameObject);
-		}else if(_state == State.ACTIVE){
-			ResetPlayer();
+		}else if(collider.CompareTag("Grinder")){
+            if (_state == State.ACTIVE)
+            {
+                ResetPlayer();
+            }
+            GrindPlayer();
 		}
-		GrindPlayer();
+		
 		ChangeState(State.DISABLED);
 	}
 
