@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 public class GameManager : Singleton<GameManager> {
-    public enum State { None, Active, Reset, RoundOver, Pause, GameWin, GameOver }
+    public enum State { None, Active, RoundLost, RoundWin, Pause, GameWin, GameOver }
 
     public enum EventType { StateEnter, StateExit, RoundComplete }
 
@@ -34,7 +34,7 @@ public class GameManager : Singleton<GameManager> {
         OnGameStateExit += GameStateExit;
 
         if (ActiveState == State.None) {
-            SetState(State.Reset);
+            SetState(State.RoundLost);
         }
     }
 
@@ -52,7 +52,8 @@ public class GameManager : Singleton<GameManager> {
 
     private void GameStateEnter(State state) {
         switch (state) {
-            case State.Reset:
+            case State.RoundWin:
+            case State.RoundLost:
                 StartCoroutine("OnResetEnter", resetStateDuration);
                 break;
         }
