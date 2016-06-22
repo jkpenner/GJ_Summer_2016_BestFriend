@@ -129,6 +129,7 @@ MonoBehaviour:
   grindSpeed: 10
   scoreValue: 100
   vaccumForce: 50
+  spawnSound: {fileID: 8300000, guid: 3c5af0b208b4848ecbff9d7d3ecd4b61, type: 3}
 --- !u!114 &11450274
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 	public float grindSpeed = 15f;
     public int scoreValue = 1;
 	public float vaccumForce = 500f;
+	public AudioClip spawnSound;
 
     private bool firstStick = true;
     private bool firstGrind = true;
@@ -52,6 +53,10 @@ public class PlayerController : MonoBehaviour {
         GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
         PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
         ScoreManager.AddListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
+
+		//Give initial velocity
+		rigidBody.velocity = Vector2.right * (transform.position.x < 0 ? 1 : -1) * 5f;
+		SoundManager.PlaySoundEffect(spawnSound);
 	}
 
     private void OnRoundComplete() {
