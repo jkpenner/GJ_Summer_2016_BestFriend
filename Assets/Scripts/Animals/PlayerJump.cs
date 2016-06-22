@@ -15,7 +15,7 @@ public class PlayerJump : MonoBehaviour {
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponentInChildren<Animator>();
 		distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
-        jumpInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "A");
+        jumpInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "A");
     }
 	
 	// Update is called once per frame

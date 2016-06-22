@@ -17,7 +17,7 @@ public class PlayerDash : MonoBehaviour {
 	void Start () {
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponentInChildren<Animator>();
-		dashInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "A");
+		dashInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "A");
 		distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
 	}
 
@@ -38,7 +38,7 @@ public class PlayerDash : MonoBehaviour {
 	}
 
 	void Dash(){
-		float dashDirection = Input.GetAxis(PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "LS_Horizontal"));
+		float dashDirection = Input.GetAxis(PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "LS_Horizontal"));
 		if(Input.GetButtonDown(dashInput) && dashDirection != 0 && !IsGrounded() && canDash){
 			Debug.Log("dash");
 			rigidBody.MoveRotation(Mathf.Atan2(0, dashDirection)*Mathf.Rad2Deg + 180);

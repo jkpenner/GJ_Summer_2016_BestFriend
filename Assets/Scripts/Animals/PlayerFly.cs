@@ -16,7 +16,7 @@ public class PlayerFly : MonoBehaviour {
     {
         rigidBody = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponentInChildren<Animator>();
-        flyInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "A");
+        flyInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "A");
         distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
     }
 
