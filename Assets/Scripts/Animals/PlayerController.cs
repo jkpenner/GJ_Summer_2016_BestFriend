@@ -55,23 +55,28 @@ public class PlayerController : MonoBehaviour {
 	}
 
     private void OnRoundComplete() {
-        // When the round complete kill everything
-        // Updates the active grind speed for fast killing
-        /*activeGrindSpeed = grindSpeed * 15;
-        rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
-
-        // if the animal is not in the grinder
-        if (_state == State.ACTIVE) {
-            // Spawn a partical effect
-            Destroy(this.gameObject);
-        }*/
-
-		_state = State.SAVED;
-		rigidBody.isKinematic = false;
-		foreach(FixedJoint2D fixedJoint in gameObject.GetComponents<FixedJoint2D>()){
-			Destroy(fixedJoint);
+		//Win
+		if(GameManager.ActiveState == GameManager.State.RoundWin){
+			ChangeState(State.SAVED);
+			rigidBody.isKinematic = false;
+			foreach(FixedJoint2D fixedJoint in gameObject.GetComponents<FixedJoint2D>()){
+				Destroy(fixedJoint);
+			}
 		}
+		//Lose
+		else{
+			ChangeState(State.DISABLED);
+			// When the round complete kill everything
+			// Updates the active grind speed for fast killing
+			activeGrindSpeed = grindSpeed * 15;
+	        rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
 
+	        // if the animal is not in the grinder
+	        if (_state == State.ACTIVE) {
+	            // Spawn a partical effect
+	            Destroy(this.gameObject);
+	        }
+		}
     }
 
     private void OnGameStateExit(GameManager.State state) {
