@@ -41,22 +41,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players:
-  - id: 1
-    color: {r: 0.034482475, g: 0, b: 1, a: 1}
-    postfix: _P1
-    prefix: 
-  - id: 2
-    color: {r: 1, g: 0, b: 0, a: 1}
-    postfix: _P2
-    prefix: 
-  - id: 3
-    color: {r: 0.07586217, g: 1, b: 0, a: 1}
-    postfix: _P3
-    prefix: 
-  - id: 4
-    color: {r: 1, g: 1, b: 0, a: 1}
-    postfix: _P4
-    prefix: 
+  - _id: 1
+    _color: {r: 1, g: 0, b: 0, a: 0}
+    _postfix: _P1
+    _canDisconnect: 0
+  - _id: 2
+    _color: {r: 0.11724138, g: 0, b: 1, a: 0}
+    _postfix: _P2
+    _canDisconnect: 0
+  - _id: 3
+    _color: {r: 0, g: 1, b: 0.006896496, a: 0}
+    _postfix: _P3
+    _canDisconnect: 0
+  - _id: 4
+    _color: {r: 1, g: 0.8482759, b: 0, a: 0}
+    _postfix: _P4
+    _canDisconnect: 0
   disconnectPlayerDelay: 30
 --- !u!1001 &100100000
 Prefab:

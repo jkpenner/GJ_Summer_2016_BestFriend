@@ -4,6 +4,11 @@ public class PlayerSpawner : MonoBehaviour {
     public PlayerId playerId;
     public bool useRandom = true;
 
+    private void Awake() {
+        // Add Spawn to Spawn Manager on Awake
+        SpawnManager.AddSpawn(this);
+    }
+
     // Use this for initialization
     void Start() {
 	// Disable this spawner if playerNumber is greater the max players
@@ -24,6 +29,11 @@ public class PlayerSpawner : MonoBehaviour {
     private void Disable() {
         ScoreManager.RemoveListener(ScoreManager.RoundEventType.Start, OnRoundStart);
         PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
+    }
+
+    // ToDo: Update playerId to be a Flag type enum
+    public bool IsUsableSpawn(PlayerId playerId) {
+        return this.playerId == playerId;
     }
 
     private void OnRoundStart() {

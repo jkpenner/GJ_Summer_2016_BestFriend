@@ -163,7 +163,8 @@ public class PlayerController : MonoBehaviour {
 		gameObject.transform.tag = "Anchor";
 
 		
-		GameObject.Find("Spawner_P"+(int)playerId).gameObject.GetComponent<PlayerSpawner>().CreateNewPlayer();
+		//GameObject.Find("Spawner_P"+(int)playerId).gameObject.GetComponent<PlayerSpawner>().CreateNewPlayer();
+        SpawnManager.SpawnPlayer(this.playerId);
 	}
 
 	void GrindPlayer(){
