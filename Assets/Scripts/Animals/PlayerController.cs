@@ -5,7 +5,9 @@ using System;
 public class PlayerController : MonoBehaviour {
 	enum State{
 		ACTIVE,
-		DISABLED
+		DISABLED,
+		SAVED
+
 	}
 
 	public enum Animal{
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 	public float flightForce = 400f; 
 	public float grindSpeed = 15f;
     public int scoreValue = 1;
+	public float vaccumForce = 500f;
 
     private bool firstStick = true;
     private bool firstGrind = true;
@@ -54,14 +57,21 @@ public class PlayerController : MonoBehaviour {
     private void OnRoundComplete() {
         // When the round complete kill everything
         // Updates the active grind speed for fast killing
-        activeGrindSpeed = grindSpeed * 15;
+        /*activeGrindSpeed = grindSpeed * 15;
         rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
 
         // if the animal is not in the grinder
         if (_state == State.ACTIVE) {
             // Spawn a partical effect
             Destroy(this.gameObject);
-        }
+        }*/
+
+		_state = State.SAVED;
+		rigidBody.isKinematic = false;
+		foreach(FixedJoint2D fixedJoint in gameObject.GetComponents<FixedJoint2D>()){
+			Destroy(fixedJoint);
+		}
+
     }
 
     private void OnGameStateExit(GameManager.State state) {
@@ -103,12 +113,14 @@ public class PlayerController : MonoBehaviour {
 		//TODO: move chicken flight to own class
 		if(_state == State.DISABLED && animal == Animal.CHICKEN){
 			rigidBody.AddForce(Vector2.up * flightForce);
+		}else if(_state == State.SAVED){
+			rigidBody.AddForce(Vector2.up * vaccumForce);
 		}
 	}
 
 	//Collision with other animals
 	void OnCollisionEnter2D(Collision2D collision){
-		if(collision.transform.tag == "Anchor"){
+		if(collision.transform.tag == "Anchor" && _state != State.SAVED){
 			if(_state == State.ACTIVE){
 				ChangeState(State.DISABLED);
 				ResetPlayer();
@@ -124,15 +136,15 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collider){
 		if(collider.CompareTag("Destroyer")){
 			Destroy(gameObject);
-		}else if(collider.CompareTag("Grinder")){
+		}else if(collider.CompareTag("Grinder") && _state != State.SAVED){
             if (_state == State.ACTIVE)
             {
                 ResetPlayer();
             }
-            GrindPlayer();
+			GrindPlayer();
+			ChangeState(State.DISABLED);
 		}
-		
-		ChangeState(State.DISABLED);
+
 	}
 
 	void ChangeState(State state){
