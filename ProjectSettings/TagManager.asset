@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Anchor
   - Player
+  - Destroyer
+  - Grinder
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - 
   - 
   - Icons
-  - 
+  - floor
   - 
   - 
   - 

@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour {
 	PlayerJump playerJump;
 	PlayerMove playerMove;
 	PlayerDive playerDive;
+	PlayerFly playerFly;
+	PlayerDash playerDash;
 	Rigidbody2D rigidBody;
 
 	// Use this for initialization
@@ -34,6 +36,8 @@ public class PlayerController : MonoBehaviour {
 		playerJump = gameObject.GetComponent<PlayerJump>();
 		playerMove = gameObject.GetComponent<PlayerMove>();
 		playerDive = gameObject.GetComponent<PlayerDive>();
+		playerFly = gameObject.GetComponent<PlayerFly>();
+		playerDash = gameObject.GetComponent<PlayerDash>();
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		ChangeState(State.ACTIVE);
 
@@ -101,12 +105,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void LateUpdate(){
-		if(animal == Animal.CHICKEN){
-			playerJump.AllowJump();
-		}
-	}
-
 	//Collision with other animals
 	void OnCollisionEnter2D(Collision2D collision){
 		if(collision.transform.tag == "Anchor"){
@@ -125,10 +123,14 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collider){
 		if(collider.CompareTag("Destroyer")){
 			Destroy(gameObject);
-		}else if(_state == State.ACTIVE){
-			ResetPlayer();
+		}else if(collider.CompareTag("Grinder")){
+            if (_state == State.ACTIVE)
+            {
+                ResetPlayer();
+            }
+            GrindPlayer();
 		}
-		GrindPlayer();
+		
 		ChangeState(State.DISABLED);
 	}
 
@@ -141,6 +143,8 @@ public class PlayerController : MonoBehaviour {
 		playerMove.enabled = false;
 		playerJump.enabled = false;
 		if(playerDive) playerDive.enabled = false;
+		if(playerFly) playerFly.enabled = false;
+		if(playerDash) playerDash.enabled = false;
 		gameObject.transform.tag = "Anchor";
 
 		int playerNumber = gameObject.GetComponent<InputMapper>().playerNumber;

@@ -15,6 +15,7 @@ GameObject:
   - 114: {fileID: 11450274}
   - 114: {fileID: 11463400}
   - 212: {fileID: 21268306}
+  - 114: {fileID: 11490670}
   m_Layer: 0
   m_Name: Chicken
   m_TagString: Player
@@ -139,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 10
-  walkForce: 50
+  walkForce: 70
 --- !u!114 &11463400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -169,6 +170,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 800
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
+--- !u!114 &11490670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dccd9d06f880e654e80e5f61561d2c12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flyForce: 600
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!212 &21248298
 SpriteRenderer:
   m_ObjectHideFlags: 1
