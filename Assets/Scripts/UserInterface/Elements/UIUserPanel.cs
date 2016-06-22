@@ -156,30 +156,23 @@ public class UIUserPanel : MonoBehaviour {
             if (playerInfo != null) {
                 playerInfo.CharacterSelectionId = CharacterDatabase.Instance.Get(ActiveSelectionIndex).Id;
             }
-
-            Debug.LogFormat("[{0}]: Updating Active Character Index to {1}", this.name, ActiveSelectionIndex);
             
             // Set the left character icon
             var lChar = CharacterDatabase.Instance.Get(LoopIndex(ActiveSelectionIndex - 1, charCount));
             if (lChar != null) {
                 imgSelectors[0].sprite = lChar.Icon;
-                Debug.LogFormat("[{0}]: Setting Left Character to {1}", this.name, lChar.Icon.name);
-            } else {
-                Debug.LogFormat("[{0}]: Left Character from database is null", this.name, ActiveSelectionIndex);
             }
 
             // Set the center character icon
             var cChar = CharacterDatabase.Instance.Get(ActiveSelectionIndex);
             if (cChar != null) {
                 imgSelectors[1].sprite = cChar.Icon;
-                Debug.LogFormat("[{0}]: Setting Center Character to {1}", this.name, cChar.Icon.name);
             }
 
             // Set the right charcter icon
             var rChar = CharacterDatabase.Instance.Get(LoopIndex(ActiveSelectionIndex + 1, charCount));
             if (rChar != null) {
                 imgSelectors[2].sprite = rChar.Icon;
-                Debug.LogFormat("[{0}]: Setting Right Character to {1}", this.name, rChar.Icon.name);
             }
         }
     }

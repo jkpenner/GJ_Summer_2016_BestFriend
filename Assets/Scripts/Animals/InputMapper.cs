@@ -26,7 +26,7 @@ public class InputMapper : MonoBehaviour {
 	public string GetMappedInput(string inputName){
 		foreach(InputMap inputMap in inputs){
 			if(inputName == inputMap.referenceName){
-				return inputMap.inputManagerNameBase + playerId;
+				return inputMap.inputManagerNameBase + (int)playerId;
 			}
 		}
 		Debug.LogError("Input '"+inputName+"' Not Found");

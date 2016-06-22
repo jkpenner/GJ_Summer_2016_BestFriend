@@ -4,7 +4,7 @@ using System.Collections;
 using System;
 
 public class UIUserPanelUpdate : MonoBehaviour {
-    public int playerId;
+    public PlayerId playerId;
 
     public Transform connectInfo;
     public Transform selectorInfo;
@@ -23,7 +23,8 @@ public class UIUserPanelUpdate : MonoBehaviour {
     public int ActiveSelection { get; set; }
 
     private void Awake() {
-        if (SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer && playerId > 2) {
+        if(SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer &&
+            (playerId == PlayerId.Three || playerId == PlayerId.Four)) {
             this.gameObject.SetActive(false);
             return;
         }
@@ -44,7 +45,7 @@ public class UIUserPanelUpdate : MonoBehaviour {
 
         var playerInfo = PlayerManager.GetPlayerInfo(playerId);
         if (playerInfo != null) {
-            imgBorder.color = playerInfo.color;
+            imgBorder.color = playerInfo.Color;
             ToggleUIElements(playerInfo.IsConnected);
             if (playerInfo.IsConnected) {
                 txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
@@ -72,20 +73,20 @@ public class UIUserPanelUpdate : MonoBehaviour {
         ScoreManager.RemoveListener(ScoreManager.ScoreEventType.PlayerRemove, OnPlayerScoreRemove);
     }
 
-    private void OnPlayerScoreAdd(int playerId) {
+    private void OnPlayerScoreAdd(PlayerId playerId) {
         if (playerId == this.playerId) {
             Debug.Log("Player Add Updating score");
             txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
         }
     }
 
-    private void OnPlayerScoreRemove(int playerId) {
+    private void OnPlayerScoreRemove(PlayerId playerId) {
         if (playerId == this.playerId) {
             txtUserScore.text = "";
         }
     }
 
-    private void OnScoreChange(int playerId) {
+    private void OnScoreChange(PlayerId playerId) {
         if (playerId == this.playerId) {
             txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
         }
@@ -127,16 +128,16 @@ public class UIUserPanelUpdate : MonoBehaviour {
         UpdateSelector(ActiveSelection - 1);
     }
 
-    private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
-        if (player.id == playerId) {
-            Debug.LogFormat("[{0}]: Player Disconnected {1}", this.name, player.id);
+    private void OnPlayerDisconnect(PlayerInfo player) {
+        if (player.Id == playerId) {
+            Debug.LogFormat("[{0}]: Player Disconnected {1}", this.name, player.Id);
             ToggleUIElements(false);
         }
     }
 
-    private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
-        if (player.id == playerId) {
-            Debug.LogFormat("[{0}]: Player Connected {1}", this.name, player.id);
+    private void OnPlayerConnect(PlayerInfo player) {
+        if (player.Id == playerId) {
+            Debug.LogFormat("[{0}]: Player Connected {1}", this.name, player.Id);
             ToggleUIElements(true);
             UpdateSelector(initialSelection);
         }

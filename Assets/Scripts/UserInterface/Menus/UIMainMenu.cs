@@ -35,8 +35,8 @@ public class UIMainMenu : MonoBehaviour, IUIMenu {
         OnMenuActivate();
 	}
 
-    private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
-        if (player.id == 1) {
+    private void OnPlayerConnect(PlayerInfo player) {
+        if (player.Id == PlayerId.One) {
             rtButtonLayout.gameObject.SetActive(true);
             rtConnectText.gameObject.SetActive(false);
             btnGame2PNormal.Select();
@@ -86,7 +86,7 @@ public class UIMainMenu : MonoBehaviour, IUIMenu {
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
 
-        var playerInfo = PlayerManager.GetPlayerInfo(1);
+        var playerInfo = PlayerManager.GetPlayerInfo(PlayerId.One);
         if (playerInfo != null && playerInfo.IsConnected) {
             rtButtonLayout.gameObject.SetActive(true);
             rtConnectText.gameObject.SetActive(false);

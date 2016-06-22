@@ -13,7 +13,7 @@ public class PlayerInfo {
     private string _postfix;
 
     [SerializeField]
-    private bool _canDisconnect;
+    private bool _canAutoDisconnect;
 
     public PlayerId Id {
         get { return _id; }
@@ -30,14 +30,14 @@ public class PlayerInfo {
         set { _postfix = value; }
     }
 
-    public bool CanDisconnect {
-        get { return _canDisconnect; }
-        set { _canDisconnect = value; }
+    public bool CanAutoDisconnect {
+        get { return _canAutoDisconnect; }
+        set { _canAutoDisconnect = value; }
     }
 
     public bool IsConnected { get; set; }
 
-    public float DisconnectCounter { get; set; }
+    public float AutoDisconnectCounter { get; set; }
 
-    public int CharacterSelection { get; set; }
+    public int CharacterSelectionId { get; set; }
 }

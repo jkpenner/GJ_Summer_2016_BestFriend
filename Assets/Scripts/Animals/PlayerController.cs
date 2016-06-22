@@ -3,8 +3,6 @@ using System.Collections;
 using System;
 
 public class PlayerController : MonoBehaviour {
-    public PlayerId playerId;
-
 	enum State{
 		ACTIVE,
 		DISABLED,
@@ -23,6 +21,8 @@ public class PlayerController : MonoBehaviour {
     public int scoreValue = 1;
 	public float suckForce = 1000f;
 
+    private bool firstStick = true;
+    private bool firstGrind = true;
     private float activeGrindSpeed = 0;
     private Vector2 pauseVelocityStored;
 
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnPlayerDisconnect(PlayerInfo player) {
-        if (player.Id == playerId) {
+        if (player.Id == GetComponent<InputMapper>().playerId) {
             if (_state == State.ACTIVE) {
                 Destroy(this.gameObject);
             }
@@ -164,15 +164,16 @@ public class PlayerController : MonoBehaviour {
 
 		
 		//GameObject.Find("Spawner_P"+(int)playerId).gameObject.GetComponent<PlayerSpawner>().CreateNewPlayer();
-        SpawnManager.SpawnPlayer(this.playerId);
+        SpawnManager.SpawnPlayer(this.GetComponent<InputMapper>().playerId);
 	}
 
 	void GrindPlayer(){
 		rigidBody.isKinematic = true;
 		rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
 		gameObject.GetComponentInChildren<Animator>().SetBool("isGrinding", true);
-        if (GameManager.ActiveState == GameManager.State.Active) {
-            ScoreManager.ModifyPlayerScore(playerId, -scoreValue);
+        if (firstGrind && GameManager.ActiveState == GameManager.State.Active) {
+            firstGrind = false;
+            ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerId, -scoreValue);
         }
     }
 
@@ -190,11 +191,14 @@ public class PlayerController : MonoBehaviour {
 		endHinge.anchor = GetVectorOffset(gameObject, collision.gameObject, transform.eulerAngles.z) * gameObject.GetComponent<CircleCollider2D>().radius;
 		endHinge.connectedAnchor = GetVectorOffset(collision.gameObject, gameObject, collision.transform.eulerAngles.z) * collision.gameObject.GetComponent<CircleCollider2D>().radius;
 
-        if (ScoreManager.Instance.winTransform.position.y < transform.position.y) {
-            ScoreManager.ModifyPlayerScore(playerId, scoreValue * 10);
-            ScoreManager.EndRound();
-        } else {
-            ScoreManager.ModifyPlayerScore(playerId, scoreValue);
+        if (firstStick == true) {
+            firstStick = false;
+            if (ScoreManager.Instance.winTransform.position.y < transform.position.y) {
+                ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerId, scoreValue * 10);
+                ScoreManager.EndRound();
+            } else {
+                ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerId, scoreValue);
+            }
         }
 	}
 		

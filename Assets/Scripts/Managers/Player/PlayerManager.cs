@@ -2,22 +2,6 @@
 using System.Collections;
 
 public class PlayerManager : Singleton<PlayerManager> {
-    [System.Serializable]
-    public class PlayerInfo {
-        public int id;
-        public Color color;
-        public string postfix;
-        public string prefix;
-        public bool canAutoDisconnect;
-        
-        public bool IsConnected { get; set; }
-        public float AutoDisconnectCounter { get; set; }
-        /// <summary>
-        /// Id of character within the Character Database
-        /// </summary>
-        public int CharacterSelectionId { get; set; }
-    }
-
     public PlayerInfo[] players;
 
     // Seconds until the controller is disconnected if
@@ -41,13 +25,13 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     private void Update() {
         foreach (var player in players) {
-            if (player.IsConnected && player.canAutoDisconnect) {
+            if (player.IsConnected && player.CanAutoDisconnect) {
                 if (IsControllerActive(player)) {
                     player.AutoDisconnectCounter = disconnectPlayerDelay;
                 } else {
                     player.AutoDisconnectCounter -= Time.deltaTime;
                     if (player.AutoDisconnectCounter <= 0) {
-                        Debug.LogFormat("[{0}]: Player {1} Disconnected from game.", this.name, player.id);
+                        Debug.LogFormat("[{0}]: Player {1} Disconnected from game.", this.name, player.Id.ToString());
                         player.AutoDisconnectCounter = 0;
                         player.IsConnected = false;
                         if (OnPlayerDisconnect != null) {
@@ -56,7 +40,7 @@ public class PlayerManager : Singleton<PlayerManager> {
                     }
                 }
             } else if(!player.IsConnected && CheckForConnectKey(player)) {
-                Debug.LogFormat("[{0}]: Player {1} Connected to game.", this.name, player.id);
+                Debug.LogFormat("[{0}]: Player {1} Connected to game.", this.name, player.Id.ToString());
                 player.AutoDisconnectCounter = disconnectPlayerDelay;
                 player.IsConnected = true;
                 if (OnPlayerConnect != null) {
