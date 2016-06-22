@@ -70,7 +70,7 @@ public class UIScoreMenu : MonoBehaviour, IUIMenu {
 
             // Populate the player scores
             for (int i = 0; i < players; i++) {
-                PopulateScoreBar(playerScoreBars[i], StorageManager.PlayerScores[i], max, percentComplete, PlayerManager.GetPlayerInfo(i + 1).color);
+                PopulateScoreBar(playerScoreBars[i], StorageManager.PlayerScores[i], max, percentComplete, PlayerManager.GetPlayerInfo((PlayerId)(i + 1)).Color);
             }
 
             // Populate the Team Score

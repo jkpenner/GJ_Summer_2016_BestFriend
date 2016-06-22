@@ -10,7 +10,7 @@ public class InputMapper : MonoBehaviour {
 		public string inputManagerNameBase;
 	}
 
-	public int playerNumber;
+	public PlayerId playerId;
 	public InputMap[] inputs;
 
 	// Use this for initialization
@@ -26,14 +26,14 @@ public class InputMapper : MonoBehaviour {
 	public string GetMappedInput(string inputName){
 		foreach(InputMap inputMap in inputs){
 			if(inputName == inputMap.referenceName){
-				return inputMap.inputManagerNameBase + playerNumber;
+				return inputMap.inputManagerNameBase + playerId;
 			}
 		}
 		Debug.LogError("Input '"+inputName+"' Not Found");
 		return "";
 	}
 
-	public void SetPlayerNumber(int num){
-		playerNumber = num;
+	public void SetPlayerId(PlayerId playerId){
+		this.playerId = playerId;
 	}
 }

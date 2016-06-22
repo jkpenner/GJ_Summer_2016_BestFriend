@@ -117,10 +117,10 @@ public class PlayerManager : Singleton<PlayerManager> {
         return null;
     }
 
-    static public PlayerInfo GetPlayerInfo(int playerId) {
+    static public PlayerInfo GetPlayerInfo(PlayerId playerId) {
         if (Instance != null) {
             foreach (var player in Instance.players) {
-                if (player.id == playerId) {
+                if (player.Id == playerId) {
                     return player;
                 }
             }
@@ -128,7 +128,7 @@ public class PlayerManager : Singleton<PlayerManager> {
         return null;
     }
 
-    static public string GetPlayerInputStr(int playerId, string inputStr) {
+    static public string GetPlayerInputStr(PlayerId playerId, string inputStr) {
         if (Instance != null) {
             return GetPlayerInputStr(GetPlayerInfo(playerId), inputStr);
         }
@@ -137,7 +137,7 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     static public string GetPlayerInputStr(PlayerInfo player, string inputStr) {
         if (player != null) {
-            return player.prefix + inputStr + player.postfix;
+            return inputStr + player.Postfix;
         }
         return string.Empty;
     }

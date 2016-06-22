@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour {
+    public PlayerId playerId;
     public bool useRandom = true;
-    public int playerNumber;
 
     // Use this for initialization
     void Start() {
-        // Disable this spawner if playerNumber is greater the max players
-        if (playerNumber > 2 && SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer) {
+	// Disable this spawner if playerNumber is greater the max players
+        if(SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer && 
+            (playerId == PlayerId.Three || playerId == PlayerId.Four)) {
             this.gameObject.SetActive(false);
             return;
         }
@@ -29,9 +30,13 @@ public class PlayerSpawner : MonoBehaviour {
         CreateNewPlayerForce(playerNumber);
     }
 
-    private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
-        if (player.id == playerNumber) {
-            CreateNewPlayer(playerNumber);
+    private void OnPlayerDisconnect(PlayerInfo player) {
+
+    }
+
+    private void OnPlayerConnect(PlayerInfo player) {
+        if (player.Id == playerId) {
+            CreateNewPlayer();
         }
     }
 
@@ -39,14 +44,14 @@ public class PlayerSpawner : MonoBehaviour {
         CreateNewPlayer(playerNumber);
     }
 
-    public void CreateNewPlayer(int playerId) {
+    public void CreateNewPlayer(PlayerId playerId) {
         if (GameManager.ActiveState == GameManager.State.Active ||
             GameManager.ActiveState == GameManager.State.Pause) {
             CreateNewPlayerForce(playerId);
         }
     }
 
-    public void CreateNewPlayerForce(int playerId) {
+    public void CreateNewPlayerForce(PlayerId playerId) {
         var playerInfo = PlayerManager.GetPlayerInfo(playerId);
         if (playerInfo != null && playerInfo.IsConnected) {
             if (useRandom) {
@@ -64,6 +69,6 @@ public class PlayerSpawner : MonoBehaviour {
 
     private void Spawn(GameObject prefab) {
         GameObject newPlayer = Instantiate(prefab, transform.position, Quaternion.identity) as GameObject;
-        newPlayer.GetComponent<InputMapper>().playerNumber = playerNumber;
+        newPlayer.GetComponent<InputMapper>().SetPlayerId(playerId);
     }
 }

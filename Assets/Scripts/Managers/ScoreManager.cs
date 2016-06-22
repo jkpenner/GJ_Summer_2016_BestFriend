@@ -31,9 +31,9 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     public Transform winTransform;
 
-    Dictionary<int, int> _scores = new Dictionary<int, int>();
+    Dictionary<PlayerId, int> _scores = new Dictionary<PlayerId, int>();
 
-    public delegate void ScoreEvent(int playerId);
+    public delegate void ScoreEvent(PlayerId playerId);
     private ScoreEvent OnScoreChange;
     private ScoreEvent OnPlayerAdd;
     private ScoreEvent OnPlayerRemove;
@@ -50,7 +50,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     private void Awake() {
         foreach (var player in PlayerManager.GetAllPlayerInfo()) {
             if (player.IsConnected) {
-                AddPlayer(player.id);
+                AddPlayer(player.Id);
             }
         }
     }
@@ -63,12 +63,12 @@ public class ScoreManager : Singleton<ScoreManager> {
         PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
     }
 
-    private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
-        RemovePlayer(player.id);
+    private void OnPlayerDisconnect(PlayerInfo player) {
+        RemovePlayer(player.Id);
     }
 
-    private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
-        AddPlayer(player.id);
+    private void OnPlayerConnect(PlayerInfo player) {
+        AddPlayer(player.Id);
     }
 
     private void OnDisable() {
@@ -87,7 +87,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
             StorageManager.RoundScores.Add(0);
             for (int i = 1; i < 5; i++) {
-                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] += GetPlayerScore(i);
+                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] += GetPlayerScore((PlayerId)i);
             }
 
             for (int i = 0; i < StorageManager.RoundScores.Count - 2; i++) {
@@ -112,7 +112,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
             if (CurrentRound > RoundsPerGame) {
                 for (int i = 1; i < 5; i++) {
-                    StorageManager.PlayerScores.Add(GetPlayerScore(i));
+                    StorageManager.PlayerScores.Add(GetPlayerScore((PlayerId)i));
                 }
                 // Load the Score Scene
                 UnityEngine.SceneManagement.SceneManager.LoadScene(4);
@@ -181,7 +181,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (Instance != null) {
             StorageManager.RoundScores.Add(0);
             for (int i = 1; i < 5; i++) {
-                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] += GetPlayerScore(i);
+                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] += GetPlayerScore((PlayerId)i);
             }
 
             for (int i = 0; i < StorageManager.RoundScores.Count - 2; i++) {
@@ -198,7 +198,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
     }
 
-    static public void AddPlayer(int id) {
+    static public void AddPlayer(PlayerId id) {
         if (Instance != null) {
             if (!Instance._scores.ContainsKey(id)) {
                 Instance._scores.Add(id, 0);
@@ -215,7 +215,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
     }
 
-    static public void RemovePlayer(int id) {
+    static public void RemovePlayer(PlayerId id) {
         if (Instance != null) {
             if (Instance._scores.ContainsKey(id)) {
                 Instance._scores.Remove(id);
@@ -232,7 +232,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
     }
 
-    static public int GetPlayerScore(int id) {
+    static public int GetPlayerScore(PlayerId id) {
         if (Instance._scores.ContainsKey(id)) {
             return Instance._scores[id];
         }
@@ -247,7 +247,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         return value;
     }
 
-    static public void ModifyPlayerScore(int id, int amount) {
+    static public void ModifyPlayerScore(PlayerId id, int amount) {
         if (Instance._scores.ContainsKey(id)) {
             Debug.Log("Modifiying Player Score " + id.ToString() + " by " + amount);
             if (amount != 0) {
@@ -263,7 +263,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
     }
 
-    static public void SetPlayerScore(int id, int amount) {
+    static public void SetPlayerScore(PlayerId id, int amount) {
         if (Instance._scores.ContainsKey(id)) {
             if (amount != Instance._scores[id]) {
                 Instance._scores[id] += amount;

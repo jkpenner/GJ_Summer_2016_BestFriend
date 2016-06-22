@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 
 public class PlayerController : MonoBehaviour {
+    public PlayerId playerId;
 
 	enum State{
 		ACTIVE,
@@ -92,8 +93,8 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
-        if (player.id == GetComponent<InputMapper>().playerNumber) {
+    private void OnPlayerDisconnect(PlayerInfo player) {
+        if (player.Id == playerId) {
             if (_state == State.ACTIVE) {
                 Destroy(this.gameObject);
             }
@@ -161,8 +162,8 @@ public class PlayerController : MonoBehaviour {
 		if(playerDash) playerDash.enabled = false;
 		gameObject.transform.tag = "Anchor";
 
-		int playerNumber = gameObject.GetComponent<InputMapper>().playerNumber;
-		GameObject.Find("Spawner_P"+playerNumber).gameObject.GetComponent<PlayerSpawner>().CreateNewPlayer();
+		
+		GameObject.Find("Spawner_P"+(int)playerId).gameObject.GetComponent<PlayerSpawner>().CreateNewPlayer();
 	}
 
 	void GrindPlayer(){
@@ -170,7 +171,7 @@ public class PlayerController : MonoBehaviour {
 		rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
 		gameObject.GetComponentInChildren<Animator>().SetBool("isGrinding", true);
         if (GameManager.ActiveState == GameManager.State.Active) {
-            ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, -scoreValue);
+            ScoreManager.ModifyPlayerScore(playerId, -scoreValue);
         }
     }
 
@@ -189,10 +190,10 @@ public class PlayerController : MonoBehaviour {
 		endHinge.connectedAnchor = GetVectorOffset(collision.gameObject, gameObject, collision.transform.eulerAngles.z) * collision.gameObject.GetComponent<CircleCollider2D>().radius;
 
         if (ScoreManager.Instance.winTransform.position.y < transform.position.y) {
-            ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, scoreValue * 10);
+            ScoreManager.ModifyPlayerScore(playerId, scoreValue * 10);
             ScoreManager.EndRound();
         } else {
-            ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerNumber, scoreValue);
+            ScoreManager.ModifyPlayerScore(playerId, scoreValue);
         }
 	}
 		
