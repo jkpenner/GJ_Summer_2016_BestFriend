@@ -8,9 +8,10 @@ public class PlayerManager : Singleton<PlayerManager> {
         public Color color;
         public string postfix;
         public string prefix;
+        public bool canAutoDisconnect;
         
         public bool IsConnected { get; set; }
-        public float DisconnectCounter { get; set; }
+        public float AutoDisconnectCounter { get; set; }
         /// <summary>
         /// Id of character within the Character Database
         /// </summary>
@@ -40,14 +41,14 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     private void Update() {
         foreach (var player in players) {
-            if (player.IsConnected) {
+            if (player.IsConnected && player.canAutoDisconnect) {
                 if (IsControllerActive(player)) {
-                    player.DisconnectCounter = disconnectPlayerDelay;
+                    player.AutoDisconnectCounter = disconnectPlayerDelay;
                 } else {
-                    player.DisconnectCounter -= Time.deltaTime;
-                    if (player.DisconnectCounter <= 0) {
+                    player.AutoDisconnectCounter -= Time.deltaTime;
+                    if (player.AutoDisconnectCounter <= 0) {
                         Debug.LogFormat("[{0}]: Player {1} Disconnected from game.", this.name, player.id);
-                        player.DisconnectCounter = 0;
+                        player.AutoDisconnectCounter = 0;
                         player.IsConnected = false;
                         if (OnPlayerDisconnect != null) {
                             OnPlayerDisconnect(player);
@@ -56,7 +57,7 @@ public class PlayerManager : Singleton<PlayerManager> {
                 }
             } else if(!player.IsConnected && CheckForConnectKey(player)) {
                 Debug.LogFormat("[{0}]: Player {1} Connected to game.", this.name, player.id);
-                player.DisconnectCounter = disconnectPlayerDelay;
+                player.AutoDisconnectCounter = disconnectPlayerDelay;
                 player.IsConnected = true;
                 if (OnPlayerConnect != null) {
                     OnPlayerConnect(player);
