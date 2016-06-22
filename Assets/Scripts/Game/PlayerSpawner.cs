@@ -1,32 +1,32 @@
 ﻿using UnityEngine;
 
-
 public class PlayerSpawner : MonoBehaviour {
     public bool useRandom = true;
-    public GameObject[] playerObjects;
     public int playerNumber;
 
     // Use this for initialization
     void Start() {
+        // Disable this spawner if playerNumber is greater the max players
         if (playerNumber > 2 && SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer) {
             this.gameObject.SetActive(false);
             return;
         }
 
+        // Set up if the spawner is random 
         useRandom = SettingManager.ActiveGameMode == SettingManager.GameMode.Random;
 
+        // Setup event listeners
         ScoreManager.AddListener(ScoreManager.RoundEventType.Start, OnRoundStart);
-
         PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
-        PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+    }
+
+    private void Disable() {
+        ScoreManager.RemoveListener(ScoreManager.RoundEventType.Start, OnRoundStart);
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
     }
 
     private void OnRoundStart() {
-        CreateNewPlayer(true);
-    }
-
-    private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
-
+        CreateNewPlayerForce();
     }
 
     private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
@@ -36,34 +36,29 @@ public class PlayerSpawner : MonoBehaviour {
     }
 
     public void CreateNewPlayer() {
-        CreateNewPlayer(false);
+        if (GameManager.ActiveState == GameManager.State.Active ||
+            GameManager.ActiveState == GameManager.State.Pause) {
+            CreateNewPlayerForce();
+        }
     }
 
-    public void CreateNewPlayer(bool force) {
-        if (force || (GameManager.ActiveState == GameManager.State.Active ||
-            GameManager.ActiveState == GameManager.State.Pause)) {
-            var playerInfo = PlayerManager.GetPlayerInfo(playerNumber);
-            if (playerInfo != null && playerInfo.IsConnected) {
-                if (useRandom) {
-                    SpawnRandom();
-                } else {
-                    //var prefab = playerObjects[playerInfo.CharacterSelection];
-                    var asset = CharacterDatabase.GetAsset(playerInfo.CharacterSelectionId);
-                    //var instance = (GameObject)Instantiate(prefab, transform.position, Quaternion.identity);
-                    var instance = (GameObject)Instantiate(asset.Prefab, transform.position, Quaternion.identity);
-                    instance.GetComponent<InputMapper>().SetPlayerNumber(playerNumber);
-                }
+    public void CreateNewPlayerForce() {
+        var playerInfo = PlayerManager.GetPlayerInfo(playerNumber);
+        if (playerInfo != null && playerInfo.IsConnected) {
+            if (useRandom) {
+                SpawnRandom();
+            } else {
+                Spawn(CharacterDatabase.GetAsset(playerInfo.CharacterSelectionId).Prefab);
             }
         }
     }
 
     private void SpawnRandom() {
         // Pull a random character from the character database
-        //var prefab = playerObjects[Random.Range(0, playerObjects.Length)];
-        var asset = CharacterDatabase.Instance.Get(Random.Range(0, CharacterDatabase.Instance.Count));
-        // Instantiate the prefab from the selected asset
-        //GameObject newPlayer = Instantiate(prefab, transform.position, Quaternion.identity) as GameObject;
-        GameObject newPlayer = Instantiate(asset.Prefab, transform.position, Quaternion.identity) as GameObject;
-        newPlayer.GetComponent<InputMapper>().SetPlayerNumber(playerNumber);
+        Spawn(CharacterDatabase.Instance.Get(Random.Range(0, CharacterDatabase.Instance.Count)).Prefab);
+    }
+
+    private void Spawn(GameObject prefab) {
+        GameObject newPlayer = Instantiate(prefab, transform.position, Quaternion.identity) as GameObject;
     }
 }
