@@ -6,7 +6,6 @@ public class SoundManager : Singleton<SoundManager> {
 	static AudioSource audioSource;
 
     private void Awake() {
-		audioSource = gameObject.GetComponentInChildren<AudioSource>();
 
         if (Instance != this) {
             Destroy(this.gameObject);
@@ -15,6 +14,10 @@ public class SoundManager : Singleton<SoundManager> {
             DontDestroyOnLoad(this.gameObject);
         }
     }
+
+	private void Start(){
+		audioSource = gameObject.GetComponentInChildren<AudioSource>();
+	}
 
 	static public void PlaySoundEffect(AudioClip audioClip){
 		audioSource.PlayOneShot(audioClip);

@@ -633,7 +633,7 @@ GameObject:
   - 212: {fileID: 648427643}
   - 61: {fileID: 648427642}
   m_Layer: 0
-  m_Name: Destroyer (1)
+  m_Name: Destroyer Vaccum
   m_TagString: Destroyer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -647,7 +647,7 @@ Transform:
   m_GameObject: {fileID: 648427640}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.81, y: 12.25, z: 0}
-  m_LocalScale: {x: 15.060979, y: 2, z: 1}
+  m_LocalScale: {x: 13.904223, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 548722728}
   m_RootOrder: 3
@@ -1986,7 +1986,7 @@ Prefab:
       objectReference: {fileID: 1089588462}
     - target: {fileID: 11439574, guid: 1c1433e7a98b19749a90cdf1ac3ffde0, type: 2}
       propertyPath: roundLength
-      value: 5
+      value: 120
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c1433e7a98b19749a90cdf1ac3ffde0, type: 2}
