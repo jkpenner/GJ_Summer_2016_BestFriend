@@ -26,24 +26,28 @@ public class PlayerSpawner : MonoBehaviour {
     }
 
     private void OnRoundStart() {
-        CreateNewPlayerForce();
+        CreateNewPlayerForce(playerNumber);
     }
 
     private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
         if (player.id == playerNumber) {
-            CreateNewPlayer();
+            CreateNewPlayer(playerNumber);
         }
     }
 
     public void CreateNewPlayer() {
+        CreateNewPlayer(playerNumber);
+    }
+
+    public void CreateNewPlayer(int playerId) {
         if (GameManager.ActiveState == GameManager.State.Active ||
             GameManager.ActiveState == GameManager.State.Pause) {
-            CreateNewPlayerForce();
+            CreateNewPlayerForce(playerId);
         }
     }
 
-    public void CreateNewPlayerForce() {
-        var playerInfo = PlayerManager.GetPlayerInfo(playerNumber);
+    public void CreateNewPlayerForce(int playerId) {
+        var playerInfo = PlayerManager.GetPlayerInfo(playerId);
         if (playerInfo != null && playerInfo.IsConnected) {
             if (useRandom) {
                 SpawnRandom();
@@ -60,5 +64,6 @@ public class PlayerSpawner : MonoBehaviour {
 
     private void Spawn(GameObject prefab) {
         GameObject newPlayer = Instantiate(prefab, transform.position, Quaternion.identity) as GameObject;
+        newPlayer.GetComponent<InputMapper>().playerNumber = playerNumber;
     }
 }
