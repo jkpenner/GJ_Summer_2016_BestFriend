@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerJump : MonoBehaviour {
 
 	public float jumpForce = 200f;
+	public LayerMask layerMask;
 
 	Rigidbody2D rigidBody;
 	Animator animator;
@@ -14,7 +15,7 @@ public class PlayerJump : MonoBehaviour {
 	void Start () {
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponentInChildren<Animator>();
-        distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
+		distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
         jumpInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "A");
     }
 	
@@ -25,10 +26,11 @@ public class PlayerJump : MonoBehaviour {
 
     bool IsGrounded()
     {
-        return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.1f);
+		return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.1f, layerMask);
     }
 
     void Jump(){
+		Debug.Log(IsGrounded());
         if(Input.GetButtonDown(jumpInput) && IsGrounded()) {
 			rigidBody.AddForce(Vector2.up *jumpForce);
 			animator.SetBool("isJumping", true);

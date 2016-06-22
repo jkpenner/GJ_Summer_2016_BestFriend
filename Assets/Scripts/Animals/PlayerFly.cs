@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerFly : MonoBehaviour {
 
     public float flyForce = 2000f;
+	public LayerMask layerMask;
 
     Rigidbody2D rigidBody;
     Animator animator;
@@ -27,12 +28,12 @@ public class PlayerFly : MonoBehaviour {
 
     bool IsGrounded()
     {
-        return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.1f);
+		return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.1f, layerMask);
     }
 
     void Fly()
     {
-        if (Input.GetButtonDown(flyInput) && IsGrounded())
+        if (Input.GetButtonDown(flyInput) && !IsGrounded())
         {
             rigidBody.AddForce(Vector2.up * flyForce);
             animator.SetBool("isJumping", true);
@@ -42,7 +43,7 @@ public class PlayerFly : MonoBehaviour {
 
     IEnumerator StopJump()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
         animator.SetBool("isJumping", false);
     }
 }

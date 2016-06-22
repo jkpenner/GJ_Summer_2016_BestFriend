@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerDive : MonoBehaviour { 
 
 	public float diveForce = 15000f; 
+	public LayerMask layerMask;
 
 	Rigidbody2D rigidBody; 
 	string jumpInput;
@@ -14,7 +15,7 @@ public class PlayerDive : MonoBehaviour {
 	void Start () { 
 		rigidBody = gameObject.GetComponent<Rigidbody2D>(); 
 		jumpInput = gameObject.GetComponent<InputMapper>().GetMappedInput("Jump");
-        distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
+		distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
     } 
 
 	// Update is called once per frame 
@@ -23,7 +24,9 @@ public class PlayerDive : MonoBehaviour {
 	}
     
     bool IsGrounded() {
-        return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.1f);
+		var grounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.1f, layerMask);
+		if(grounded) canDive = true;
+		return grounded;
     } 
 
 	void Dive(){ 

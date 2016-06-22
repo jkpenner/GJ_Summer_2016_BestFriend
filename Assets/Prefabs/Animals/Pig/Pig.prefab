@@ -31,6 +31,7 @@ GameObject:
   - 114: {fileID: 11438130}
   - 114: {fileID: 11490846}
   - 114: {fileID: 11497134}
+  - 114: {fileID: 11483562}
   m_Layer: 0
   m_Name: Pig
   m_TagString: Player
@@ -137,7 +138,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3104a1815b3b0457fb461b55e636c1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 2500
+  jumpForce: 3000
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
+--- !u!114 &11483562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e20118eb48ec4aed9673fb1a4d08f95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashVelocity: 25
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &11490846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 10
-  walkForce: 100
+  walkForce: 150
 --- !u!114 &11497134
 MonoBehaviour:
   m_ObjectHideFlags: 1

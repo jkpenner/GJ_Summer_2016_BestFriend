@@ -123,7 +123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3104a1815b3b0457fb461b55e636c1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 4000
+  jumpForce: 5500
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &11438566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -136,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 10
-  walkForce: 150
+  walkForce: 160
 --- !u!114 &11445916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,6 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diveForce: 15000
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &11496308
 MonoBehaviour:
   m_ObjectHideFlags: 1
