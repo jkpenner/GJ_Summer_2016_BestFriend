@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-public class UIUserPanel : MonoBehaviour {
+public class UIUserPanelUpdate : MonoBehaviour {
     public int playerId;
 
     public Transform connectInfo;
@@ -20,8 +20,7 @@ public class UIUserPanel : MonoBehaviour {
     public Text txtUserScore;
 
     public int initialSelection = 0;
-    public int ActiveSelectionId { get; set; }
-    public int ActiveSelectionIndex { get; set; }
+    public int ActiveSelection { get; set; }
 
     private void Awake() {
         if (SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer && playerId > 2) {
@@ -52,7 +51,7 @@ public class UIUserPanel : MonoBehaviour {
             }
         }
 
-        ActiveSelectionIndex = -1;
+        ActiveSelection = -1;
         UpdateSelector(0);
 
         if (SettingManager.ActiveGameMode != SettingManager.GameMode.Random) {
@@ -121,11 +120,11 @@ public class UIUserPanel : MonoBehaviour {
     }
 
     private void OnCharRighClick() {
-        UpdateSelector(ActiveSelectionIndex + 1);
+        UpdateSelector(ActiveSelection + 1);
     }
 
     private void OnCharLeftClick() {
-        UpdateSelector(ActiveSelectionIndex - 1);
+        UpdateSelector(ActiveSelection - 1);
     }
 
     private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
@@ -144,49 +143,25 @@ public class UIUserPanel : MonoBehaviour {
     }
 
     private void UpdateSelector(int index) {
-        int charCount = CharacterDatabase.Instance.Count;
+        if (index >= imgSelectors.Length) index = 0;
+        if (index < 0) index = imgSelectors.Length - 1;
 
-        index = LoopIndex(index, charCount);
-
-        if (ActiveSelectionIndex != index) {
-            ActiveSelectionIndex = index;
-
+        if (ActiveSelection != index) {
             var playerInfo = PlayerManager.GetPlayerInfo(playerId);
             if (playerInfo != null) {
-                playerInfo.CharacterSelectionId = CharacterDatabase.Instance.Get(ActiveSelectionIndex).Id;
+                playerInfo.CharacterSelectionId = index;
             }
 
-            Debug.LogFormat("[{0}]: Updating Active Character Index to {1}", this.name, ActiveSelectionIndex);
-            
-            // Set the left character icon
-            var lChar = CharacterDatabase.Instance.Get(LoopIndex(ActiveSelectionIndex - 1, charCount));
-            if (lChar != null) {
-                imgSelectors[0].sprite = lChar.Icon;
-                Debug.LogFormat("[{0}]: Setting Left Character to {1}", this.name, lChar.Icon.name);
-            } else {
-                Debug.LogFormat("[{0}]: Left Character from database is null", this.name, ActiveSelectionIndex);
+            if (ActiveSelection >= 0 && ActiveSelection < imgSelectors.Length) {
+                imgSelectors[ActiveSelection].enabled = false;
             }
 
-            // Set the center character icon
-            var cChar = CharacterDatabase.Instance.Get(ActiveSelectionIndex);
-            if (cChar != null) {
-                imgSelectors[1].sprite = cChar.Icon;
-                Debug.LogFormat("[{0}]: Setting Center Character to {1}", this.name, cChar.Icon.name);
-            }
+            ActiveSelection = index;
 
-            // Set the right charcter icon
-            var rChar = CharacterDatabase.Instance.Get(LoopIndex(ActiveSelectionIndex + 1, charCount));
-            if (rChar != null) {
-                imgSelectors[2].sprite = rChar.Icon;
-                Debug.LogFormat("[{0}]: Setting Right Character to {1}", this.name, rChar.Icon.name);
+            if (ActiveSelection >= 0 && ActiveSelection < imgSelectors.Length) {
+                imgSelectors[ActiveSelection].enabled = true;
             }
         }
-    }
-
-    private int LoopIndex(int value, int listCount) {
-        if(value < 0) return listCount - 1;
-        if(value >= listCount) return 0;
-        return value;
     }
 
     private void ToggleUIElements(bool isConnected) {

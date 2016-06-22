@@ -11,7 +11,10 @@ public class PlayerManager : Singleton<PlayerManager> {
         
         public bool IsConnected { get; set; }
         public float DisconnectCounter { get; set; }
-        public int CharacterSelection { get; set; }
+        /// <summary>
+        /// Id of character within the Character Database
+        /// </summary>
+        public int CharacterSelectionId { get; set; }
     }
 
     public PlayerInfo[] players;

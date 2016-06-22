@@ -47,8 +47,10 @@ public class PlayerSpawner : MonoBehaviour {
                 if (useRandom) {
                     SpawnRandom();
                 } else {
-                    var prefab = playerObjects[playerInfo.CharacterSelection];
-                    var instance = (GameObject)Instantiate(prefab, transform.position, Quaternion.identity);
+                    //var prefab = playerObjects[playerInfo.CharacterSelection];
+                    var asset = CharacterDatabase.GetAsset(playerInfo.CharacterSelectionId);
+                    //var instance = (GameObject)Instantiate(prefab, transform.position, Quaternion.identity);
+                    var instance = (GameObject)Instantiate(asset.Prefab, transform.position, Quaternion.identity);
                     instance.GetComponent<InputMapper>().SetPlayerNumber(playerNumber);
                 }
             }
@@ -57,9 +59,11 @@ public class PlayerSpawner : MonoBehaviour {
 
     private void SpawnRandom() {
         // Pull a random character from the character database
-        var prefab = playerObjects[Random.Range(0, playerObjects.Length)];
+        //var prefab = playerObjects[Random.Range(0, playerObjects.Length)];
+        var asset = CharacterDatabase.Instance.Get(Random.Range(0, CharacterDatabase.Instance.Count));
         // Instantiate the prefab from the selected asset
-        GameObject newPlayer = Instantiate(prefab, transform.position, Quaternion.identity) as GameObject;
+        //GameObject newPlayer = Instantiate(prefab, transform.position, Quaternion.identity) as GameObject;
+        GameObject newPlayer = Instantiate(asset.Prefab, transform.position, Quaternion.identity) as GameObject;
         newPlayer.GetComponent<InputMapper>().SetPlayerNumber(playerNumber);
     }
 }
