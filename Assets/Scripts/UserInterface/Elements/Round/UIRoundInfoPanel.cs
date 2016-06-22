@@ -31,9 +31,9 @@ public class UIRoundInfoPanel : MonoBehaviour {
     private void OnRoundComplete() {
         canvasGroup.alpha = 1f;
 
-        if (ScoreManager.Instance.RoundCounter > 0) {
+        if(GameManager.ActiveState == GameManager.State.RoundWin) {
             txtDescription.text = "Players Reached The Finish Line!";
-        } else {
+        } else if(GameManager.ActiveState == GameManager.State.RoundLost) {
             txtDescription.text = "Round Timer Expired";
         }
         
@@ -41,7 +41,8 @@ public class UIRoundInfoPanel : MonoBehaviour {
     }
 
     private void Update() {
-        if (GameManager.ActiveState == GameManager.State.Reset) {
+        if (GameManager.ActiveState == GameManager.State.RoundLost ||
+            GameManager.ActiveState == GameManager.State.RoundWin) {
             counter -= Time.deltaTime;
             txtTimeRemaining.text = counter.ToString("F");
         }

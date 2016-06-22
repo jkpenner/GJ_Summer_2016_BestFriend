@@ -18,8 +18,6 @@ public class UIOptionMenu : MonoBehaviour, IUIMenu {
         canvasGroup = GetComponent<CanvasGroup>();
         OnMenuDeactivate();
 
-        btnIncreaseQuality.onClick.AddListener(OnIncreaseQualityClick);
-        btnDecreaseQuality.onClick.AddListener(OnDescreaseQualityClick);
         btnReturn.onClick.AddListener(OnReturnClick);
     }
 
