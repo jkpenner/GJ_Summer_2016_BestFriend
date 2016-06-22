@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour {
             rigidBody.velocity = pauseVelocityStored;            
         }
 
-        if (state == GameManager.State.Reset) {
+        if (state == GameManager.State.RoundLost) {
             activeGrindSpeed = grindSpeed;
         }
     }
@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour {
             firstStick = false;
             if (ScoreManager.Instance.winTransform.position.y < transform.position.y) {
                 ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerId, scoreValue * 10);
-                ScoreManager.EndRound();
+                ScoreManager.EndRound(true);
             } else {
                 ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerId, scoreValue);
             }

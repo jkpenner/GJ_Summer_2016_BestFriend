@@ -101,12 +101,12 @@ public class ScoreManager : Singleton<ScoreManager> {
                 OnRoundComplete();
             }
 
-            GameManager.SetState(GameManager.State.Reset);
+            GameManager.SetState(GameManager.State.RoundLost);
         }
     }
 
     private void OnGameStateExit(GameManager.State state) {
-        if (state == GameManager.State.Reset) {
+        if (state == GameManager.State.RoundLost) {
             _roundCounter = roundLength;
             CurrentRound++;
 
@@ -177,7 +177,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
     }
 
-    static public void EndRound() {
+    static public void EndRound(bool roundWin) {
         if (Instance != null) {
             StorageManager.RoundScores.Add(0);
             for (int i = 1; i < 5; i++) {
@@ -194,7 +194,11 @@ public class ScoreManager : Singleton<ScoreManager> {
                 Instance.OnRoundComplete();
             }
             Instance.CurrentRound++;
-            GameManager.SetState(GameManager.State.Reset);
+            if (roundWin == true) {
+                GameManager.SetState(GameManager.State.RoundWin);
+            } else {
+                GameManager.SetState(GameManager.State.RoundLost);
+            }
         }
     }
 
