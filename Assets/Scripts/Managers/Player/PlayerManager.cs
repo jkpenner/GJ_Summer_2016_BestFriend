@@ -2,18 +2,6 @@
 using System.Collections;
 
 public class PlayerManager : Singleton<PlayerManager> {
-    [System.Serializable]
-    public class PlayerInfo {
-        public int id;
-        public Color color;
-        public string postfix;
-        public string prefix;
-        
-        public bool IsConnected { get; set; }
-        public float DisconnectCounter { get; set; }
-        public int CharacterSelection { get; set; }
-    }
-
     public PlayerInfo[] players;
 
     // Seconds until the controller is disconnected if
@@ -37,14 +25,14 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     private void Update() {
         foreach (var player in players) {
-            if (player.IsConnected) {
+            if (player.IsConnected && player.CanAutoDisconnect) {
                 if (IsControllerActive(player)) {
-                    player.DisconnectCounter = disconnectPlayerDelay;
+                    player.AutoDisconnectCounter = disconnectPlayerDelay;
                 } else {
-                    player.DisconnectCounter -= Time.deltaTime;
-                    if (player.DisconnectCounter <= 0) {
-                        Debug.LogFormat("[{0}]: Player {1} Disconnected from game.", this.name, player.id);
-                        player.DisconnectCounter = 0;
+                    player.AutoDisconnectCounter -= Time.deltaTime;
+                    if (player.AutoDisconnectCounter <= 0) {
+                        Debug.LogFormat("[{0}]: Player {1} Disconnected from game.", this.name, player.Id.ToString());
+                        player.AutoDisconnectCounter = 0;
                         player.IsConnected = false;
                         if (OnPlayerDisconnect != null) {
                             OnPlayerDisconnect(player);
@@ -52,8 +40,8 @@ public class PlayerManager : Singleton<PlayerManager> {
                     }
                 }
             } else if(!player.IsConnected && CheckForConnectKey(player)) {
-                Debug.LogFormat("[{0}]: Player {1} Connected to game.", this.name, player.id);
-                player.DisconnectCounter = disconnectPlayerDelay;
+                Debug.LogFormat("[{0}]: Player {1} Connected to game.", this.name, player.Id.ToString());
+                player.AutoDisconnectCounter = disconnectPlayerDelay;
                 player.IsConnected = true;
                 if (OnPlayerConnect != null) {
                     OnPlayerConnect(player);
@@ -113,10 +101,10 @@ public class PlayerManager : Singleton<PlayerManager> {
         return null;
     }
 
-    static public PlayerInfo GetPlayerInfo(int playerId) {
+    static public PlayerInfo GetPlayerInfo(PlayerId playerId) {
         if (Instance != null) {
             foreach (var player in Instance.players) {
-                if (player.id == playerId) {
+                if (player.Id == playerId) {
                     return player;
                 }
             }
@@ -124,7 +112,7 @@ public class PlayerManager : Singleton<PlayerManager> {
         return null;
     }
 
-    static public string GetPlayerInputStr(int playerId, string inputStr) {
+    static public string GetPlayerInputStr(PlayerId playerId, string inputStr) {
         if (Instance != null) {
             return GetPlayerInputStr(GetPlayerInfo(playerId), inputStr);
         }
@@ -133,7 +121,7 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     static public string GetPlayerInputStr(PlayerInfo player, string inputStr) {
         if (player != null) {
-            return player.prefix + inputStr + player.postfix;
+            return inputStr + player.Postfix;
         }
         return string.Empty;
     }

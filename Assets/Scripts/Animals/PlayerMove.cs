@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour {
 	}
 
 	void Move(){
-        var inputValue = Input.GetAxis(PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "LS_Horizontal"));
+        var inputValue = Input.GetAxis(PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "LS_Horizontal"));
         if(inputValue != 0.0f) {
 			if((inputValue > 0 && rigidBody.velocity.x < walkSpeed) || (inputValue < 0 && rigidBody.velocity.x > -walkSpeed)){
 				rigidBody.AddForce(new Vector2(inputValue * walkForce, 0f));

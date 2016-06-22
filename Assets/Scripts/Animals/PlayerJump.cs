@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class PlayerJump : MonoBehaviour {
-
 	public float jumpForce = 200f;
 	public LayerMask layerMask;
 
@@ -16,7 +15,7 @@ public class PlayerJump : MonoBehaviour {
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponentInChildren<Animator>();
 		distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
-        jumpInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerNumber, "A");
+        jumpInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "A");
     }
 	
 	// Update is called once per frame
@@ -31,7 +30,8 @@ public class PlayerJump : MonoBehaviour {
 
     void Jump(){
 		Debug.Log(IsGrounded());
-        if(Input.GetButtonDown(jumpInput) && IsGrounded()) {
+        //if(Input.GetButtonDown(jumpInput) && IsGrounded()) {
+		if(Input.GetButtonDown(PlayerManager.GetPlayerInputStr(GetComponent<InputMapper>().playerId, "A"))  && IsGrounded()) {
 			rigidBody.AddForce(Vector2.up *jumpForce);
 			animator.SetBool("isJumping", true);
 			StartCoroutine("StopJump");
