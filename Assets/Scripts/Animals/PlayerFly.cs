@@ -5,6 +5,7 @@ public class PlayerFly : MonoBehaviour {
 
     public float flyForce = 2000f;
 	public LayerMask layerMask;
+	public AudioClip flapSound;
 
     Rigidbody2D rigidBody;
     Animator animator;
@@ -36,6 +37,7 @@ public class PlayerFly : MonoBehaviour {
         if (Input.GetButtonDown(flyInput) && !IsGrounded())
         {
             rigidBody.AddForce(Vector2.up * flyForce);
+			SoundManager.PlaySoundEffect(flapSound);
             animator.SetBool("isJumping", true);
             StartCoroutine("StopJump");
         }

@@ -5,6 +5,7 @@ public class PlayerDive : MonoBehaviour {
 
 	public float diveForce = 15000f; 
 	public LayerMask layerMask;
+	public AudioClip diveSound;
 
 	Rigidbody2D rigidBody; 
 	string jumpInput;
@@ -31,7 +32,7 @@ public class PlayerDive : MonoBehaviour {
 
 	void Dive(){ 
 		if(Input.GetButtonDown(jumpInput) && !IsGrounded() && canDive){ 
-			Debug.Log("dive");
+			SoundManager.PlaySoundEffect(diveSound);
             canDive = false;
 			rigidBody.AddForce(new Vector2(0f, -diveForce)); 
 		} 

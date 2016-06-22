@@ -5,6 +5,7 @@ public class PlayerDash : MonoBehaviour {
 
 	public float dashVelocity = 40f;
 	public LayerMask layerMask;
+	public AudioClip dashSound;
 
 	Rigidbody2D rigidBody;
 	Animator animator;
@@ -40,9 +41,9 @@ public class PlayerDash : MonoBehaviour {
 	void Dash(){
 		float dashDirection = Input.GetAxis(PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "LS_Horizontal"));
 		if(Input.GetButtonDown(dashInput) && dashDirection != 0 && !IsGrounded() && canDash){
-			Debug.Log("dash");
 			rigidBody.MoveRotation(Mathf.Atan2(0, dashDirection)*Mathf.Rad2Deg + 180);
 			rigidBody.velocity = Vector2.right * dashDirection * dashVelocity;
+			SoundManager.PlaySoundEffect(dashSound);
 			animator.SetBool("isDashing", true);
 			StartCoroutine("StopDash");
 			canDash = false;

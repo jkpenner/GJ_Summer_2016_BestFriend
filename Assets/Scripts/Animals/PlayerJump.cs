@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerJump : MonoBehaviour {
 	public float jumpForce = 200f;
 	public LayerMask layerMask;
+	public AudioClip jumpSound;
 
 	Rigidbody2D rigidBody;
 	Animator animator;
@@ -33,6 +34,7 @@ public class PlayerJump : MonoBehaviour {
         //if(Input.GetButtonDown(jumpInput) && IsGrounded()) {
 		if(Input.GetButtonDown(PlayerManager.GetPlayerInputStr(GetComponent<InputMapper>().playerId, "A"))  && IsGrounded()) {
 			rigidBody.AddForce(Vector2.up *jumpForce);
+			SoundManager.PlaySoundEffect(jumpSound);
 			animator.SetBool("isJumping", true);
 			StartCoroutine("StopJump");
 		}

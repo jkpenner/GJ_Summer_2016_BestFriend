@@ -72,11 +72,12 @@ public class PlayerController : MonoBehaviour {
 	        rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
 
 	        // if the animal is not in the grinder
-	        if (_state == State.ACTIVE) {
-	            // Spawn a partical effect
-	            Destroy(this.gameObject);
-	        }
+			if (_state == State.ACTIVE) {
+				// Spawn a partical effect
+				Destroy(this.gameObject);
+			}
 		}
+
     }
 
     private void OnGameStateExit(GameManager.State state) {
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour {
 		if(_state == State.DISABLED && animal == Animal.CHICKEN){
 			rigidBody.AddForce(Vector2.up * flightForce);
 		}else if(_state == State.SAVED){
-			rigidBody.AddForce(Vector2.up * vaccumForce);
+			rigidBody.AddForce(new Vector2(vaccumForce/2 * (transform.position.x > 0 ? -1 : 1), vaccumForce));
 		}
 	}
 
@@ -154,20 +155,21 @@ public class PlayerController : MonoBehaviour {
 
 	void ChangeState(State state){
 		_state = state;
+		if(_state == State.DISABLED || _state == State.SAVED) DisablePlayer();
 	}
 
 	//Spawn a new, controllable character
 	void ResetPlayer(){
+		gameObject.transform.tag = "Anchor";
+        SpawnManager.SpawnPlayer(this.GetComponent<InputMapper>().playerId);
+	}
+
+	void DisablePlayer(){
 		playerMove.enabled = false;
 		playerJump.enabled = false;
 		if(playerDive) playerDive.enabled = false;
 		if(playerFly) playerFly.enabled = false;
 		if(playerDash) playerDash.enabled = false;
-		gameObject.transform.tag = "Anchor";
-
-		
-		//GameObject.Find("Spawner_P"+(int)playerId).gameObject.GetComponent<PlayerSpawner>().CreateNewPlayer();
-        SpawnManager.SpawnPlayer(this.GetComponent<InputMapper>().playerId);
 	}
 
 	void GrindPlayer(){

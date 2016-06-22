@@ -127,6 +127,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 512
+  jumpSound: {fileID: 8300000, guid: 651214cad1700439b9a2d2e97f450db3, type: 3}
 --- !u!114 &11438566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,6 +156,7 @@ MonoBehaviour:
   flightForce: 400
   grindSpeed: 10
   scoreValue: 50
+  vaccumForce: 400
 --- !u!114 &11465476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,6 +172,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 512
+  diveSound: {fileID: 8300000, guid: e8d4c6fc090414af5ba534618c542694, type: 3}
 --- !u!114 &11496308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f5615e54ee374f74a46c8da082d9d1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 2
+  playerId: 0
   inputs:
   - referenceName: Horizontal
     inputManagerNameBase: DP_Horizontal_P
