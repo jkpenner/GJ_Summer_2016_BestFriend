@@ -25,26 +25,32 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     private void Update() {
         foreach (var player in players) {
-            if (player.IsConnected && player.CanAutoDisconnect) {
-                if (IsControllerActive(player)) {
-                    player.AutoDisconnectCounter = disconnectPlayerDelay;
-                } else {
-                    player.AutoDisconnectCounter -= Time.deltaTime;
-                    if (player.AutoDisconnectCounter <= 0) {
-                        Debug.LogFormat("[{0}]: Player {1} Disconnected from game.", this.name, player.Id.ToString());
-                        player.AutoDisconnectCounter = 0;
-                        player.IsConnected = false;
-                        if (OnPlayerDisconnect != null) {
-                            OnPlayerDisconnect(player);
+            if (player.IsConnected) {
+                Debug.LogFormat("[{0}]: Player {1} is connected.", this.name, player.Id.ToString());
+                if (player.CanAutoDisconnect) {
+                    if (IsControllerActive(player)) {
+                        player.AutoDisconnectCounter = disconnectPlayerDelay;
+                    } else {
+                        player.AutoDisconnectCounter -= Time.deltaTime;
+                        if (player.AutoDisconnectCounter <= 0) {
+                            Debug.LogFormat("[{0}]: Player {1} Disconnected from game.", this.name, player.Id.ToString());
+                            player.AutoDisconnectCounter = 0;
+                            player.IsConnected = false;
+                            if (OnPlayerDisconnect != null) {
+                                OnPlayerDisconnect(player);
+                            }
                         }
                     }
                 }
-            } else if(!player.IsConnected && CheckForConnectKey(player)) {
-                Debug.LogFormat("[{0}]: Player {1} Connected to game.", this.name, player.Id.ToString());
-                player.AutoDisconnectCounter = disconnectPlayerDelay;
-                player.IsConnected = true;
-                if (OnPlayerConnect != null) {
-                    OnPlayerConnect(player);
+            } else {
+                Debug.LogFormat("[{0}]: Player {1} is not connected.", this.name, player.Id.ToString());
+                if (CheckForConnectKey(player)) {
+                    Debug.LogFormat("[{0}]: Player {1} Connected to game.", this.name, player.Id.ToString());
+                    player.AutoDisconnectCounter = disconnectPlayerDelay;
+                    player.IsConnected = true;
+                    if (OnPlayerConnect != null) {
+                        OnPlayerConnect(player);
+                    }
                 }
             }
         }
@@ -65,7 +71,8 @@ public class PlayerManager : Singleton<PlayerManager> {
 
     private bool CheckForConnectKey(PlayerInfo player) {
         try {
-            return Input.GetButton(GetPlayerInputStr(player, "A"));
+            return IsControllerActive(player);
+            //return Input.GetButton(GetPlayerInputStr(player, "A"));
         } catch (System.Exception e) {
             Debug.LogWarningFormat("[{0}]: {1}", this.name, e.Message);
             return false;
