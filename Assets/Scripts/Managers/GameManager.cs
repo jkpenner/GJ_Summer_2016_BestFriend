@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(AudioSource))]
 public class GameManager : Singleton<GameManager> {
     public enum State { None, Active, RoundLost, RoundWin, Pause, GameWin, GameOver }
 
@@ -30,6 +31,10 @@ public class GameManager : Singleton<GameManager> {
     private float _roundCounter = 0;
     private float _pauseDecayMod = 1;
 
+    private AudioSource audioSource;
+    public AudioClip victoryClip;
+    public AudioClip looseClip;
+
     public float RoundCounter {
         get { return _roundCounter; }
     }
@@ -47,6 +52,8 @@ public class GameManager : Singleton<GameManager> {
     }
 
     private void OnEnable() {
+        audioSource = GetComponent<AudioSource>();
+
         OnGameStateEnter += GameStateEnter;
         OnGameStateExit += GameStateExit;
 
@@ -226,7 +233,9 @@ public class GameManager : Singleton<GameManager> {
     static public void EndRound(bool win) {
         if (win == true) {
             GameManager.SetState(GameManager.State.RoundWin);
+            Instance.audioSource.PlayOneShot(Instance.victoryClip);
         } else {
+            Instance.audioSource.PlayOneShot(Instance.looseClip);
             GameManager.SetState(GameManager.State.RoundLost);
         }
 
