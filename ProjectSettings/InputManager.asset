@@ -9,8 +9,8 @@ InputManager:
     m_Name: LS_Horizontal_P1
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
+    negativeButton: left
+    positiveButton: right
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1
@@ -266,9 +266,9 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick 1 button 0
+    positiveButton: joystick 1 button 16
     altNegativeButton: 
-    altPositiveButton: joystick 1 button 16
+    altPositiveButton: up
     gravity: 1000
     dead: 0.001
     sensitivity: 1000

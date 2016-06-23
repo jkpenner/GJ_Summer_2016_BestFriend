@@ -24,6 +24,7 @@ public class PlayerDash : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		IsGrounded();
 		Dash();
 	}
 

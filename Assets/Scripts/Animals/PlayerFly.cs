@@ -24,6 +24,7 @@ public class PlayerFly : MonoBehaviour {
     // Update is called once per frame 
     void Update()
     {
+		IsGrounded();
         Fly();
     }
 
