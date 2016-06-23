@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
     public int scoreValue = 1;
 	public float vaccumForce = 500f;
 	public AudioClip spawnSound;
+	public AudioClip stickSound;
 
     private bool firstStick = true;
     private bool firstGrind = true;
@@ -132,12 +133,16 @@ public class PlayerController : MonoBehaviour {
 		}else if(_state == State.SAVED){
 			rigidBody.AddForce(new Vector2(vaccumForce/2 * (transform.position.x > 0 ? -1 : 1), vaccumForce));
 		}
+		if(_state == State.ACTIVE && (GameManager.ActiveState == GameManager.State.RoundLost || GameManager.ActiveState == GameManager.State.RoundWin)){
+			Destroy(gameObject);
+		}
 	}
 
 	//Collision with other animals
 	void OnCollisionEnter2D(Collision2D collision){
 		if(collision.transform.tag == "Anchor" && _state != State.SAVED){
 			if(_state == State.ACTIVE){
+				SoundManager.PlaySoundEffect(stickSound);
 				ChangeState(State.DISABLED);
 				ResetPlayer();
 			}
@@ -155,6 +160,7 @@ public class PlayerController : MonoBehaviour {
 		}else if(collider.CompareTag("Grinder") && _state != State.SAVED){
             if (_state == State.ACTIVE)
             {
+				SoundManager.PlaySoundEffect(stickSound);
                 ResetPlayer();
             }
 			GrindPlayer();
