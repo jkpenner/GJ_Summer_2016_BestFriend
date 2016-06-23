@@ -10,7 +10,7 @@ public class UITimeCounter : MonoBehaviour {
 
     private void Update() {
         if (GameManager.ActiveState == GameManager.State.Active) {
-            float progress = ScoreManager.Instance.RoundCounter / ScoreManager.Instance.roundLength;
+            float progress = GameManager.Instance.RoundCounter / GameManager.Instance.roundDuration;
 
             progressBar.sizeDelta = new Vector2(
                 progressBar.sizeDelta.x,

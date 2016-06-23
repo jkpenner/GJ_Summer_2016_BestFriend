@@ -14,12 +14,12 @@ public class UIFadeOnState : MonoBehaviour {
     }
 
     private void OnEnable() {
-        GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
+        GameManager.AddStateListener(GameManager.StateEventType.Enter, OnGameStateEnter);
     }
 
     private void OnDisable() {
         Debug.Log("On Disable Called");
-        GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);
+        GameManager.RemoveStateListener(GameManager.StateEventType.Enter, OnGameStateEnter);
     }
 
     private void OnGameStateEnter(GameManager.State state) {

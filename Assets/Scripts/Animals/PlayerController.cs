@@ -49,10 +49,11 @@ public class PlayerController : MonoBehaviour {
         activeGrindSpeed = grindSpeed;
 
         // Listen to Manager Events
-        GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
-        GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
+        GameManager.AddStateListener(GameManager.StateEventType.Enter, OnGameStateEnter);
+        GameManager.AddStateListener(GameManager.StateEventType.Exit, OnGameStateExit);
+        GameManager.AddRoundListner(GameManager.RoundEventType.Complete, OnRoundComplete);
         PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
-        ScoreManager.AddListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
+        
 
 		//Give initial velocity
 		rigidBody.velocity = Vector2.right * (transform.position.x < 0 ? 1 : -1) * 5f;
@@ -113,10 +114,11 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);
-        GameManager.RemoveListener(GameManager.EventType.StateExit, OnGameStateExit);
+        GameManager.RemoveStateListener(GameManager.StateEventType.Enter, OnGameStateEnter);
+        GameManager.RemoveStateListener(GameManager.StateEventType.Exit, OnGameStateExit);
+        GameManager.AddRoundListner(GameManager.RoundEventType.Complete, OnRoundComplete);
         PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
-        ScoreManager.RemoveListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
+        
     }
 
     // Update is called once per frame
@@ -205,9 +207,9 @@ public class PlayerController : MonoBehaviour {
 
         if (firstStick == true) {
             firstStick = false;
-            if (ScoreManager.Instance.winTransform.position.y < transform.position.y) {
+            if (GameManager.GetRequireHeightForWin() < transform.position.y) {
                 ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerId, scoreValue * 10);
-                ScoreManager.EndRound(true);
+                GameManager.EndRound(true);
             } else {
                 ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerId, scoreValue);
             }

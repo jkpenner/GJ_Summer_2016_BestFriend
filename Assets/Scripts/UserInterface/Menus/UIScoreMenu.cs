@@ -19,7 +19,6 @@ public class UIScoreMenu : MonoBehaviour, IUIMenu {
 
     [System.Serializable]
     public class RoundInfo {
-        public Text txtRoundName;
         public Text txtRoundTime;
         public Text txtRoundScore;
     }
@@ -27,22 +26,17 @@ public class UIScoreMenu : MonoBehaviour, IUIMenu {
     public ScoreBarInfo[] playerScoreBars;
     public ScoreBarInfo teamScoreBar;
 
-    public RoundInfo[] roundInfos;
+    public RoundInfo[] leaderboardTeam;
+    public RoundInfo[] leaderboardSolo;
 
-    public Button btnReplay;
-    public Button btnMainMenu;
+    public Text txtTimeTillNext;
 
     public float timeToPopulate = 1f;
+    public float timeToTransition = 5f;
+    private float timeCounter = 0;
 
     private void Start() {
-        btnReplay.onClick.AddListener(OnReplayClick);
-        btnMainMenu.onClick.AddListener(OnMainMenuClick);
-
         OnMenuActivate();
-
-        // Disable the buttons till scores populate
-        btnReplay.interactable = false;
-        btnMainMenu.interactable = false;
 
         if (SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer) {
             playerScoreBars[2].rtBarPanel.gameObject.SetActive(false);
@@ -50,6 +44,23 @@ public class UIScoreMenu : MonoBehaviour, IUIMenu {
         }
 
         StartCoroutine("PopulateScores");
+
+        timeCounter = timeToTransition;
+    } 
+
+    public void Update() {
+        timeCounter -= Time.deltaTime;
+        if (timeCounter < 0) {
+            timeCounter = 0;
+            if (PlayerManager.IsPlayerConnected()) {
+                SceneManager.LoadScene("MainGame");
+            } else {
+                SceneManager.LoadScene("MainMenu");
+            }
+        }
+
+        txtTimeTillNext.text = string.Format("Next Round Starts in... {0}s",
+            timeCounter.ToString("F")); 
     }
 
     IEnumerator PopulateScores() {
@@ -64,31 +75,36 @@ public class UIScoreMenu : MonoBehaviour, IUIMenu {
             // find the total and max values of player scores
             int max = 0, total = 0;
             for (int i = 0; i < players; i++) {
-                total += StorageManager.PlayerScores[i];
-                max = Mathf.Max(max, StorageManager.PlayerScores[i]);
+                total += StorageManager.ActivePlayerScores[i];
+                max = Mathf.Max(max, StorageManager.ActivePlayerScores[i]);
             }
 
             Debug.Log(max);
 
             // Populate the player scores
             for (int i = 0; i < players; i++) {
-                PopulateScoreBar(playerScoreBars[i], StorageManager.PlayerScores[i], max, percentComplete, PlayerManager.GetPlayerInfo((PlayerId)(i + 1)).Color);
+                PopulateScoreBar(playerScoreBars[i], StorageManager.ActivePlayerScores[i], max, percentComplete, PlayerManager.GetPlayerInfo((PlayerId)(i + 1)).Color);
             }
 
             // Populate the Team Score
             PopulateScoreBar(teamScoreBar, total, total, percentComplete, Color.white);
 
             // Popultate Rounds
-            for (int i = 0; i < 3; i++) {
-                PopulateRoundInfo(roundInfos[i], StorageManager.RoundTimes[i], StorageManager.RoundScores[i], percentComplete);
+            for (int i = 0; i < 5; i++) {
+                PopulateRoundInfo(leaderboardTeam[i], StorageManager.LeaderboardTeam[i].time, StorageManager.LeaderboardTeam[i].score, percentComplete);
+            }
+
+            for (int i = 0; i < 5; i++) {
+                PopulateRoundInfo(leaderboardSolo[i], StorageManager.LeaderboardSolo[i].time, StorageManager.LeaderboardSolo[i].score, percentComplete);
             }
 
             yield return new WaitForEndOfFrame();
         }
 
-        btnReplay.interactable = true;
-        btnMainMenu.interactable = true;
-        Destroy(StorageManager.Instance.gameObject);
+        StorageManager.ActivePlayerScores.Clear();
+        StorageManager.ActiveRoundScores = 0;
+        StorageManager.ActiveRoundTimes = 0f;
+        //Destroy(StorageManager.Instance.gameObject);
     }
 
     private void PopulateScoreBar(ScoreBarInfo info, float targetValue, float maxValue, float percent, Color color) {
@@ -107,18 +123,8 @@ public class UIScoreMenu : MonoBehaviour, IUIMenu {
         info.txtRoundScore.text = (Mathf.RoundToInt(score * percent)).ToString("D8");
     }
 
-    private void OnReplayClick() {
-        //Reload the Main Game Scene
-        SceneManager.LoadScene(1);
-    }
-
-    private void OnMainMenuClick() {
-        //Load the Main Menu
-        SceneManager.LoadScene(0);
-    }
-
     public void OnMenuActivate() {
-        btnReplay.Select();
+        
     }
 
     public void OnMenuDeactivate() {

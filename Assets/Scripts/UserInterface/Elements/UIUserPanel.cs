@@ -4,106 +4,102 @@ using System.Collections;
 using System;
 
 public class UIUserPanel : MonoBehaviour {
+    private enum PanelState { Active, Disconnect, Score };
+
     public PlayerId playerId;
+    private PanelState panelState;
 
-    public Transform connectInfo;
-    public Transform selectorInfo;
-    public Transform scoreInfo;
+    public GameObject connectionInfo;
+    public GameObject characterSelector;
+    public GameObject playerScoreInfo;
+    public GameObject playerScoreBar;
 
-    public Button btnCharLeft;
-    public Button btnCharRight;
+    public Image characterSelectorLeft;
+    public Image characterSelectorCenter;
+    public Image characterSelectorRight;
 
-    public Image[] imgSelectors;
+    public Image panelBorder;
 
-    public Image imgBorder;
+    public Text playerName;
+    public Text playerScore;
 
-    public Text txtUserScore;
+    // Score Bar Elements
+    public RectTransform scoreBarRect;
+    public RectTransform scoreBarParentRect;
 
-    public int initialSelection = 0;
-    public int ActiveSelectionId { get; set; }
-    public int ActiveSelectionIndex { get; set; }
+    private Image scoreBarImage;
+
+    private int activeSelectionIndex = 0;
 
     private void Awake() {
+        // If player count is two and panel is assigned to player three or four, disable panel.
         if(SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer &&
             (playerId == PlayerId.Three || playerId == PlayerId.Four)) {
             this.gameObject.SetActive(false);
             return;
         }
 
+        // If game mode is random hide the character selector
         if (SettingManager.ActiveGameMode == SettingManager.GameMode.Random) {
-            selectorInfo.gameObject.SetActive(false);
+            characterSelector.gameObject.SetActive(false);
         }
 
         PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
         PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
 
-        GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
-        GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
+        GameManager.AddStateListener(GameManager.StateEventType.Enter, OnGameStateEnter);
+        GameManager.AddStateListener(GameManager.StateEventType.Exit, OnGameStateExit);
 
         ScoreManager.AddListener(ScoreManager.ScoreEventType.Changed, OnScoreChange);
         ScoreManager.AddListener(ScoreManager.ScoreEventType.PlayerAdd, OnPlayerScoreAdd);
-        ScoreManager.AddListener(ScoreManager.ScoreEventType.PlayerRemove, OnPlayerScoreRemove);
 
         var playerInfo = PlayerManager.GetPlayerInfo(playerId);
         if (playerInfo != null) {
-            imgBorder.color = playerInfo.Color;
+            panelBorder.color = playerInfo.Color;
             ToggleUIElements(playerInfo.IsConnected);
             if (playerInfo.IsConnected) {
-                txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
+                playerScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
             }
         }
 
-        ActiveSelectionIndex = -1;
+        activeSelectionIndex = -1;
         UpdateSelector(0);
-
-        if (SettingManager.ActiveGameMode != SettingManager.GameMode.Random) {
-            btnCharLeft.onClick.AddListener(OnCharLeftClick);
-            btnCharRight.onClick.AddListener(OnCharRighClick);
-        }
     }
 
     private void OnDestroy() {
         PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
         PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
 
-        GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);
-        GameManager.RemoveListener(GameManager.EventType.StateExit, OnGameStateExit);
+        GameManager.RemoveStateListener(GameManager.StateEventType.Enter, OnGameStateEnter);
+        GameManager.RemoveStateListener(GameManager.StateEventType.Exit, OnGameStateExit);
 
         ScoreManager.RemoveListener(ScoreManager.ScoreEventType.Changed, OnScoreChange);
         ScoreManager.RemoveListener(ScoreManager.ScoreEventType.PlayerAdd, OnPlayerScoreAdd);
-        ScoreManager.RemoveListener(ScoreManager.ScoreEventType.PlayerRemove, OnPlayerScoreRemove);
     }
 
     private void OnPlayerScoreAdd(PlayerId playerId) {
         if (playerId == this.playerId) {
-            Debug.Log("Player Add Updating score");
-            txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
-        }
-    }
-
-    private void OnPlayerScoreRemove(PlayerId playerId) {
-        if (playerId == this.playerId) {
-            txtUserScore.text = "";
+            playerScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
         }
     }
 
     private void OnScoreChange(PlayerId playerId) {
         if (playerId == this.playerId) {
-            txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
+            playerScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
         }
     }
 
     private void OnGameStateExit(GameManager.State state) {
-        if (state == GameManager.State.Pause) {
-            btnCharLeft.interactable = true;
-            btnCharRight.interactable = true;
+        if (state == GameManager.State.RoundLost ||
+            state == GameManager.State.RoundWin) {
+            
         }
     }
 
     private void OnGameStateEnter(GameManager.State state) {
-        if (state == GameManager.State.Pause) {
-            btnCharLeft.interactable = false;
-            btnCharRight.interactable = false;
+        if (state == GameManager.State.RoundLost ||
+            state == GameManager.State.RoundWin) {
+
         }
     }
 
@@ -111,22 +107,14 @@ public class UIUserPanel : MonoBehaviour {
         if (SettingManager.ActiveGameMode != SettingManager.GameMode.Random) {
             if (GameManager.ActiveState != GameManager.State.Pause) {
                 if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(playerId, "LeftBumper"))) {
-                    OnCharLeftClick();
+                    UpdateSelector(activeSelectionIndex - 1);
                 }
 
                 if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(playerId, "RightBumper"))) {
-                    OnCharRighClick();
+                    UpdateSelector(activeSelectionIndex + 1);
                 }
             }
         }
-    }
-
-    private void OnCharRighClick() {
-        UpdateSelector(ActiveSelectionIndex + 1);
-    }
-
-    private void OnCharLeftClick() {
-        UpdateSelector(ActiveSelectionIndex - 1);
     }
 
     private void OnPlayerDisconnect(PlayerInfo player) {
@@ -140,7 +128,7 @@ public class UIUserPanel : MonoBehaviour {
         if (player.Id == playerId) {
             Debug.LogFormat("[{0}]: Player Connected {1}", this.name, player.Id);
             ToggleUIElements(true);
-            UpdateSelector(initialSelection);
+            UpdateSelector(0);
         }
     }
 
@@ -149,30 +137,30 @@ public class UIUserPanel : MonoBehaviour {
 
         index = LoopIndex(index, charCount);
 
-        if (ActiveSelectionIndex != index) {
-            ActiveSelectionIndex = index;
+        if (activeSelectionIndex != index) {
+            activeSelectionIndex = index;
 
             var playerInfo = PlayerManager.GetPlayerInfo(playerId);
             if (playerInfo != null) {
-                playerInfo.CharacterSelectionId = CharacterDatabase.Instance.Get(ActiveSelectionIndex).Id;
+                playerInfo.CharacterSelectionId = CharacterDatabase.Instance.Get(activeSelectionIndex).Id;
             }
             
             // Set the left character icon
-            var lChar = CharacterDatabase.Instance.Get(LoopIndex(ActiveSelectionIndex - 1, charCount));
+            var lChar = CharacterDatabase.Instance.Get(LoopIndex(activeSelectionIndex - 1, charCount));
             if (lChar != null) {
-                imgSelectors[0].sprite = lChar.Icon;
+                characterSelectorLeft.sprite = lChar.Icon;
             }
 
             // Set the center character icon
-            var cChar = CharacterDatabase.Instance.Get(ActiveSelectionIndex);
+            var cChar = CharacterDatabase.Instance.Get(activeSelectionIndex);
             if (cChar != null) {
-                imgSelectors[1].sprite = cChar.Icon;
+                characterSelectorCenter.sprite = cChar.Icon;
             }
 
             // Set the right charcter icon
-            var rChar = CharacterDatabase.Instance.Get(LoopIndex(ActiveSelectionIndex + 1, charCount));
+            var rChar = CharacterDatabase.Instance.Get(LoopIndex(activeSelectionIndex + 1, charCount));
             if (rChar != null) {
-                imgSelectors[2].sprite = rChar.Icon;
+                characterSelectorRight.sprite = rChar.Icon;
             }
         }
     }
@@ -184,8 +172,55 @@ public class UIUserPanel : MonoBehaviour {
     }
 
     private void ToggleUIElements(bool isConnected) {
-        connectInfo.gameObject.SetActive(!isConnected);
-        selectorInfo.gameObject.SetActive(isConnected && SettingManager.ActiveGameMode != SettingManager.GameMode.Random);
-        scoreInfo.gameObject.SetActive(isConnected);
+        connectionInfo.SetActive(!isConnected);
+        characterSelector.SetActive(isConnected && SettingManager.ActiveGameMode != SettingManager.GameMode.Random);
+        playerScoreInfo.SetActive(isConnected);
+    }
+
+    public void DisplayScoreBar(int maxValue, float displayLength) {
+        SetPanelState(PanelState.Score);
+        StartCoroutine("PopulateScore", new object[] { maxValue, displayLength });
+    }
+
+    IEnumerator PopulateScore(object [] objs) {
+        int maxValue = (int)objs[0];
+        float duration = (float)objs[1];
+
+        float counter = duration;
+        while (counter > 0f) {
+            counter -= Time.deltaTime;
+            float percentComplete = (duration - counter) / duration;
+
+            float barProgress = (ScoreManager.GetPlayerScore(playerId) / maxValue) * percentComplete;
+
+            scoreBarRect.localScale = new Vector3(
+                scoreBarRect.localScale.x,
+                barProgress,
+                scoreBarRect.localScale.z);
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    private void SetPanelState(PanelState state) {
+        var playerInfo = PlayerManager.GetPlayerInfo(playerId);
+        if (playerInfo != null) {
+            if (state == PanelState.Active) {
+                connectionInfo.SetActive(false);
+                playerScoreBar.SetActive(false);
+                characterSelector.SetActive(SettingManager.ActiveGameMode != SettingManager.GameMode.Random);
+                playerScoreInfo.SetActive(true);
+            } else if (state == PanelState.Disconnect) {
+                connectionInfo.SetActive(true);
+                playerScoreBar.SetActive(false);
+                characterSelector.SetActive(false);
+                playerScoreInfo.SetActive(false);
+            } else if (state == PanelState.Score) {
+                connectionInfo.SetActive(false);
+                playerScoreBar.SetActive(true);
+                characterSelector.SetActive(false);
+                playerScoreInfo.SetActive(true);
+            }
+        }
     }
 }

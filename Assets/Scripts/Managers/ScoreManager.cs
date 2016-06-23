@@ -3,34 +3,6 @@ using System.Collections.Generic;
 using System;
 
 public class ScoreManager : Singleton<ScoreManager> {
-    public float roundLength = 30f;
-    public float roundDecayRate = 1f;
-    public int roundScoreReward = 1;
-
-    private float _pauseDecayMod = 1f;
-    private float _roundCounter = 0f;
-    public float RoundCounter {
-        get { return _roundCounter; }
-    }
-
-    public int CurrentRound { get; set; }
-
-    [SerializeField]
-    private int _roundsPerGame = 3;
-    public int RoundsPerGame {
-        get { return _roundsPerGame; }
-        set { _roundsPerGame = value; }
-    }
-
-    [SerializeField]
-    private int _roundsToWin = 2;
-    public int RoundsToWin {
-        get { return _roundsToWin; }
-        set { _roundsToWin = value; }
-    }
-
-    public Transform winTransform;
-
     Dictionary<PlayerId, int> _scores = new Dictionary<PlayerId, int>();
 
     public delegate void ScoreEvent(PlayerId playerId);
@@ -40,12 +12,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     public enum ScoreEventType { Changed, PlayerAdd, PlayerRemove }
 
-    public delegate void RoundEvent();
-    private RoundEvent OnRoundComplete;
-    private RoundEvent OnRoundStart;
-    private RoundEvent OnRoundResume;
-
-    public enum RoundEventType { Complete, Start, Resume }
+    private bool firstReset = true;
 
     private void Awake() {
         foreach (var player in PlayerManager.GetAllPlayerInfo()) {
@@ -56,85 +23,58 @@ public class ScoreManager : Singleton<ScoreManager> {
     }
 
     private void OnEnable() {
-        GameManager.AddListener(GameManager.EventType.StateEnter, OnGameStateEnter);
-        GameManager.AddListener(GameManager.EventType.StateExit, OnGameStateExit);
-
         PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
         PlayerManager.AddListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+
+        GameManager.AddStateListener(GameManager.StateEventType.Enter, OnStateEnter);
+    }
+
+    private void OnDisable() {
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
+
+        GameManager.RemoveStateListener(GameManager.StateEventType.Enter, OnStateEnter);
+    }
+
+    private void OnStateEnter(GameManager.State state) {
+        if (state == GameManager.State.RoundLost ||
+            state == GameManager.State.RoundWin) {
+
+            if (!firstReset) {
+                StorageManager.ActiveRoundTimes = Mathf.Clamp(
+                    (GameManager.Instance.roundDuration - GameManager.Instance.RoundCounter),
+                    0, GameManager.Instance.roundDuration);
+
+                int totalScore = 0;
+
+                var playerInfos = PlayerManager.GetAllPlayerInfo();
+                for (int i = 0; i < playerInfos.Length; i++) {
+                    var score = GetPlayerScore(playerInfos[i].Id);
+                    if (StorageManager.IsNewLeaderboardScoreSolo(score)) {
+                        StorageManager.AddNewLeaderboardScoreSolo(score,
+                            StorageManager.ActiveRoundTimes);
+                    }
+                    StorageManager.ActivePlayerScores.Add(score);
+                    totalScore += score;
+                }
+
+                StorageManager.ActiveRoundScores = totalScore;
+                if (StorageManager.IsNewLeaderboardScoreTeam(totalScore)) {
+                    StorageManager.AddNewLeaderboardScoreTeam(totalScore,
+                        StorageManager.ActiveRoundTimes);
+                }
+            } else {
+                firstReset = false;
+            }
+        }
     }
 
     private void OnPlayerDisconnect(PlayerInfo player) {
-        RemovePlayer(player.Id);
+        //RemovePlayer(player.Id);
     }
 
     private void OnPlayerConnect(PlayerInfo player) {
         AddPlayer(player.Id);
-    }
-
-    private void OnDisable() {
-        GameManager.RemoveListener(GameManager.EventType.StateEnter, OnGameStateEnter);
-        GameManager.RemoveListener(GameManager.EventType.StateExit, OnGameStateExit);
-
-        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
-        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
-    }
-
-    private void Update() {
-        if (_roundCounter > 0) {
-            _roundCounter -= Time.deltaTime * roundDecayRate * _pauseDecayMod;
-        } else if (_roundCounter < 0) {
-            _roundCounter = 0;
-
-            StorageManager.RoundScores.Add(0);
-            for (int i = 1; i < 5; i++) {
-                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] += GetPlayerScore((PlayerId)i);
-            }
-
-            for (int i = 0; i < StorageManager.RoundScores.Count - 2; i++) {
-                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] -= StorageManager.RoundScores[i];
-            }
-
-            StorageManager.RoundTimes.Add(roundLength - _roundCounter);
-
-
-            if (OnRoundComplete != null) {
-                OnRoundComplete();
-            }
-
-            GameManager.SetState(GameManager.State.RoundLost);
-        }
-    }
-
-    private void OnGameStateExit(GameManager.State state) {
-		if (state == GameManager.State.RoundLost || state == GameManager.State.RoundWin) {
-            _roundCounter = roundLength;
-            CurrentRound++;
-
-            if (CurrentRound > RoundsPerGame) {
-                for (int i = 1; i < 5; i++) {
-                    StorageManager.PlayerScores.Add(GetPlayerScore((PlayerId)i));
-                }
-                // Load the Score Scene
-                UnityEngine.SceneManagement.SceneManager.LoadScene(4);
-            }
-
-            if (OnRoundStart != null) {
-                OnRoundStart();
-            }
-        }
-
-        if (state == GameManager.State.Pause) {
-            _pauseDecayMod = 1;
-            if (OnRoundResume != null) {
-                OnRoundResume();
-            }
-        }
-    }
-
-    private void OnGameStateEnter(GameManager.State state) {
-        if (state == GameManager.State.Pause) {
-            _pauseDecayMod = 0;
-        }
     }
 
     static public void AddListener(ScoreEventType e, ScoreEvent func) {
@@ -147,26 +87,6 @@ public class ScoreManager : Singleton<ScoreManager> {
         }
     }
 
-    static public void AddListener(RoundEventType e, RoundEvent func) {
-        if (Instance != null) {
-            switch (e) {
-                case RoundEventType.Complete: Instance.OnRoundComplete += func; break;
-                case RoundEventType.Start: Instance.OnRoundStart += func; break;
-                case RoundEventType.Resume: Instance.OnRoundResume += func; break;
-            }
-        }
-    }
-
-    static public void RemoveListener(RoundEventType e, RoundEvent func) {
-        if (Instance != null) {
-            switch (e) {
-                case RoundEventType.Complete: Instance.OnRoundComplete -= func; break;
-                case RoundEventType.Start: Instance.OnRoundStart -= func; break;
-                case RoundEventType.Resume: Instance.OnRoundResume -= func; break;
-            }
-        }
-    }
-
     static public void RemoveListener(ScoreEventType e, ScoreEvent func) {
         if (Instance != null) {
             switch (e) {
@@ -174,32 +94,6 @@ public class ScoreManager : Singleton<ScoreManager> {
                 case ScoreEventType.PlayerRemove: Instance.OnPlayerRemove -= func; break;
                 case ScoreEventType.Changed: Instance.OnScoreChange -= func; break;
             }
-        }
-    }
-
-    static public void EndRound(bool roundWin) {
-        if (Instance != null) {
-            StorageManager.RoundScores.Add(0);
-            for (int i = 1; i < 5; i++) {
-                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] += GetPlayerScore((PlayerId)i);
-            }
-
-            for (int i = 0; i < StorageManager.RoundScores.Count - 2; i++) {
-                StorageManager.RoundScores[StorageManager.RoundScores.Count - 1] -= StorageManager.RoundScores[i];
-            }
-
-            StorageManager.RoundTimes.Add(Instance.roundLength - Instance._roundCounter);
-
-            Instance.CurrentRound++;
-            if (roundWin == true) {
-                GameManager.SetState(GameManager.State.RoundWin);
-            } else {
-                GameManager.SetState(GameManager.State.RoundLost);
-            }
-
-			if (Instance.OnRoundComplete != null) {
-				Instance.OnRoundComplete();
-			}
         }
     }
 

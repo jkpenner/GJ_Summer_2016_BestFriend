@@ -12,16 +12,16 @@ public class UIRoundInfoPanel : MonoBehaviour {
     private float counter;
 
     private void Start() {
-        ScoreManager.AddListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
-        ScoreManager.AddListener(ScoreManager.RoundEventType.Start, OnRoundStart);
+        GameManager.AddRoundListner(GameManager.RoundEventType.Begin, OnRoundStart);
+        GameManager.AddRoundListner(GameManager.RoundEventType.Complete, OnRoundComplete);
 
         canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0f;
     }
 
     private void OnDestroy() {
-        ScoreManager.RemoveListener(ScoreManager.RoundEventType.Complete, OnRoundComplete);
-        ScoreManager.RemoveListener(ScoreManager.RoundEventType.Start, OnRoundStart);
+        GameManager.RemoveRoundListener(GameManager.RoundEventType.Complete, OnRoundComplete);
+        GameManager.RemoveRoundListener(GameManager.RoundEventType.Begin, OnRoundStart);
     }
 
     private void OnRoundStart() {
@@ -37,7 +37,7 @@ public class UIRoundInfoPanel : MonoBehaviour {
             txtDescription.text = "Round Timer Expired";
         }
         
-        counter = GameManager.Instance.resetStateDuration;
+        counter = GameManager.Instance.roundResetDuration;
     }
 
     private void Update() {

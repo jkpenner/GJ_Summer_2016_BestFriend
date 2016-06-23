@@ -5,96 +5,57 @@ using System.Collections;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class UIMainMenu : MonoBehaviour, IUIMenu {
-    public RectTransform rtConnectText;
-    public RectTransform rtButtonLayout;
-
-    public Button btnGame2PNormal;
-    public Button btnGame2PRandom;
-    public Button btnGame4PNormal;
-    public Button btnGame4PRandom;
-
-    public Button btnOptions;
-    public Button btnExitGame;
-
-    public UIOptionMenu optionMenu;
-
     private CanvasGroup canvasGroup;
 
-    void Start () {
-        btnGame2PNormal.onClick.AddListener(OnGame2PNormalClick);
-        btnGame2PRandom.onClick.AddListener(OnGame2PRandomClick);
-        btnGame4PNormal.onClick.AddListener(OnGame4PNormalClick);
-        btnGame4PRandom.onClick.AddListener(OnGame4PRandomClick);
-        btnOptions.onClick.AddListener(OnOptionsClick);
-        btnExitGame.onClick.AddListener(OnExitGameClick);	
+    public GameObject mainMenu;
+    public GameObject nextMenu;
 
+    bool mainMenuShow = true;
+
+
+    private void Awake() {
         canvasGroup = GetComponent<CanvasGroup>();
 
         PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
 
         OnMenuActivate();
-	}
 
-    private void OnPlayerConnect(PlayerInfo player) {
-        if (player.Id == PlayerId.One) {
-            rtButtonLayout.gameObject.SetActive(true);
-            rtConnectText.gameObject.SetActive(false);
-            btnGame2PNormal.Select();
+        mainMenu.SetActive(true);
+        nextMenu.SetActive(false);
+    }
+
+    private void Update() {
+        if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(PlayerId.One, "A")) ||
+            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(PlayerId.Two, "A")) ||
+            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(PlayerId.Three, "A")) ||
+            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(PlayerId.Four, "A"))) {
+            if (mainMenuShow) {
+                Debug.Log("Switch Menu");
+                nextMenu.SetActive(true);
+                mainMenu.SetActive(false);
+                mainMenuShow = false;
+            } else {
+                Debug.Log("Start Game");
+                SettingManager.Set(SettingManager.PlayerCount.FourPlayer, SettingManager.GameMode.Normal);
+                SceneManager.LoadScene("MainGame");
+            }
+            //OnMenuDeactivate();
         }
     }
 
-    void OnEnable() {
+    private void OnDisable() {
         PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
     }
 
-    private void OnGame2PNormalClick() {
-        SettingManager.Set(SettingManager.PlayerCount.TwoPlayer, SettingManager.GameMode.Normal);
-        SceneManager.LoadScene("MainGame");
-    }
-
-    private void OnGame2PRandomClick() {
-        SettingManager.Set(SettingManager.PlayerCount.TwoPlayer, SettingManager.GameMode.Random);
-        SceneManager.LoadScene("MainGame");
-    }
-
-    private void OnGame4PNormalClick() {
-        SettingManager.Set(SettingManager.PlayerCount.FourPlayer, SettingManager.GameMode.Normal);
-        SceneManager.LoadScene("MainGame");
-    }
-
-    private void OnGame4PRandomClick() {
-        SettingManager.Set(SettingManager.PlayerCount.FourPlayer, SettingManager.GameMode.Random);
-        SceneManager.LoadScene("MainGame");
-    }
-
-    //private void OnFindGameClick() {
-    //    GameManager.ActiveState = GameManager.State.Active;
-    //    SceneManager.LoadScene(1);
-    //}
-
-    private void OnOptionsClick() {
-        optionMenu.Display(this);
-        OnMenuDeactivate();
-    }
-
-    private void OnExitGameClick() {
-        Application.Quit();
+    private void OnPlayerConnect(PlayerInfo player) {
+        //nextMenu.SetActive(true);
+        //mainMenu.SetActive(false);
     }
 
     public void OnMenuActivate() {
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
-
-        var playerInfo = PlayerManager.GetPlayerInfo(PlayerId.One);
-        if (playerInfo != null && playerInfo.IsConnected) {
-            rtButtonLayout.gameObject.SetActive(true);
-            rtConnectText.gameObject.SetActive(false);
-            btnGame2PNormal.Select();
-        } else {
-            rtButtonLayout.gameObject.SetActive(false);
-            rtConnectText.gameObject.SetActive(true);
-        }
     }
 
     public void OnMenuDeactivate() {

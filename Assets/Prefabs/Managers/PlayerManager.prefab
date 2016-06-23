@@ -44,7 +44,7 @@ MonoBehaviour:
   - _id: 1
     _color: {r: 1, g: 0, b: 0, a: 1}
     _postfix: _P1
-    _canAutoDisconnect: 0
+    _canAutoDisconnect: 1
   - _id: 2
     _color: {r: 0.11724138, g: 0, b: 1, a: 1}
     _postfix: _P2
@@ -57,7 +57,7 @@ MonoBehaviour:
     _color: {r: 1, g: 0.8482759, b: 0, a: 1}
     _postfix: _P4
     _canAutoDisconnect: 1
-  disconnectPlayerDelay: 30
+  disconnectPlayerDelay: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

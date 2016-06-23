@@ -15,12 +15,12 @@ public class SpawnManager : Singleton<SpawnManager> {
 
     public void Awake() {
         UseRandom = SettingManager.ActiveGameMode == SettingManager.GameMode.Random;
-        ScoreManager.AddListener(ScoreManager.RoundEventType.Start, OnRoundStart);
+        GameManager.AddRoundListner(GameManager.RoundEventType.Begin, OnRoundStart);
         PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
     }
 
     public void Disable() {
-        ScoreManager.RemoveListener(ScoreManager.RoundEventType.Start, OnRoundStart);
+        GameManager.RemoveRoundListener(GameManager.RoundEventType.Begin, OnRoundStart);
         PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
     }
 
