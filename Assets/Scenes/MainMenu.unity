@@ -543,8 +543,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 445394, guid: 3db9926f10fb79a4d9c6160e4730df42, type: 2}
       propertyPath: m_RootOrder
-<<<<<<< HEAD
-=======
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22455830, guid: 48f0baa18ef21214d9ba956b4f916365, type: 2}
@@ -791,7 +789,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 445394, guid: 3db9926f10fb79a4d9c6160e4730df42, type: 2}
       propertyPath: m_RootOrder
->>>>>>> 841e831... Changed power input to X
       value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
