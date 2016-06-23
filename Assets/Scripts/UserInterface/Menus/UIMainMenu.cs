@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System;
+using System.Collections;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class UIMainMenu : MonoBehaviour, IUIMenu {
+    public RectTransform rtConnectText;
+    public RectTransform rtButtonLayout;
+
     public Button btnGame2PNormal;
     public Button btnGame2PRandom;
     public Button btnGame4PNormal;
@@ -26,10 +29,22 @@ public class UIMainMenu : MonoBehaviour, IUIMenu {
         btnExitGame.onClick.AddListener(OnExitGameClick);	
 
         canvasGroup = GetComponent<CanvasGroup>();
+
+        PlayerManager.AddListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
+
         OnMenuActivate();
 	}
+
+    private void OnPlayerConnect(PlayerInfo player) {
+        if (player.Id == PlayerId.One) {
+            rtButtonLayout.gameObject.SetActive(true);
+            rtConnectText.gameObject.SetActive(false);
+            btnGame2PNormal.Select();
+        }
+    }
+
     void OnEnable() {
-        
+        PlayerManager.RemoveListener(PlayerManager.EventType.PlayerConnect, OnPlayerConnect);
     }
 
     private void OnGame2PNormalClick() {
@@ -67,10 +82,19 @@ public class UIMainMenu : MonoBehaviour, IUIMenu {
     }
 
     public void OnMenuActivate() {
-        btnGame2PNormal.Select();
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+
+        var playerInfo = PlayerManager.GetPlayerInfo(PlayerId.One);
+        if (playerInfo != null && playerInfo.IsConnected) {
+            rtButtonLayout.gameObject.SetActive(true);
+            rtConnectText.gameObject.SetActive(false);
+            btnGame2PNormal.Select();
+        } else {
+            rtButtonLayout.gameObject.SetActive(false);
+            rtConnectText.gameObject.SetActive(true);
+        }
     }
 
     public void OnMenuDeactivate() {

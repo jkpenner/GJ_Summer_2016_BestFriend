@@ -9,11 +9,11 @@ public class UIScorePanel : MonoBehaviour {
 
     private CanvasGroup canvasGroup;
 
-    private Dictionary<int, UIUserScore>  _userScores;
-    public Dictionary<int, UIUserScore> UserScores {
+    private Dictionary<PlayerId, UIUserScore>  _userScores;
+    public Dictionary<PlayerId, UIUserScore> UserScores {
         get {
             if (_userScores == null) {
-                _userScores = new Dictionary<int, UIUserScore>();
+                _userScores = new Dictionary<PlayerId, UIUserScore>();
             }
             return _userScores;
         }
@@ -28,28 +28,28 @@ public class UIScorePanel : MonoBehaviour {
         ScoreManager.AddListener(ScoreManager.ScoreEventType.PlayerRemove, OnPlayerRemove);
         ScoreManager.AddListener(ScoreManager.ScoreEventType.Changed, OnScoreChange);
 
-        ScoreManager.AddPlayer(1);
-        ScoreManager.AddPlayer(2);
-        ScoreManager.AddPlayer(3);
-        ScoreManager.AddPlayer(4);
+        ScoreManager.AddPlayer(PlayerId.One);
+        ScoreManager.AddPlayer(PlayerId.Two);
+        ScoreManager.AddPlayer(PlayerId.Three);
+        ScoreManager.AddPlayer(PlayerId.Four);
     }
 
     
 
-    private void OnScoreChange(int playerId) {
+    private void OnScoreChange(PlayerId playerId) {
         if (UserScores.ContainsKey(playerId)) {
             UserScores[playerId].UserScore = ScoreManager.GetPlayerScore(playerId).ToString("D8");
         }
     }
 
-    private void OnPlayerRemove(int playerId) {
+    private void OnPlayerRemove(PlayerId playerId) {
         if (UserScores.ContainsKey(playerId)) {
             Destroy(UserScores[playerId].gameObject);
             UserScores.Remove(playerId);
         }
     }
 
-    private void OnPlayerAdd(int playerId) {
+    private void OnPlayerAdd(PlayerId playerId) {
         var go = GameObject.Instantiate(userScorePrefab);
         var userScore = go.GetComponent<UIUserScore>();
         userScore.UserName = "Player " + playerId.ToString();

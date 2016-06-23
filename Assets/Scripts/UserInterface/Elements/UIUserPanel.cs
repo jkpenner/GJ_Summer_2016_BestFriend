@@ -4,7 +4,7 @@ using System.Collections;
 using System;
 
 public class UIUserPanel : MonoBehaviour {
-    public int playerId;
+    public PlayerId playerId;
 
     public Transform connectInfo;
     public Transform selectorInfo;
@@ -20,10 +20,12 @@ public class UIUserPanel : MonoBehaviour {
     public Text txtUserScore;
 
     public int initialSelection = 0;
-    public int ActiveSelection { get; set; }
+    public int ActiveSelectionId { get; set; }
+    public int ActiveSelectionIndex { get; set; }
 
     private void Awake() {
-        if (SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer && playerId > 2) {
+        if(SettingManager.ActivePlayerCount == SettingManager.PlayerCount.TwoPlayer &&
+            (playerId == PlayerId.Three || playerId == PlayerId.Four)) {
             this.gameObject.SetActive(false);
             return;
         }
@@ -44,14 +46,14 @@ public class UIUserPanel : MonoBehaviour {
 
         var playerInfo = PlayerManager.GetPlayerInfo(playerId);
         if (playerInfo != null) {
-            imgBorder.color = playerInfo.color;
+            imgBorder.color = playerInfo.Color;
             ToggleUIElements(playerInfo.IsConnected);
             if (playerInfo.IsConnected) {
                 txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
             }
         }
 
-        ActiveSelection = -1;
+        ActiveSelectionIndex = -1;
         UpdateSelector(0);
 
         if (SettingManager.ActiveGameMode != SettingManager.GameMode.Random) {
@@ -72,20 +74,20 @@ public class UIUserPanel : MonoBehaviour {
         ScoreManager.RemoveListener(ScoreManager.ScoreEventType.PlayerRemove, OnPlayerScoreRemove);
     }
 
-    private void OnPlayerScoreAdd(int playerId) {
+    private void OnPlayerScoreAdd(PlayerId playerId) {
         if (playerId == this.playerId) {
             Debug.Log("Player Add Updating score");
             txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
         }
     }
 
-    private void OnPlayerScoreRemove(int playerId) {
+    private void OnPlayerScoreRemove(PlayerId playerId) {
         if (playerId == this.playerId) {
             txtUserScore.text = "";
         }
     }
 
-    private void OnScoreChange(int playerId) {
+    private void OnScoreChange(PlayerId playerId) {
         if (playerId == this.playerId) {
             txtUserScore.text = ScoreManager.GetPlayerScore(playerId).ToString();
         }
@@ -120,48 +122,65 @@ public class UIUserPanel : MonoBehaviour {
     }
 
     private void OnCharRighClick() {
-        UpdateSelector(ActiveSelection + 1);
+        UpdateSelector(ActiveSelectionIndex + 1);
     }
 
     private void OnCharLeftClick() {
-        UpdateSelector(ActiveSelection - 1);
+        UpdateSelector(ActiveSelectionIndex - 1);
     }
 
-    private void OnPlayerDisconnect(PlayerManager.PlayerInfo player) {
-        if (player.id == playerId) {
-            Debug.LogFormat("[{0}]: Player Disconnected {1}", this.name, player.id);
+    private void OnPlayerDisconnect(PlayerInfo player) {
+        if (player.Id == playerId) {
+            Debug.LogFormat("[{0}]: Player Disconnected {1}", this.name, player.Id);
             ToggleUIElements(false);
         }
     }
 
-    private void OnPlayerConnect(PlayerManager.PlayerInfo player) {
-        if (player.id == playerId) {
-            Debug.LogFormat("[{0}]: Player Connected {1}", this.name, player.id);
+    private void OnPlayerConnect(PlayerInfo player) {
+        if (player.Id == playerId) {
+            Debug.LogFormat("[{0}]: Player Connected {1}", this.name, player.Id);
             ToggleUIElements(true);
             UpdateSelector(initialSelection);
         }
     }
 
     private void UpdateSelector(int index) {
-        if (index >= imgSelectors.Length) index = 0;
-        if (index < 0) index = imgSelectors.Length - 1;
+        int charCount = CharacterDatabase.Instance.Count;
 
-        if (ActiveSelection != index) {
+        index = LoopIndex(index, charCount);
+
+        if (ActiveSelectionIndex != index) {
+            ActiveSelectionIndex = index;
+
             var playerInfo = PlayerManager.GetPlayerInfo(playerId);
             if (playerInfo != null) {
-                playerInfo.CharacterSelection = index;
+                playerInfo.CharacterSelectionId = CharacterDatabase.Instance.Get(ActiveSelectionIndex).Id;
+            }
+            
+            // Set the left character icon
+            var lChar = CharacterDatabase.Instance.Get(LoopIndex(ActiveSelectionIndex - 1, charCount));
+            if (lChar != null) {
+                imgSelectors[0].sprite = lChar.Icon;
             }
 
-            if (ActiveSelection >= 0 && ActiveSelection < imgSelectors.Length) {
-                imgSelectors[ActiveSelection].enabled = false;
+            // Set the center character icon
+            var cChar = CharacterDatabase.Instance.Get(ActiveSelectionIndex);
+            if (cChar != null) {
+                imgSelectors[1].sprite = cChar.Icon;
             }
 
-            ActiveSelection = index;
-
-            if (ActiveSelection >= 0 && ActiveSelection < imgSelectors.Length) {
-                imgSelectors[ActiveSelection].enabled = true;
+            // Set the right charcter icon
+            var rChar = CharacterDatabase.Instance.Get(LoopIndex(ActiveSelectionIndex + 1, charCount));
+            if (rChar != null) {
+                imgSelectors[2].sprite = rChar.Icon;
             }
         }
+    }
+
+    private int LoopIndex(int value, int listCount) {
+        if(value < 0) return listCount - 1;
+        if(value >= listCount) return 0;
+        return value;
     }
 
     private void ToggleUIElements(bool isConnected) {

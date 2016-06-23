@@ -47,10 +47,10 @@ public class UIPauseMenu : MonoBehaviour, IUIMenu {
     }
 
     private void Update() {
-        if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(1, "Start")) ||
-            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(2, "Start")) ||
-            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(3, "Start")) ||
-            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(4, "Start"))){
+        if (Input.GetButtonDown(PlayerManager.GetPlayerInputStr(PlayerId.One, "Start")) ||
+            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(PlayerId.Two, "Start")) ||
+            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(PlayerId.Three, "Start")) ||
+            Input.GetButtonDown(PlayerManager.GetPlayerInputStr(PlayerId.Four, "Start"))){
             if (GameManager.ActiveState == GameManager.State.Active ||
                 GameManager.ActiveState == GameManager.State.None) {
                 GameManager.SetState(GameManager.State.Pause);                
