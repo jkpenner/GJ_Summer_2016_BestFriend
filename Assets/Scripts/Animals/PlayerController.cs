@@ -195,8 +195,8 @@ public class PlayerController : MonoBehaviour {
 		FixedJoint2D endHinge = gameObject.AddComponent<FixedJoint2D>() as FixedJoint2D;
 		endHinge.connectedBody = stickyObject.GetComponent<Rigidbody2D>();
 		endHinge.enableCollision = true;
-		endHinge.frequency = 10f;
-		endHinge.dampingRatio = 0.2f;
+		endHinge.frequency = 9f;
+		endHinge.dampingRatio = 0.3f;
 
 		endHinge.anchor = GetVectorOffset(gameObject, collision.gameObject, transform.eulerAngles.z) * gameObject.GetComponent<CircleCollider2D>().radius;
 		endHinge.connectedAnchor = GetVectorOffset(collision.gameObject, gameObject, collision.transform.eulerAngles.z) * collision.gameObject.GetComponent<CircleCollider2D>().radius;
