@@ -36,7 +36,7 @@ public class UIMainMenu : MonoBehaviour, IUIMenu {
                 mainMenuShow = false;
             } else {
                 Debug.Log("Start Game");
-                SettingManager.Set(SettingManager.PlayerCount.FourPlayer, SettingManager.GameMode.Normal);
+                SettingManager.Set(SettingManager.PlayerCount.FourPlayer, SettingManager.GameMode.Random);
                 SceneManager.LoadScene("MainGame");
             }
             //OnMenuDeactivate();
