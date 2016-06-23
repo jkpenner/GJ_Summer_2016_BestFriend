@@ -106,7 +106,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     }
 
     private void OnGameStateExit(GameManager.State state) {
-        if (state == GameManager.State.RoundLost) {
+		if (state == GameManager.State.RoundLost || state == GameManager.State.RoundWin) {
             _roundCounter = roundLength;
             CurrentRound++;
 
@@ -190,15 +190,16 @@ public class ScoreManager : Singleton<ScoreManager> {
 
             StorageManager.RoundTimes.Add(Instance.roundLength - Instance._roundCounter);
 
-            if (Instance.OnRoundComplete != null) {
-                Instance.OnRoundComplete();
-            }
             Instance.CurrentRound++;
             if (roundWin == true) {
                 GameManager.SetState(GameManager.State.RoundWin);
             } else {
                 GameManager.SetState(GameManager.State.RoundLost);
             }
+
+			if (Instance.OnRoundComplete != null) {
+				Instance.OnRoundComplete();
+			}
         }
     }
 

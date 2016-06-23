@@ -125,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: 2
   flightForce: 400
-  grindSpeed: 10
+  grindSpeed: 15
   scoreValue: 75
   vaccumForce: 200
   spawnSound: {fileID: 8300000, guid: 3c5af0b208b4848ecbff9d7d3ecd4b61, type: 3}

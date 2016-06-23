@@ -10,7 +10,7 @@ public class PlayerDive : MonoBehaviour {
 	Rigidbody2D rigidBody; 
 	string jumpInput;
     float distToGround;
-    bool canDive = true;
+    bool canDive = false;
 
 	// Use this for initialization 
 	void Start () { 

@@ -11,7 +11,7 @@ public class PlayerDash : MonoBehaviour {
 	Animator animator;
 	string dashInput;
 	string dashDirectionInput;
-	bool canDash = true;
+	bool canDash = false                                ;
 	float distToGround;
 
 	// Use this for initialization
@@ -33,7 +33,7 @@ public class PlayerDash : MonoBehaviour {
 
 	bool IsGrounded()
 	{
-		var grounded = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.1f, layerMask);
+		var grounded = Physics2D.Raycast(transform.position, Vector2.down, distToGround + 0.1f, layerMask);
 		if(grounded) canDash = true;
 		return grounded;
 	}

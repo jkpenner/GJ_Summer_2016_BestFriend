@@ -29,7 +29,7 @@ public class PlayerFly : MonoBehaviour {
 
     bool IsGrounded()
     {
-		return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.1f, layerMask);
+		return Physics2D.Raycast(transform.position, Vector2.down, distToGround + 0.1f, layerMask);
     }
 
     void Fly()

@@ -70,7 +70,6 @@ public class PlayerController : MonoBehaviour {
 		}
 		//Lose
 		else{
-			ChangeState(State.DISABLED);
 			// When the round complete kill everything
 			// Updates the active grind speed for fast killing
 			activeGrindSpeed = grindSpeed * 15;
@@ -81,6 +80,7 @@ public class PlayerController : MonoBehaviour {
 				// Spawn a partical effect
 				Destroy(this.gameObject);
 			}
+			ChangeState(State.DISABLED);
 		}
 
     }
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 		//TODO: move chicken flight to own class
-		if(_state == State.DISABLED && animal == Animal.CHICKEN){
+		if(_state == State.DISABLED && animal == Animal.CHICKEN && GameManager.ActiveState == GameManager.State.Active){
 			rigidBody.AddForce(Vector2.up * flightForce);
 		}else if(_state == State.SAVED){
 			rigidBody.AddForce(new Vector2(vaccumForce/2 * (transform.position.x > 0 ? -1 : 1), vaccumForce));
@@ -166,7 +166,9 @@ public class PlayerController : MonoBehaviour {
 	//Spawn a new, controllable character
 	void ResetPlayer(){
 		gameObject.transform.tag = "Anchor";
-        SpawnManager.SpawnPlayer(this.GetComponent<InputMapper>().playerId);
+		if(GameManager.ActiveState == GameManager.State.Active){
+        	SpawnManager.SpawnPlayer(this.GetComponent<InputMapper>().playerId);
+		}
 	}
 
 	void DisablePlayer(){
@@ -195,7 +197,7 @@ public class PlayerController : MonoBehaviour {
 		FixedJoint2D endHinge = gameObject.AddComponent<FixedJoint2D>() as FixedJoint2D;
 		endHinge.connectedBody = stickyObject.GetComponent<Rigidbody2D>();
 		endHinge.enableCollision = true;
-		endHinge.frequency = 5f;
+		endHinge.frequency = 4f;
 		endHinge.dampingRatio = 1;
 
 		endHinge.anchor = GetVectorOffset(gameObject, collision.gameObject, transform.eulerAngles.z) * gameObject.GetComponent<CircleCollider2D>().radius;
