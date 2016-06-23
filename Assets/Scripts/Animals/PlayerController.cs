@@ -63,10 +63,15 @@ public class PlayerController : MonoBehaviour {
 	}
 
     private void OnRoundComplete() {
+		if (_state == State.ACTIVE) {
+			// Spawn a partical effect
+			Destroy(gameObject);
+		}
 		//Win
 		if(GameManager.ActiveState == GameManager.State.RoundWin){
 			ChangeState(State.SAVED);
 			rigidBody.isKinematic = false;
+			bloodParticles.Stop();
 			foreach(FixedJoint2D fixedJoint in gameObject.GetComponents<FixedJoint2D>()){
 				Destroy(fixedJoint);
 			}
@@ -79,10 +84,6 @@ public class PlayerController : MonoBehaviour {
 	        rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
 
 	        // if the animal is not in the grinder
-			if (_state == State.ACTIVE) {
-				// Spawn a partical effect
-				Destroy(this.gameObject);
-			}
 			ChangeState(State.DISABLED);
 		}
 
