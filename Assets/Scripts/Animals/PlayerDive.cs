@@ -8,14 +8,14 @@ public class PlayerDive : MonoBehaviour {
 	public AudioClip diveSound;
 
 	Rigidbody2D rigidBody; 
-	string jumpInput;
+	string diveInput;
     float distToGround;
     bool canDive = false;
 
 	// Use this for initialization 
 	void Start () { 
 		rigidBody = gameObject.GetComponent<Rigidbody2D>(); 
-		jumpInput = gameObject.GetComponent<InputMapper>().GetMappedInput("Jump");
+		diveInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "X");
 		distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
     } 
 
@@ -32,7 +32,7 @@ public class PlayerDive : MonoBehaviour {
     } 
 
 	void Dive(){ 
-		if(Input.GetButtonDown(jumpInput) && !IsGrounded() && canDive){ 
+		if(Input.GetButtonDown(diveInput) && !IsGrounded() && canDive){ 
 			SoundManager.PlaySoundEffect(diveSound);
             canDive = false;
 			rigidBody.AddForce(new Vector2(0f, -diveForce)); 

@@ -18,7 +18,7 @@ public class PlayerDash : MonoBehaviour {
 	void Start () {
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponentInChildren<Animator>();
-		dashInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "A");
+		dashInput = PlayerManager.GetPlayerInputStr(gameObject.GetComponent<InputMapper>().playerId, "X");
 		distToGround = gameObject.GetComponent<CircleCollider2D>().bounds.extents.y;
 	}
 
