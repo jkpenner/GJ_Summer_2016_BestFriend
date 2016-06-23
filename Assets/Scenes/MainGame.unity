@@ -1269,6 +1269,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8282092, guid: 74547b771490b974696f37f146407883, type: 2}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 74547b771490b974696f37f146407883, type: 2}
   m_IsPrefabParent: 0
@@ -2012,6 +2016,14 @@ Prefab:
       propertyPath: roundDecayRate
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11439574, guid: 1c1433e7a98b19749a90cdf1ac3ffde0, type: 2}
+      propertyPath: vacuumSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 10e563259508845e19e2da8124201776, type: 3}
+    - target: {fileID: 11439574, guid: 1c1433e7a98b19749a90cdf1ac3ffde0, type: 2}
+      propertyPath: grindSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 10e563259508845e19e2da8124201776, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c1433e7a98b19749a90cdf1ac3ffde0, type: 2}
   m_IsPrefabParent: 0

@@ -31,7 +31,6 @@ public class PlayerJump : MonoBehaviour {
     }
 
     void Jump(){
-		Debug.Log(IsGrounded());
         //if(Input.GetButtonDown(jumpInput) && IsGrounded()) {
 		if(Input.GetButtonDown(PlayerManager.GetPlayerInputStr(GetComponent<InputMapper>().playerId, "A"))  && IsGrounded()) {
 			rigidBody.AddForce(Vector2.up *jumpForce);
