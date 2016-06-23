@@ -21,6 +21,7 @@ public class PlayerDive : MonoBehaviour {
 
 	// Update is called once per frame 
 	void Update () { 
+		IsGrounded();
 		Dive(); 
 	}
     

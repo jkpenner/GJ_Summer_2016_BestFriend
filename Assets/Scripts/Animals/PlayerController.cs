@@ -168,9 +168,7 @@ public class PlayerController : MonoBehaviour {
 	//Spawn a new, controllable character
 	void ResetPlayer(){
 		gameObject.transform.tag = "Anchor";
-		if(GameManager.ActiveState == GameManager.State.Active){
-        	SpawnManager.SpawnPlayer(this.GetComponent<InputMapper>().playerId);
-		}
+        SpawnManager.SpawnPlayer(this.GetComponent<InputMapper>().playerId);
 	}
 
 	void DisablePlayer(){
@@ -199,8 +197,8 @@ public class PlayerController : MonoBehaviour {
 		FixedJoint2D endHinge = gameObject.AddComponent<FixedJoint2D>() as FixedJoint2D;
 		endHinge.connectedBody = stickyObject.GetComponent<Rigidbody2D>();
 		endHinge.enableCollision = true;
-		endHinge.frequency = 4f;
-		endHinge.dampingRatio = 1;
+		endHinge.frequency = 10f;
+		endHinge.dampingRatio = 0.2f;
 
 		endHinge.anchor = GetVectorOffset(gameObject, collision.gameObject, transform.eulerAngles.z) * gameObject.GetComponent<CircleCollider2D>().radius;
 		endHinge.connectedAnchor = GetVectorOffset(collision.gameObject, gameObject, collision.transform.eulerAngles.z) * collision.gameObject.GetComponent<CircleCollider2D>().radius;
