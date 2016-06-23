@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour {
 	PlayerFly playerFly;
 	PlayerDash playerDash;
 	Rigidbody2D rigidBody;
+	ParticleSystem bloodParticles;
 
 	// Use this for initialization
 	void Start () {
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour {
 		playerFly = gameObject.GetComponent<PlayerFly>();
 		playerDash = gameObject.GetComponent<PlayerDash>();
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
+		bloodParticles = gameObject.GetComponentInChildren<ParticleSystem>();
 		ChangeState(State.ACTIVE);
 
         activeGrindSpeed = grindSpeed;
@@ -183,6 +185,8 @@ public class PlayerController : MonoBehaviour {
 		rigidBody.isKinematic = true;
 		rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
 		gameObject.GetComponentInChildren<Animator>().SetBool("isGrinding", true);
+		bloodParticles.Play();
+		transform.Find("Particle System").Rotate(-transform.eulerAngles);
         if (firstGrind && GameManager.ActiveState == GameManager.State.Active) {
             firstGrind = false;
             ScoreManager.ModifyPlayerScore(GetComponent<InputMapper>().playerId, -scoreValue);
