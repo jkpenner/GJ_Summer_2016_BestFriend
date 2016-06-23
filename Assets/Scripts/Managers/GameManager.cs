@@ -152,7 +152,14 @@ public class GameManager : Singleton<GameManager> {
     }
 
     static public State ActiveState {
-        get { return Instance._activeState; }
+        get {
+            if (Instance != null) {
+                return Instance._activeState;
+            } else {
+                Debug.LogWarning("[GameManager]: Attempting to acess the ActiveState, but no instance in scene");
+                return State.None;
+            }
+        }
         set { SetState(value); }
     }
 

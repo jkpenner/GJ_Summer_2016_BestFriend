@@ -1,13 +1,24 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System;
 
 [RequireComponent(typeof(CanvasGroup))]
+[RequireComponent(typeof(AudioSource))]
 public class UIRoundInfoPanel : MonoBehaviour {
+    public Text txtTitle;
     public Text txtDescription;
     public Text txtTimeRemaining;
     private CanvasGroup canvasGroup;
+    private AudioSource audioSource;
+
+    [System.Serializable]
+    public class RoundEndInfo {
+        public string title;
+        public string description;
+        public AudioClip audioClip;
+    }
+
+    public RoundEndInfo[] victoryInfos;
+    public RoundEndInfo[] lostInfos;
 
     private float counter;
 
@@ -16,6 +27,7 @@ public class UIRoundInfoPanel : MonoBehaviour {
         GameManager.AddRoundListner(GameManager.RoundEventType.Complete, OnRoundComplete);
 
         canvasGroup = GetComponent<CanvasGroup>();
+        audioSource = GetComponent<AudioSource>();
         canvasGroup.alpha = 0f;
     }
 
@@ -31,12 +43,18 @@ public class UIRoundInfoPanel : MonoBehaviour {
     private void OnRoundComplete() {
         canvasGroup.alpha = 1f;
 
+        RoundEndInfo selected = null;
+
         if(GameManager.ActiveState == GameManager.State.RoundWin) {
-            txtDescription.text = "Players Reached The Finish Line!";
+            selected = victoryInfos[Random.Range(0, victoryInfos.Length)];
         } else if(GameManager.ActiveState == GameManager.State.RoundLost) {
-            txtDescription.text = "Round Timer Expired";
+            selected = lostInfos[Random.Range(0, lostInfos.Length)];
         }
-        
+
+        txtTitle.text = selected.title;
+        txtDescription.text = selected.description;
+        audioSource.PlayOneShot(selected.audioClip);
+
         counter = GameManager.Instance.roundResetDuration;
     }
 

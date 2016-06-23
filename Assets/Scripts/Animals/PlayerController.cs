@@ -64,10 +64,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
     private void OnRoundComplete() {
-		if (_state == State.ACTIVE) {
-			// Spawn a partical effect
-			Destroy(gameObject);
-		}
 		//Win
 		if(GameManager.ActiveState == GameManager.State.RoundWin){
 			ChangeState(State.SAVED);
@@ -82,12 +78,16 @@ public class PlayerController : MonoBehaviour {
 			// When the round complete kill everything
 			// Updates the active grind speed for fast killing
 			activeGrindSpeed = grindSpeed * 15;
-	        rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
+            rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
 
 	        // if the animal is not in the grinder
 			ChangeState(State.DISABLED);
 		}
 
+        if (_state == State.ACTIVE) {
+            // Spawn a partical effect
+            Destroy(gameObject);
+        }
     }
 
     private void OnGameStateExit(GameManager.State state) {
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour {
     private void OnDestroy() {
         GameManager.RemoveStateListener(GameManager.StateEventType.Enter, OnGameStateEnter);
         GameManager.RemoveStateListener(GameManager.StateEventType.Exit, OnGameStateExit);
-        GameManager.AddRoundListner(GameManager.RoundEventType.Complete, OnRoundComplete);
+        GameManager.RemoveRoundListener(GameManager.RoundEventType.Complete, OnRoundComplete);
         PlayerManager.RemoveListener(PlayerManager.EventType.PlayerDisconnect, OnPlayerDisconnect);
         
     }

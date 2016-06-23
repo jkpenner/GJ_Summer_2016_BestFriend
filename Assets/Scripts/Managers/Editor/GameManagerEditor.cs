@@ -11,6 +11,14 @@ public class GameManagerEditor : Editor {
 
         if (Application.isPlaying) {
             GameManager.SetState((GameManager.State)EditorGUILayout.EnumPopup("Active State", GameManager.ActiveState));
+
+            if (GUILayout.Button("Win Round")) {
+                GameManager.EndRound(true);
+            }
+
+            if (GUILayout.Button("Loose Round")) {
+                GameManager.EndRound(false);
+            }
         }
     }
 }
