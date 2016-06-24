@@ -16,10 +16,10 @@ public class SoundManager : Singleton<SoundManager> {
     }
 
 	private void Start(){
-		audioSource = gameObject.GetComponentInChildren<AudioSource>();
+		audioSource = gameObject.GetComponentsInChildren<AudioSource>()[1];
 	}
 
 	static public void PlaySoundEffect(AudioClip audioClip){
-		audioSource.PlayOneShot(audioClip);
+		audioSource.PlayOneShot(audioClip,1f);
 	}
 }
