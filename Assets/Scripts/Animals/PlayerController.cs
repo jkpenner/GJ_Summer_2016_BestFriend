@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     private bool firstGrind = true;
     private float activeGrindSpeed = 0;
     private Vector2 pauseVelocityStored;
+	private Light playerAura;
 
     State _state;
 	PlayerJump playerJump;
@@ -46,8 +47,11 @@ public class PlayerController : MonoBehaviour {
 		playerFly = gameObject.GetComponent<PlayerFly>();
 		playerDash = gameObject.GetComponent<PlayerDash>();
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
+		playerAura = gameObject.GetComponent<Light>();
 		bloodParticles = gameObject.GetComponentInChildren<ParticleSystem>();
 		ChangeState(State.ACTIVE);
+
+		playerAura.color = PlayerManager.GetPlayerInfo(GetComponent<InputMapper>().playerId).Color;
 
         activeGrindSpeed = grindSpeed;
 
@@ -183,6 +187,7 @@ public class PlayerController : MonoBehaviour {
 	void DisablePlayer(){
 		playerMove.enabled = false;
 		playerJump.enabled = false;
+		playerAura.enabled = false;
 		if(playerDive) playerDive.enabled = false;
 		if(playerFly) playerFly.enabled = false;
 		if(playerDash) playerDash.enabled = false;
