@@ -27,6 +27,7 @@ GameObject:
   - 4: {fileID: 415904}
   - 212: {fileID: 21223028}
   - 95: {fileID: 9543172}
+  - 114: {fileID: 11400766}
   m_Layer: 0
   m_Name: pig_body
   m_TagString: Untagged
@@ -1766,7 +1767,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7215cf2e3e42c441599cd385ad8828d2, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0

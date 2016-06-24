@@ -68,6 +68,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
     private void OnRoundComplete() {
+		if (_state == State.ACTIVE) {
+			// Spawn a partical effect
+			Destroy(gameObject);
+		}
 		//Win
 		if(GameManager.ActiveState == GameManager.State.RoundWin){
 			ChangeState(State.SAVED);
