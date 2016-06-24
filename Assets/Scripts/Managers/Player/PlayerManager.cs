@@ -110,6 +110,16 @@ public class PlayerManager : Singleton<PlayerManager> {
         return false;
     }
 
+	static public int GetPlayersConnected() {
+		int counter = 0;
+		for (int i = 0; i < Instance.players.Length; i++) {
+			if (Instance.players[i].IsConnected) {
+				counter++;
+			}
+		}
+		return counter;
+	}
+
     static public PlayerInfo[] GetAllPlayerInfo() {
         if (Instance != null) {
             return Instance.players;

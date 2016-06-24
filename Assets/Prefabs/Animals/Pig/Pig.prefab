@@ -27,7 +27,6 @@ GameObject:
   - 4: {fileID: 415904}
   - 212: {fileID: 21223028}
   - 95: {fileID: 9543172}
-  - 114: {fileID: 11400766}
   m_Layer: 0
   m_Name: pig_body
   m_TagString: Untagged
@@ -190,11 +189,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: 2
   flightForce: 400
-  grindSpeed: 20
+  grindSpeed: 17.5
   scoreValue: 75
   vaccumForce: 200
   spawnSound: {fileID: 8300000, guid: 3c5af0b208b4848ecbff9d7d3ecd4b61, type: 3}
   stickSound: {fileID: 8300000, guid: ceb6cab7f8e12495dadefa9338157940, type: 3}
+  grindMod: 1
 --- !u!114 &11438130
 MonoBehaviour:
   m_ObjectHideFlags: 1

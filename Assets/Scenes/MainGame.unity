@@ -1168,7 +1168,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &1128703878 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 145250, guid: 74547b771490b974696f37f146407883, type: 2}
@@ -1683,7 +1683,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11457190, guid: e6a99b08beb2cd44889a6bc48aa75cf9, type: 2}
       propertyPath: roundDuration
-      value: 90
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 11457190, guid: e6a99b08beb2cd44889a6bc48aa75cf9, type: 2}
       propertyPath: winTransform

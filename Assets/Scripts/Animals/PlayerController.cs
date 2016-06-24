@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour {
     private float activeGrindSpeed = 0;
     private Vector2 pauseVelocityStored;
 	private Light playerAura;
+	public int grindMod = 1;
 
     State _state;
 	PlayerJump playerJump;
@@ -135,6 +136,10 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+		grindMod = PlayerManager.GetPlayersConnected();
+		if(rigidBody.isKinematic){
+			rigidBody.velocity = Vector2.down * activeGrindSpeed * grindMod * Time.deltaTime;
+		}
 		//TODO: move chicken flight to own class
 		if(_state == State.DISABLED && animal == Animal.CHICKEN && GameManager.ActiveState == GameManager.State.Active){
 			rigidBody.AddForce(Vector2.up * flightForce);
@@ -205,7 +210,7 @@ public class PlayerController : MonoBehaviour {
 
 	void GrindPlayer(){
 		rigidBody.isKinematic = true;
-		rigidBody.velocity = Vector2.down * activeGrindSpeed * Time.deltaTime;
+		rigidBody.velocity = Vector2.down * activeGrindSpeed * grindMod * Time.deltaTime;
 		gameObject.GetComponentInChildren<Animator>().SetBool("isGrinding", true);
 		bloodParticles.Play();
 		transform.Find("Particle System").Rotate(-transform.eulerAngles);

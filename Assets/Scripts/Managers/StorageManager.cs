@@ -10,54 +10,56 @@ public class StorageManager : Singleton<StorageManager> {
     }
 
     [SerializeField]
-    private int _activeRoundScore;
+	static private int _activeRoundScore;
 
     [SerializeField]
-    private float _activeRoundTime;
+	static private float _activeRoundTime;
 
     [SerializeField]
-    private List<int> _activePlayerScores;
+	static private List<int> _activePlayerScores;
 
     [SerializeField]
-    private List<LeaderboardInfo> _leaderBoardTeam;
+	static private List<LeaderboardInfo> _leaderBoardTeam;
 
     [SerializeField]
-    private List<LeaderboardInfo> _leaderBoardSolo;
+	static private List<LeaderboardInfo> _leaderBoardSolo;
 
     static public int ActiveRoundScores {
-        get { return Instance._activeRoundScore; }
-        set { Instance._activeRoundScore = value; }
+        get { return _activeRoundScore; }
+        set { _activeRoundScore = value; }
     }
 
     static public float ActiveRoundTimes {
-        get { return Instance._activeRoundTime; }
-        set { Instance._activeRoundTime = value; }
+        get { return _activeRoundTime; }
+        set { _activeRoundTime = value; }
     }
 
     static public List<int> ActivePlayerScores {
         get {
-            if (Instance._activePlayerScores == null) {
-                Instance._activePlayerScores = new List<int>();
+            if (_activePlayerScores == null) {
+                _activePlayerScores = new List<int>();
             }
-            return Instance._activePlayerScores;
+            return _activePlayerScores;
         }
     }
 
     static public List<LeaderboardInfo> LeaderboardTeam {
         get {
-            if (Instance._leaderBoardTeam == null) {
-                Instance._leaderBoardTeam = new List<LeaderboardInfo>();
+            if (_leaderBoardTeam == null) {
+                _leaderBoardTeam = new List<LeaderboardInfo>();
+				for(int i = 0; i < 5; i++) _leaderBoardTeam.Add(new LeaderboardInfo());
             }
-            return Instance._leaderBoardTeam;
+            return _leaderBoardTeam;
         }
     }
 
     static public List<LeaderboardInfo> LeaderboardSolo {
         get {
-            if (Instance._leaderBoardSolo == null) {
-                Instance._leaderBoardSolo = new List<LeaderboardInfo>();
-            }
-            return Instance._leaderBoardSolo;
+            if (_leaderBoardSolo == null) {
+                _leaderBoardSolo = new List<LeaderboardInfo>();
+				for(int i = 0; i < 5; i++) _leaderBoardSolo.Add(new LeaderboardInfo());
+			}
+            return _leaderBoardSolo;
         }
     }
 
