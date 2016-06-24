@@ -66,6 +66,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 415904}
   - {fileID: 469424}
@@ -80,6 +81,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 415696}
   m_RootOrder: 0
@@ -92,6 +94,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 415696}
   m_RootOrder: 1
@@ -189,7 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: 2
   flightForce: 400
-  grindSpeed: 17.5
+  grindSpeed: 9
   scoreValue: 75
   vaccumForce: 200
   spawnSound: {fileID: 8300000, guid: 3c5af0b208b4848ecbff9d7d3ecd4b61, type: 3}

@@ -20,14 +20,14 @@ public class PlayerJump : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		IsGrounded();
 		Jump();
 	}
 
     bool IsGrounded()
     {
-		return Physics2D.Raycast(transform.position, Vector2.down, distToGround + 0.1f, layerMask);
+		return Physics2D.Raycast(transform.position, Vector2.down, distToGround + 0.3f, layerMask);
     }
 
     void Jump(){

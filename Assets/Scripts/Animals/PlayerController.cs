@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void FixedUpdate () {
 		grindMod = PlayerManager.GetPlayersConnected();
 		if(rigidBody.isKinematic){
 			rigidBody.velocity = Vector2.down * activeGrindSpeed * grindMod * Time.deltaTime;
