@@ -1615,14 +1615,6 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11457190, guid: e6a99b08beb2cd44889a6bc48aa75cf9, type: 2}
-      propertyPath: resetStateDuration
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11457190, guid: e6a99b08beb2cd44889a6bc48aa75cf9, type: 2}
-      propertyPath: roundDuration
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 11457190, guid: e6a99b08beb2cd44889a6bc48aa75cf9, type: 2}
       propertyPath: winTransform
       value: 
       objectReference: {fileID: 1089588462}
