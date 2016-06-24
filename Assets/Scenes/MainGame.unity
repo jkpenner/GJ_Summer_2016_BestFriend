@@ -1683,7 +1683,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11457190, guid: e6a99b08beb2cd44889a6bc48aa75cf9, type: 2}
       propertyPath: roundDuration
-      value: 120
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 11457190, guid: e6a99b08beb2cd44889a6bc48aa75cf9, type: 2}
       propertyPath: winTransform

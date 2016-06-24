@@ -134,11 +134,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22475992, guid: c59e223295a5804459471c40f15cb882, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 195.4704
+      value: 195.90973
       objectReference: {fileID: 0}
     - target: {fileID: 22475992, guid: c59e223295a5804459471c40f15cb882, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 37.177704
+      value: 37.080395
       objectReference: {fileID: 0}
     - target: {fileID: 22475992, guid: c59e223295a5804459471c40f15cb882, type: 2}
       propertyPath: m_AnchorMin.x
@@ -186,19 +186,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22416588, guid: c59e223295a5804459471c40f15cb882, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 97.7352
+      value: 97.954865
       objectReference: {fileID: 0}
     - target: {fileID: 22416588, guid: c59e223295a5804459471c40f15cb882, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -18.588852
+      value: -18.540197
       objectReference: {fileID: 0}
     - target: {fileID: 22416588, guid: c59e223295a5804459471c40f15cb882, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 95.4704
+      value: 95.90973
       objectReference: {fileID: 0}
     - target: {fileID: 22416588, guid: c59e223295a5804459471c40f15cb882, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 27.177702
+      value: 27.080395
       objectReference: {fileID: 0}
     - target: {fileID: 162008, guid: c59e223295a5804459471c40f15cb882, type: 2}
       propertyPath: m_IsActive
@@ -238,7 +238,6 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1941689077}
   - {fileID: 1852941305}
@@ -1358,6 +1357,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1135790381}
     m_Modifications:
+    - target: {fileID: 11462082, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
+      propertyPath: victoryInfos.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 22411568, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1400,11 +1403,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22411568, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 216
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22411568, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 57.027878
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22411568, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
       propertyPath: m_AnchorMin.x
@@ -1430,30 +1433,38 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 22409656, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 1
+    - target: {fileID: 11462082, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
+      propertyPath: victoryInfos.Array.data[2].title
+      value: Way To Go!
       objectReference: {fileID: 0}
-    - target: {fileID: 22409656, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
+    - target: {fileID: 11462082, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
+      propertyPath: victoryInfos.Array.data[2].description
+      value: You win, this time...
       objectReference: {fileID: 0}
-    - target: {fileID: 22409656, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 108
+    - target: {fileID: 11462082, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
+      propertyPath: victoryInfos.Array.data[0].description
+      value: Cool beans, bro.
       objectReference: {fileID: 0}
-    - target: {fileID: 22409656, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -41.01394
+    - target: {fileID: 11462082, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
+      propertyPath: victoryInfos.Array.data[1].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: faf50a07737404f888da6336f0f5b724, type: 3}
+    - target: {fileID: 11462082, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
+      propertyPath: victoryInfos.Array.data[2].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2b37087737d1f4322aa63e30e855ae31, type: 3}
+    - target: {fileID: 11462082, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
+      propertyPath: victoryInfos.Array.data[3].title
+      value: Juicy Escape
       objectReference: {fileID: 0}
-    - target: {fileID: 22409656, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 200
+    - target: {fileID: 11462082, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
+      propertyPath: victoryInfos.Array.data[3].description
+      value: Animals escaped the grinder.
       objectReference: {fileID: 0}
-    - target: {fileID: 22409656, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 16.027876
-      objectReference: {fileID: 0}
+    - target: {fileID: 11462082, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
+      propertyPath: victoryInfos.Array.data[3].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f0980956d5cf042c6b5e9cde1e7b3c2c, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0d8db0510c66f9f4f878afa739933f60, type: 2}
   m_IsPrefabParent: 0
