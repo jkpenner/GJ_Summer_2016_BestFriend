@@ -40,4 +40,6 @@ public class PlayerInfo {
     public float AutoDisconnectCounter { get; set; }
 
     public int CharacterSelectionId { get; set; }
+
+    public GameObject CharacterInstance { get; set; }
 }

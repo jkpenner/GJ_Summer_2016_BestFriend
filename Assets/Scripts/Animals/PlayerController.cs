@@ -177,7 +177,13 @@ public class PlayerController : MonoBehaviour {
 	//Spawn a new, controllable character
 	void ResetPlayer(){
 		gameObject.transform.tag = "Anchor";
-        SpawnManager.SpawnPlayer(this.GetComponent<InputMapper>().playerId);
+        var playerInfo = PlayerManager.GetPlayerInfo(this.GetComponent<InputMapper>().playerId);
+        if (playerInfo != null) {
+            if (playerInfo.CharacterInstance == this.gameObject) {
+                playerInfo.CharacterInstance = null;
+                SpawnManager.SpawnPlayer(this.GetComponent<InputMapper>().playerId);
+            }
+        }
 	}
 
 	void DisablePlayer(){

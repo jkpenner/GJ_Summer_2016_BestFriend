@@ -10,6 +10,8 @@ public class SpawnManager : Singleton<SpawnManager> {
         set { _useRandom = value; }
     }
 
+    private Dictionary<PlayerId, GameObject> _playerGameObjects;
+
     [SerializeField]
     private List<PlayerSpawner> _spawnPoints;
 
@@ -70,7 +72,8 @@ public class SpawnManager : Singleton<SpawnManager> {
     }
 
     static public void SpawnPlayer(PlayerId playerId, PlayerSpawner spawn, bool force) {
-        if (spawn != null) {
+        var playerInfo = PlayerManager.GetPlayerInfo(playerId);
+        if (playerInfo != null && spawn != null) {
             if (Instance.UseRandom) {
                 if (force) {
                     spawn.CreateNewPlayerRandomForce(playerId);
@@ -78,13 +81,10 @@ public class SpawnManager : Singleton<SpawnManager> {
                     spawn.CreateNewPlayerRandom(playerId);
                 }
             } else {
-                var playerInfo = PlayerManager.GetPlayerInfo(playerId);
-                if (playerInfo != null) {
-                    if (force) {
-                        spawn.CreateNewPlayerForce(playerId, playerInfo.CharacterSelectionId);
-                    } else {
-                        spawn.CreateNewPlayer(playerId, playerInfo.CharacterSelectionId);
-                    }
+                if (force) {
+                    spawn.CreateNewPlayerForce(playerId, playerInfo.CharacterSelectionId);
+                } else {
+                    spawn.CreateNewPlayer(playerId, playerInfo.CharacterSelectionId);
                 }
             }
         }

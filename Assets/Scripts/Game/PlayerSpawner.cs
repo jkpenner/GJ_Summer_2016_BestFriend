@@ -45,8 +45,9 @@ public class PlayerSpawner : MonoBehaviour {
         var playerInfo = PlayerManager.GetPlayerInfo(playerId);
         if (playerInfo != null && playerInfo.IsConnected) {
             var asset = CharacterDatabase.GetAsset(characterId);
-            if (asset != null) {
+            if (asset != null && playerInfo.CharacterInstance == null) {
                 var newPlayer = GameObject.Instantiate(asset.Prefab, transform.position, Quaternion.identity) as GameObject;
+                playerInfo.CharacterInstance = newPlayer;
                 newPlayer.GetComponent<InputMapper>().SetPlayerId(playerId);
             } else {
                 Debug.LogWarningFormat("[{0}]: Character Asset with id {1} is null", this.name, characterId);
