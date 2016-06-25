@@ -20,7 +20,7 @@ public class PlayerDive : MonoBehaviour {
     } 
 
 	// Update is called once per frame 
-	void FixedUpdate () { 
+	void Update () { 
 		IsGrounded();
 		Dive(); 
 	}
